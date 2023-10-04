@@ -1,0 +1,1 @@
+/home/tcrha/system-files/dotfiles/wezterm/wezterm.lua
