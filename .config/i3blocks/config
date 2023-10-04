@@ -1,0 +1,46 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+# Change $SCRIPT_DIR to the location of your scripts!
+command=/home/tcrha/.config/i3blocks/$BLOCK_NAME
+separator_block_width=10
+markup=pango
+
+# Current weather
+#
+# The script may be called with -s (for short input), -f (for input in farenheit) and -c (to specify city) switches,
+# see the script for details.
+[weather]
+command=/home/tcrha/.config/i3blocks/weather.py -c 'Wentworth Falls' -s
+interval=3600
+
+[battery2]
+interval=60
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1
+
