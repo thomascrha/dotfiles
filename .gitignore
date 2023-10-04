@@ -1,8 +1,10 @@
 # block everything
 *
 *.*
-*/
+!*/
 
 !.cfg
 !.gitignore
 !.viminfo
+!.config/sway
+!.config/tmux/tmux.conf
