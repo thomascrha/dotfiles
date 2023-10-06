@@ -1,6 +1,5 @@
 export PATH=$HOME/go/bin:/usr/local/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
-source openapi-key.sh
 
 # OH-MY-ZSH
 ZSH_THEME="powerlevel10k/powerlevel10k"

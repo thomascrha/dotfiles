@@ -23,7 +23,7 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
 end)
 return {
   color_scheme = 'OneHalfDark',
-  font_size = 10,
+  font_size = 9,
   hide_tab_bar_if_only_one_tab = true,
   enable_tab_bar = true,
   enable_scroll_bar = true,

@@ -65,12 +65,38 @@ window#waybar {
 #disk {
 	color: #b58900;
 }
+#backlight {
+	color: #b57c00
+}
+#temperature {
+	color: #8B4513
+}
+#idle_inhibitor {
+	color: #E74C3C;
+}
 
+	/*(a darker shade of blue) */
+    /* #006d8a (a darker shade of teal) */
+    /* #5a5197 (a darker shade of purple) */
+    /* #728f3e (a darker shade of green) */
+    /* #b57c00 (a darker shade of gold/yellow); */
+/*     #FF5733 (a vibrant red) */
+/*     #E74C3C (a slightly darker red) */
+/*     #C0392B (a deep, dark red) */
+/**/
+/* Brown Shades: */
+/**/
+/*     #8B4513 (brown resembling wood or earthy tones) */
+/*     #A0522D (a lighter shade of brown) */
+/*     #964B00 (a darker, more intense brown) */
+/**/
 #clock,
 #backlight,
 #pulseaudio,
 #temperature,
-
+#tray,
+#idle_inhibitor,
+#task
 #memory,
 #cpu,
 #battery,
