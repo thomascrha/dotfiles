@@ -1,36 +1,75 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
+########################################################################################################################
+# General Settings #####################################################################################################
+########################################################################################################################
 set $mod Mod4
-# Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
-# Your preferred terminal emulator
-set $term wezterm
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-set $menu wofi --show run --allow-images
+
+for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
 default_border pixel
+
+focus_follows_mouse no
+
+### Status Bar & rice:
+gaps {
+    inner 8
+    outer 0
+}
+bar {
+    swaybar_command waybar
+}
+### Input configuration
+input type:pointer {
+  natural_scroll disabled
+  scroll_factor 1.0
+  left_handed disabled
+}
+input type:touchpad {
+  pointer_accel 0.0
+  natural_scroll enabled
+  scroll_factor 1.0
+  scroll_method two_finger
+  left_handed disabled
+  tap enabled
+  tap_button_map lrm
+  drag enabled
+  drag_lock disabled
+  dwt enabled
+  middle_emulation enabled
+}
+
+### fonts
+font pango:"RobotoMono Nerd Font" Regular 8
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /home/tcrha/Pictures/wallpapers/2 - z2VbS7I.jpg fill
-exec ./rotate-wallpaper.sh ~/Pictures/wallpapers 1800
 #
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
+
+########################################################################################################################
+# Sway execs ###########################################################################################################
+########################################################################################################################
+
+### Workstyle
+# Adds names and icons to workspaces
+exec_always --no-startup-id workstyle &> /tmp/workstyle.log
+
+### nm-applet
+# Network manager applet
+exec nm-applet --indicator &> /tmp/nm-applet.log
+
+### notifications
+exec mako
+
+exec wlsunset -t 4500 -T 6500 -l -1 -L -1 -g 1.0
+exec autotiling-rs
+
+### wallpaper
+exec /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 1800
 
 ### Idle configuration
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -41,18 +80,31 @@ exec swayidle -w \
     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
     before-sleep 'swaylock -f -c 000000'
 
+
+######################################################################################################################
+# Applications and Bindings ##########################################################################################
+######################################################################################################################
+set $term wezterm
+set $browser MOZ_ENABLE_WAYLAND=1 firefox
+set $exit nwg-bar -p center -a middle -i 48 -s preset-0.css
+set $menu wofi --show run --allow-images
+set $filemanager thunar
+set $displays nwg-displays
+
+
 ### Key bindings
 #
 # Basics:
-#
-# Start a terminal
 bindsym $mod+Return exec $term
+bindsym $mod+b exec $browser
+bindsym $mod+f exec $filemanager
+bindsym $mod+d exec $displays
 
 # Kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # Start your launcher
-bindsym $mod+d exec $menu
+bindsym $mod+Space exec $menu
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -64,28 +116,12 @@ floating_modifier $mod normal
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
 # Moving around:
-#
-# Move your focus around
-bindsym $mod+$left focus left
-bindsym $mod+$down focus down
-bindsym $mod+$up focus up
-bindsym $mod+$right focus right
-# Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# Move the focused window with the same, but add Shift
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$up move up
-bindsym $mod+Shift+$right move right
-# Ditto, with arrow keys
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -123,8 +159,10 @@ bindsym $mod+Shift+0 move container to workspace number 10
 # You can "split" the current object of your focus with
 # $mod+b or $mod+v, for horizontal and vertical splits
 # respectively.
-bindsym $mod+b splith
+bindsym $mod+h splith
 bindsym $mod+v splitv
+
+bindsym $mod+escape exec $exit
 
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
@@ -132,13 +170,13 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # Make the current focus fullscreen
-bindsym $mod+f fullscreen
+bindsym $mod+Shift+f fullscreen
 
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
 
 # Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
+bindsym $mod+u focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+a focus parent
@@ -158,11 +196,6 @@ bindsym $mod+minus scratchpad show
 # Resizing containers:
 #
 mode "resize" {
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
-
     bindsym Left resize shrink width 10px
     bindsym Shift+Left resize shrink width 50px
 
@@ -181,72 +214,38 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-focus_follows_mouse no
-
-### Status Bar & rice:
-#
-gaps {
-    inner 8
-}
-bar {
-    swaybar_command waybar
-}
-### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
-
-input type:touchpad {
-    tap enabled
-    natural_scroll enabled
-    left_handed enabled
-    dwt enabled
-    middle_emulation enabled
-    accel_profile "flat"
-    pointer_accel 0
-}
-
-### Workstyle
-#
-#
-exec_always --no-startup-id workstyle &> /tmp/workstyle.log
-
-### nm-applet
-exec nm-applet &> /tmp/nm-applet.log
 
 ### Media keys
-#
-#
+# Media keys
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
-# bindsym XF86AudioPlay exec playerctl play-pause
-# bindsym XF86AudioNext exec playerctl next
-# bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86Search exec bemenu-run
 
 ### print screen functions
-#
-#
 bindsym $mod+Shift+s exec grimshot --notify copy area
 bindsym $mod+Ctrl+Shift+s exec grimshot --notify save area
 
-### notifications
-#
-#
-exec mako
+bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
+bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
-font pango:"RobotoMono Nerd Font" Regular 8
+
+########################################################################################################################
+# Application settings #################################################################################################
+########################################################################################################################
+
+# focus, floating, & sticky
+for_window [app_id="(?i)(?:blueman-manager|azote|gnome-disks)"] floating enable
+for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|gsimplecal|galculator)"] floating enable
+for_window [app_id="(?i)(?:firefox|chromium)"] border none
+for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
+
+popup_during_fullscreen smart
+
+########################################################################################################################
+# Autostart ############################################################################################################
+########################################################################################################################
 
 include /etc/sway/config.d/*

@@ -11,14 +11,14 @@
 # hlsearch on (H) or off (h):
 ~h
 # Command Line History (newest to oldest):
+:q
+|2,0,1696843018,,"q"
 :qa
 |2,0,1696231609,,"qa"
 :q!
 |2,0,1695874252,,"q!"
 :w
 |2,0,1695874249,,"w"
-:q
-|2,0,1695869246,,"q"
 :wq
 |2,0,1695869244,,"wq"
 
@@ -48,6 +48,14 @@
 |4,39,67,0,1695874728,"~/.config/sway/config"
 -'  67  0  ~/.config/sway/config
 |4,39,67,0,1695874728,"~/.config/sway/config"
+-'  67  0  ~/.config/sway/config
+|4,39,67,0,1695874728,"~/.config/sway/config"
+-'  67  0  ~/.config/sway/config
+|4,39,67,0,1695874728,"~/.config/sway/config"
+-'  1  0  ~/.config/sway/config
+|4,39,1,0,1695874694,"~/.config/sway/config"
+-'  1  0  ~/.config/sway/config
+|4,39,1,0,1695874694,"~/.config/sway/config"
 -'  1  0  ~/.config/sway/config
 |4,39,1,0,1695874694,"~/.config/sway/config"
 -'  1  0  ~/.config/sway/config
@@ -60,6 +68,22 @@
 |4,39,17,16,1695874252,"/etc/sway/config"
 -'  17  16  /etc/sway/config
 |4,39,17,16,1695874252,"/etc/sway/config"
+-'  17  16  /etc/sway/config
+|4,39,17,16,1695874252,"/etc/sway/config"
+-'  17  16  /etc/sway/config
+|4,39,17,16,1695874252,"/etc/sway/config"
+-'  17  16  /etc/sway/config
+|4,39,17,16,1695874252,"/etc/sway/config"
+-'  17  16  /etc/sway/config
+|4,39,17,16,1695874252,"/etc/sway/config"
+-'  1  0  /etc/sway/config
+|4,39,1,0,1695874237,"/etc/sway/config"
+-'  1  0  /etc/sway/config
+|4,39,1,0,1695874237,"/etc/sway/config"
+-'  1  0  /etc/sway/config
+|4,39,1,0,1695874237,"/etc/sway/config"
+-'  1  0  /etc/sway/config
+|4,39,1,0,1695874237,"/etc/sway/config"
 -'  1  0  /etc/sway/config
 |4,39,1,0,1695874237,"/etc/sway/config"
 -'  1  0  /etc/sway/config
@@ -84,6 +108,38 @@
 |4,39,3,0,1695869249,"/usr/local/bin/firefox"
 -'  3  0  /usr/local/bin/firefox
 |4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  3  0  /usr/local/bin/firefox
+|4,39,3,0,1695869249,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
+-'  1  0  /usr/local/bin/firefox
+|4,39,1,0,1695869233,"/usr/local/bin/firefox"
 -'  1  0  /usr/local/bin/firefox
 |4,39,1,0,1695869233,"/usr/local/bin/firefox"
 -'  1  0  /usr/local/bin/firefox
