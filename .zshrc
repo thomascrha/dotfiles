@@ -40,22 +40,23 @@ dir() {
     fi;
 }
 
-# fuzzy find files and open them in vim
-f() {
+# fuzzy find file names and open them in vim
+fir() {
     if [ -z "$1" ]; then
-        vim $(fd --type f . $HOME | fzf --preview 'batcat --color=always --style=header,grid --line-range :500 {}')
+        nvim $(fd --type f . $HOME | fzf --preview 'bat --color=always --style=header,grid --line-range :500 {}')
     else;
-        vim $(fd --type f . $1 | fzf --preview 'batcat --color=always --style=header,grid --line-range :500 {}')
+        nvim $(fd --type f . $1 | fzf --preview 'bat --color=always --style=header,grid --line-range :500 {}')
     fi;
 }
 
-# rf()
-#     if [ -z "$1" ]; the
-#         vim $(echo $(rg --line-number --with-filename . $HOME | fzf --preview 'batcat --color=always --style=header,grid --line-range :500 $(cut -d: -f1 <<< {1}) --highlight-line $(cut -d: -f2 <<< {1})') | cut -d: -f1)
-#     else;
-#         vim $(echo $(rg --line-number --with-filename . $1 | fzf --preview 'batcat --color=always --style=header,grid --line-range :500 $(cut -d: -f1 <<< {1}) --highlight-line $(cut -d: -f2 <<< {1})') | cut -d: -f1)
-#     fi;
-# }
+# grep for a string in files and open them in vim
+rf() {
+    if [ -z "$1" ]; then
+        nvim $(echo $(rg --line-number --with-filename . $HOME | fzf --preview 'bat --color=always --style=header,grid --line-range :500 $(cut -d: -f1 <<< {1}) --highlight-line $(cut -d: -f2 <<< {1})') | cut -d: -f1)
+    else;
+        nvim $(echo $(rg --line-number --with-filename . $1 | fzf --preview 'bat --color=always --style=header,grid --line-range :500 $(cut -d: -f1 <<< {1}) --highlight-line $(cut -d: -f2 <<< {1})') | cut -d: -f1)
+    fi;
+}
 
 
 # ALIASES
@@ -80,7 +81,7 @@ alias dr='docker update --restart=no $(docker ps -a -q)'
 alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
 
 alias fr='docker-compose restart fusion-hub-frontend fusion-hub'
-alias bat='batcat'
+# alias bat='batcat'
 
 # shorten cd ../../../
 alias .1='cd ..'
