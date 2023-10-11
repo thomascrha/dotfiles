@@ -189,7 +189,7 @@ source /home/tcrha/.hishtory/config.zsh
 
 # config with a bare repo
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
+alias dotgit='lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # bun completions
 # [ -s "/home/tcrha/.bun/_bun" ] && source "/home/tcrha/.bun/_bun"
 
