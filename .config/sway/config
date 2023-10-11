@@ -65,7 +65,7 @@ exec nm-applet --indicator &> /tmp/nm-applet.log
 ### notifications
 exec mako
 
-exec wlsunset -t 4500 -T 6500 -l -1 -L -1 -g 1.0
+exec wlsunset -l -33.7105 -L 150.3756
 exec autotiling-rs
 
 ### wallpaper
