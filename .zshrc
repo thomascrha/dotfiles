@@ -1,7 +1,15 @@
+#########################################################################################
+#Exports#################################################################################
+#########################################################################################
 export PATH=$HOME/go/bin:/usr/local/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
-
-# OH-MY-ZSH
+export EDITOR='nvim'
+export VISUAL='nvim'
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+#########################################################################################
+##OH-MY-ZSH##############################################################################
+#########################################################################################
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
@@ -21,7 +29,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# POWERLEVEL10K# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+#########################################################################################
+#POWERLEVEL10K###########################################################################
+#########################################################################################
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -31,12 +41,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# fuzzy find directories and cd into them
+#########################################################################################
+#Functions###############################################################################
+#########################################################################################
+# fuzzy find directories and nvim into them
 dir() {
     if [ -z "$1" ]; then
-        cd $(fd --type d . $HOME | fzf --preview 'tree -C {}')
+        nvim $(fd --type d . $HOME | fzf --preview 'tree -C {}')
     else;
-        cd $(fd --type d . $1 | fzf --preview 'tree -C {}')
+        nvim $(fd --type d . $1 | fzf --preview 'tree -C {}')
     fi;
 }
 
@@ -50,7 +63,7 @@ fir() {
 }
 
 # grep for a string in files and open them in vim
-rf() {
+rir() {
     if [ -z "$1" ]; then
         nvim $(echo $(rg --line-number --with-filename . $HOME | fzf --preview 'bat --color=always --style=header,grid --line-range :500 $(cut -d: -f1 <<< {1}) --highlight-line $(cut -d: -f2 <<< {1})') | cut -d: -f1)
     else;
@@ -58,8 +71,9 @@ rf() {
     fi;
 }
 
-
-# ALIASES
+#########################################################################################
+#ALIASES#################################################################################
+#########################################################################################
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -103,8 +117,6 @@ alias rw='~/system-files/scripts/re-window.sh'
 alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 
 ### tmux
-#
-#
 alias config='tmux new -s config || tmux attach -t config || tmux switch-client -t config'
 alias term='tmux new -s term || tmux attach -t term || tmux switch-client -t term'
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
@@ -113,12 +125,14 @@ alias fuck='sudo !-1'
 alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\" root"
 alias vim='nvim'
 
-export EDITOR='nvim'
-export VISUAL='nvim'
-export MANPAGER='nvim +Man!'
-export MANWIDTH=999
 
+# config with a bare repo
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotgit='lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
+#########################################################################################
+#WSL#####################################################################################
+#########################################################################################
 if [[ $(grep microsoft /proc/version) ]]; then
     # cd $HOME
     # add software to path
@@ -137,7 +151,7 @@ if [[ $(grep microsoft /proc/version) ]]; then
 
     WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
     if [ -z "$WSL_RUNNING" ]; then
-        #start the wsl vpnkit
+        # start the wsl vpnkit
         wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
     fi
 
@@ -154,9 +168,9 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # Start Docker daemon automatically when logging in if not running.
     DOCKER_RUNNING=`ps aux | grep dockerd | grep -v grep`
     if [ -z "$DOCKER_RUNNING" ]; then
-        #sudo dockerd --bip 172.17.0.1/28 > /dev/null 2>&1 &
-        sudo service docker start
+        # sudo dockerd --bip 172.17.0.1/28 > /dev/null 2>&1 &
         # disown
+        sudo service docker start
     fi
 
     # add code to path
@@ -178,9 +192,6 @@ if [[ $(grep microsoft /proc/version) ]]; then
 
 fi
 
-# config with a bare repo
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias dotgit='lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # bun completions
 # [ -s "/home/tcrha/.bun/_bun" ] && source "/home/tcrha/.bun/_bun"
 
