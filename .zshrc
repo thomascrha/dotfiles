@@ -65,23 +65,20 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias publicip='wget http://ipinfo.io/ip -qO -'
 alias Source='source $(pwd)/.venv/bin/activate'
-alias venv='venv'
+alias venv='python3 -m venv .venv && Source'
 alias ll='ls -l'
 alias la='ls -lA'
 alias l='ls -CF'
 alias e="exit"
 alias c='clear'
 alias reload='source ~/.zshrc'
-alias editrc='code ~/.zshrc'
+alias editrc='nvim ~/.zshrc'
 
 # docker
 alias dk='docker container kill $(docker ps -a -q)'
 alias dc='docker container rm $(docker ps -a -q)'
 alias dr='docker update --restart=no $(docker ps -a -q)'
 alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
-
-alias fr='docker-compose restart fusion-hub-frontend fusion-hub'
-# alias bat='batcat'
 
 # shorten cd ../../../
 alias .1='cd ..'
@@ -110,6 +107,7 @@ alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e D
 #
 alias config='tmux new -s config || tmux attach -t config || tmux switch-client -t config'
 alias term='tmux new -s term || tmux attach -t term || tmux switch-client -t term'
+alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
 
 alias fuck='sudo !-1'
 alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\" root"
@@ -127,9 +125,7 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # export PATH=$PATH:$HOME/software/bin
 
     # alias vpn-start="wsl.exe -d wsl-vpnkit service wsl-vpnkit start"
-    alias wit="$HOME/scripts/watch-it.sh $HOME/qbe dev /data/226960/"
 
-    # PORTFORWARDING_HOST=dn18
     # PORTFORWARDING_RUNNING=`ps aux | grep ssh | grep -v grep | grep $PORTFORWARDING_HOST`
     # if [ -z "$PORTFORWARDING_RUNNING" ]; then
     # start port forwarding
@@ -164,7 +160,7 @@ if [[ $(grep microsoft /proc/version) ]]; then
     fi
 
     # add code to path
-    export PATH=$PATH:"/mnt/c/Users/226960/AppData/Local/Programs/Microsoft VS Code/bin:$HOME/.local/bin"
+    export PATH=$PATH:$HOME/.local/bin
 
     # fix screen issues with WSL
     # export SCREENDIR=$HOME/.local/run/screen
@@ -179,14 +175,8 @@ if [[ $(grep microsoft /proc/version) ]]; then
     export EDITOR="$VISUAL"
 
     export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-    alias restart-ptt='ssh pm1 ./restart-PTT-pdf-service.sh'
-    # alias obsidian='nohup obsidian > /dev/null 2>&1 &'
 
 fi
-
-# Hishtory Config:
-export PATH="$PATH:/home/tcrha/.hishtory"
-source /home/tcrha/.hishtory/config.zsh
 
 # config with a bare repo
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
