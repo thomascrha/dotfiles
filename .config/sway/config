@@ -1,6 +1,6 @@
-########################################################################################################################
-# General Settings #####################################################################################################
-########################################################################################################################
+#########################################################################################
+# General Settings ######################################################################
+#########################################################################################
 set $mod Mod4
 
 for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
@@ -50,26 +50,30 @@ font pango:"RobotoMono Nerd Font" Regular 8
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-########################################################################################################################
-# Sway execs ###########################################################################################################
-########################################################################################################################
+#########################################################################################
+# Sway execs ############################################################################
+#########################################################################################
+
 
 ### Workstyle
 # Adds names and icons to workspaces
-exec_always --no-startup-id workstyle &> /tmp/workstyle.log
+exec_always ps aux | grep workstyle | grep -v grep || workstyle &> /tmp/workstyle.log
 
 ### nm-applet
 # Network manager applet
-exec nm-applet --indicator &> /tmp/nm-applet.log
+exec_always ps aux | grep nm-applet | grep -v grep || nm-applet --indicator &> /tmp/nm-applet.log
 
 ### notifications
-exec mako
+exec_always ps aux | grep mako | grep -v grep || mako
 
-exec wlsunset -l -33.7105 -L 150.3756
-exec autotiling-rs
+### dim screen
+exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7105 -L 150.3756
+
+### autotiling
+exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs
 
 ### wallpaper
-exec /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 1800
+exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 1800
 
 ### Idle configuration
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -81,9 +85,9 @@ exec swayidle -w \
     before-sleep 'swaylock -f -c 000000'
 
 
-######################################################################################################################
-# Applications and Bindings ##########################################################################################
-######################################################################################################################
+########################################################################################
+# Applications and Bindings ############################################################
+########################################################################################
 set $term wezterm
 set $browser MOZ_ENABLE_WAYLAND=1 firefox
 set $exit nwg-bar -p center -a middle -i 48 -s preset-0.css
@@ -163,6 +167,7 @@ bindsym $mod+h splith
 bindsym $mod+v splitv
 
 bindsym $mod+escape exec $exit
+bindsym $mod+Shift+escape exec swaymsg exit
 
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
@@ -198,15 +203,19 @@ bindsym $mod+minus scratchpad show
 mode "resize" {
     bindsym Left resize shrink width 10px
     bindsym Shift+Left resize shrink width 50px
+    bindsym $mod+Left move left 10px
 
     bindsym Down resize grow height 10px
     bindsym Shift+Down resize grow height 50px
+    bindsym $mod+Down move down 10px
 
     bindsym Up resize shrink height 10px
     bindsym Shift+Up resize shrink height 50px
+    bindsym $mod+Up move up 10px
 
     bindsym Right resize grow width 10px
     bindsym Shift+Right resize grow width 50px
+    bindsym $mod+Right move right 10px
 
     # Return to default mode
     bindsym Return mode "default"
@@ -231,10 +240,21 @@ bindsym $mod+Ctrl+Shift+s exec grimshot --notify save area
 bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
 bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
+#########################################################################################
+#GUAKE MODE##############################################################################
+#########################################################################################
+### This works by first running the terminal on startup, and giving it a unique application name (class). Then, when
+### once sway has loaded below a function finds any application with that name - resizes it, moves it to the top of the
+### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
+for_window [app_id="terminal_scratchpad"] floating enable, floating enable, move position 392px 75px, \
+    resize set 1365px 600px, move to scratchpad
+bindcode $mod+49 exec swaymsg [app_id="terminal_scratchpad"] scratchpad show
+# if not running start it
+exec_always ps aux | grep terminal_scratchpa | grep -v grep || wezterm start --class terminal_scratchpad
 
-########################################################################################################################
-# Application settings #################################################################################################
-########################################################################################################################
+#########################################################################################
+# Application settings ##################################################################
+#########################################################################################
 
 # focus, floating, & sticky
 for_window [app_id="(?i)(?:blueman-manager|azote|gnome-disks)"] floating enable
@@ -244,8 +264,8 @@ for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 
 popup_during_fullscreen smart
 
-########################################################################################################################
-# Autostart ############################################################################################################
-########################################################################################################################
+#########################################################################################
+# Autostart #############################################################################
+#########################################################################################
 
 include /etc/sway/config.d/*
