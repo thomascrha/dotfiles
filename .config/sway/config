@@ -42,7 +42,7 @@ font pango:"RobotoMono Nerd Font" Regular 8
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /home/tcrha/Pictures/wallpapers/2 - z2VbS7I.jpg fill
+output * bg /home/tcrha/Pictures/wallpapers/2 - z2VbS7I.jpg fill
 #
 # Example configuration:
 #
@@ -246,9 +246,9 @@ bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 ### This works by first running the terminal on startup, and giving it a unique application name (class). Then, when
 ### once sway has loaded below a function finds any application with that name - resizes it, moves it to the top of the
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
-for_window [app_id="terminal_scratchpad"] floating enable, floating enable, move position 392px 75px, \
-    resize set 1365px 600px, move to scratchpad
+for_window [app_id="terminal_scratchpad"] floating enable, floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
 bindcode $mod+49 exec swaymsg [app_id="terminal_scratchpad"] scratchpad show
+bindsym $mod+t exec wezterm start --class terminal_scratchpad && swaymsg [app_id="terminal_scratchpad"] floating enable, floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
 # if not running start it
 exec_always ps aux | grep terminal_scratchpa | grep -v grep || wezterm start --class terminal_scratchpad
 
