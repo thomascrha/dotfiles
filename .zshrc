@@ -192,15 +192,9 @@ if [[ $(grep microsoft /proc/version) ]]; then
 
 fi
 
-# bun completions
-# [ -s "/home/tcrha/.bun/_bun" ] && source "/home/tcrha/.bun/_bun"
-
-# bun
-# export BUN_INSTALL="$HOME/.bun"
-# export PATH="$BUN_INSTALL/bin:$PATH"
-#
-# [ -f "/home/tcrha/.ghcup/env" ] && source "/home/tcrha/.ghcup/env" # ghcup-env
-#
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# pyenv init
+if [[ -d "$HOME/.pyenv" ]]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
