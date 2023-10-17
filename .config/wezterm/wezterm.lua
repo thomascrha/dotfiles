@@ -1,6 +1,7 @@
 local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
 wezterm.on('user-var-changed', function(window, pane, name, value)
-  local overrides = window:get_config_overrides() or {}
+    local overrides = window:get_config_overrides() or {}
   if name == "ZEN_MODE" then
     local incremental = value:find("+")
     local number_value = tonumber(value)
@@ -22,13 +23,10 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
   window:set_config_overrides(overrides)
 end)
 
--- This table will hold the configuration.
-local config = {}
-
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
-if wezterm.config_builder then
-  config = wezterm.config_builder()
+-- makes the window transparent when in guake mode is detected
+local mode = os.getenv("WEZTERM_GUAKE")
+if mode == "on" then
+  config.window_background_opacity = 0.9
 end
 
 config.keys = {
@@ -72,5 +70,7 @@ config.selection_word_boundary = " \t\n{}[]()\"'`,;:@│*"
 
 -- config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-22.04', 'tmux', 'new', '-s', 'neovim', '||', 'tmux', 'a', '-t', 'neovim' }
 -- config.default_prog = { '/bin/zsh', '-c', 'tmux', 'new', '-s', 'scratch', '||', 'tmux', 'a', '-t', 'scratch' }
+
+-- config.text_background_opacity = 0.1
 
 return config
