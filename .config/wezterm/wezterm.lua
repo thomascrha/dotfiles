@@ -26,7 +26,7 @@ end)
 -- makes the window transparent when in guake mode is detected
 local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
-  config.window_background_opacity = 0.1
+  config.window_background_opacity = 0.8
 end
 
 config.keys = {

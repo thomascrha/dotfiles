@@ -13,12 +13,3 @@ dconf write /org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled
 dconf write /org/gnome/shell/extensions/pop-cosmic/show-applications-button false
 dconf write /org/gnome/shell/extensions/pop-cosmic/show-workspaces-button false
 dconf write /org/gnome/shell/extensions/pop-shell/tile-by-default true
-
-# wezterm-guake
-dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding <Primary>grave
-dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command tdrop wezterm start --class wezterm-guake
-dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name WezGuake
-#
-# dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding '<Super>Return'
-# dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command 'wezterm start'
-# dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name 'Wezterm'
