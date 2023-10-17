@@ -101,6 +101,6 @@ window#waybar {
 #cpu,
 #battery,
 #disk {
-	padding: 0 10px;
+	padding: 0 2px;
 }
 

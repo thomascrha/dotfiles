@@ -2,12 +2,13 @@
     "height": 7, // Waybar height (to be removed for auto height)
     "spacing": 4, // Gaps between modules (4px)
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "backlight", "keyboard-state", "battery", "clock", "tray"],
+    "modules-center": ["custom/weather", "clock"],
+    "modules-right": ["idle_inhibitor", "keyboard-state", "pulseaudio", "cpu", "memory", "temperature", "backlight", "battery", "tray"],
     "keyboard-state": {
         "device-path": "/dev/input/by-path/platform-i8042-serio-0-event-kbd",
         "numlock": true,
         "capslock": true,
-        "format": "{name} {icon}",
+        "format": "N={name} I={icon}",
         "format-icons": {
             "locked": "",
             "unlocked": ""
@@ -102,6 +103,13 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "custom/weather": {
+        "format": "{} °",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar  --date-format '%d/%m' --location Wentworth Falls",
+       "return-type": "json",
     },
 }
 
