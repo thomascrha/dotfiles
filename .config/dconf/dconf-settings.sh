@@ -1,34 +1,15 @@
 #!/bin/bash
 
 # sets
-gsettings set org.gnome.mutter dynamic-workspaces false
-gsettings set org.gnome.desktop.wm.preferences num-workspaces 8
+dconf write /org/gnome/mutter/dynamic-workspaces false
+dconf write /org/gnome/desktop/wm/preferences/num-workspaces 8
 
-# remove any old workspace swithcing behaviour
-gsettings set org.gnome.shell.keybindings switch-to-application-1  []
-gsettings set org.gnome.shell.keybindings switch-to-application-2  []
-gsettings set org.gnome.shell.keybindings switch-to-application-3  []
-gsettings set org.gnome.shell.keybindings switch-to-application-4  []
-gsettings set org.gnome.shell.keybindings switch-to-application-5  []
-gsettings set org.gnome.shell.keybindings switch-to-application-6  []
-gsettings set org.gnome.shell.keybindings switch-to-application-7  []
-gsettings set org.gnome.shell.keybindings switch-to-application-8  []
-gsettings set org.gnome.shell.keybindings switch-to-application-9  []
+# mouse and trackpad
+dconf write /org/gnome/desktop/peripherals/mouse/natural-scroll false
+dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true
+dconf write /org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled true
 
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1  "['<Super>1']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2  "['<Super>2']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3  "['<Super>3']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4  "['<Super>4']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5  "['<Super>5']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-6  "['<Super>6']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-7  "['<Super>7']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-8  "['<Super>8']"
-
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1  "['<Super><Shift>1']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2  "['<Super><Shift>2']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3  "['<Super><Shift>3']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4  "['<Super><Shift>4']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5  "['<Super><Shift>5']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6  "['<Super><Shift>6']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-7  "['<Super><Shift>7']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-8  "['<Super><Shift>8']"
+# pop os specfic
+dconf write /org/gnome/shell/extensions/pop-cosmic/show-applications-button false
+dconf write /org/gnome/shell/extensions/pop-cosmic/show-workspaces-button false
+dconf write /org/gnome/shell/extensions/pop-shell/tile-by-default true
