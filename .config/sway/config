@@ -4,8 +4,8 @@
 set $mod Mod4
 
 for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
-default_border pixel
-
+default_border pixel 10
+client.focused #188c75 #188c75 #188c75
 focus_follows_mouse no
 
 ### Status Bar & rice:
@@ -40,10 +40,8 @@ input type:touchpad {
 font pango:"RobotoMono Nerd Font" Regular 8
 
 ### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /home/tcrha/Pictures/wallpapers/2 - z2VbS7I.jpg fill
-#
+
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
@@ -145,16 +143,16 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1, workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2, workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3, workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4, workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5, workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6, workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7, workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8, workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9, workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10, workspace number 10
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 #
@@ -223,7 +221,6 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-
 ### Media keys
 # Media keys
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -247,10 +244,10 @@ bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 ### once sway has loaded below a function finds any application with that name - resizes it, moves it to the top of the
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
 for_window [app_id="terminal_scratchpad"] floating enable, floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
-bindcode $mod+49 exec swaymsg [app_id="terminal_scratchpad"] scratchpad show
-bindsym $mod+t exec wezterm start --class terminal_scratchpad && swaymsg [app_id="terminal_scratchpad"] floating enable, floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
+bindcode Ctrl+49 exec swaymsg [app_id="terminal_scratchpad"] scratchpad show
+bindsym $mod+t exec WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad && swaymsg [app_id="terminal_scratchpad"] floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
 # if not running start it
-exec_always ps aux | grep terminal_scratchpa | grep -v grep || wezterm start --class terminal_scratchpad
+exec_always ps aux | grep terminal_scratchpa | grep -v grep || WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad
 
 #########################################################################################
 # Application settings ##################################################################
