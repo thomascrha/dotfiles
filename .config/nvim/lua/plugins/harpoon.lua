@@ -14,8 +14,20 @@ return {
       vim.keymap.set('n', '<leader>9', "<cmd>lua require('harpoon.ui').nav_file(9)<CR>", { desc = "Go to harpoon 9" })
       vim.keymap.set('n', '<leader>ha', "<cmd>lua require('harpoon.mark').add_file()<CR>",
         { desc = "Add file to harpoon" })
-      vim.keymap.set('n', '<leader>hh', "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>",
+      vim.keymap.set('n', '<leader>hh', "<cmd>:Telescope harpoon marks<CR>",
         { desc = "Open harpoon menu" })
+      vim.keymap.set('n', '<leader>hH', "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>",
+        { desc = "Open harpoon menu" })
+
+      require("harpoon").setup({
+        tabline = true,
+      })
+
+      vim.cmd('highlight! HarpoonInactive guibg=NONE guifg=#ABB2BF')
+      vim.cmd('highlight! HarpoonActive guibg=NONE guifg=white')
+      vim.cmd('highlight! HarpoonNumberActive guibg=NONE guifg=#61AFEF')
+      vim.cmd('highlight! HarpoonNumberInactive guibg=NONE guifg=#61AFEF')
+      vim.cmd('highlight! TabLineFill guibg=NONE guifg=white')
     end
   }
 }
