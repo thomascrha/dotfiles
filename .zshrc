@@ -119,7 +119,6 @@ alias rw='~/system-files/scripts/re-window.sh'
 alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 
 ### tmux
-alias config='tmux new -s config || tmux attach -t config || tmux switch-client -t config'
 alias term='tmux new -s term || tmux attach -t term || tmux switch-client -t term'
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
 
