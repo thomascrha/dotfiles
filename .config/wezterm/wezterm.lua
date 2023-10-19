@@ -26,7 +26,8 @@ end)
 -- makes the window transparent when in guake mode is detected
 local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
-  config.window_background_opacity = 0.8
+
+  config.window_background_opacity = 0.9
 end
 
 config.keys = {
@@ -68,9 +69,9 @@ config.selection_word_boundary = " \t\n{}[]()\"'`,;:@│*"
 --  Defualt Program
 --
 
--- config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-22.04', 'tmux', 'new', '-s', 'neovim', '||', 'tmux', 'a', '-t', 'neovim' }
 -- config.default_prog = { '/bin/zsh', '-c', 'tmux', 'new', '-s', 'scratch', '||', 'tmux', 'a', '-t', 'scratch' }
 
 -- config.text_background_opacity = 0.1
+
 
 return config
