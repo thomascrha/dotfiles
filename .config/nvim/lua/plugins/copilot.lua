@@ -31,7 +31,7 @@ return {
     config = function ()
       require("copilot_cmp").setup()
     end
-  }
+  },
  {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
