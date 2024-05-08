@@ -91,7 +91,7 @@ alias reload='source ~/.zshrc'
 alias editrc='nvim ~/.zshrc'
 
 # docker
-alias dk='docker container kill $(docker ps -a -q)'
+alias dk='docker rm $(docker ps -a -q)'
 alias dc='docker container rm $(docker ps -a -q)'
 alias dr='docker update --restart=no $(docker ps -a -q)'
 alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
@@ -200,3 +200,13 @@ if [[ -d "$HOME/.pyenv" ]]; then
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
+
+# docker version manager
+source /home/tcrha/.dvm/dvm.sh
+[[ -r $DVM_DIR/bash_completion ]] && . $DVM_DIR/bash_completion
+
+
+# node version manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
