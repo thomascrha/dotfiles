@@ -120,6 +120,7 @@ alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e D
 
 ### tmux
 alias term='tmux new -s term || tmux attach -t term || tmux switch-client -t term'
+alias guake='tmux new -s guake || tmux attach -t guake || tmux switch-client -t guake'
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
 
 alias fuck='sudo !-1'

@@ -6,6 +6,7 @@ return {
     "antoinemadec/FixCursorHold.nvim",
     "nvim-neotest/neotest-python",
     "nvim-neotest/neotest-plenary",
+    "nvim-neotest/nvim-nio",
     "nvim-neotest/neotest-vim-test",
   },
   config = function()
