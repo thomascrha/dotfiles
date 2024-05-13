@@ -26,13 +26,13 @@ return {
       vim.keymap.set('n', '<leader>cs', '<cmd>Copilot status<cr>', { desc = '[C]opilot [s]tatus' })
     end
   },
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   config = function ()
+  --     require("copilot_cmp").setup()
+  --   end
+  -- },
   {
-    "zbirenbaum/copilot-cmp",
-    config = function ()
-      require("copilot_cmp").setup()
-    end
-  },
- {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     dependencies = {
@@ -42,5 +42,17 @@ return {
     opts = {
       debug = true, -- Enable debugging
     },
-  },
+    config = function()
+      require("CopilotChat").setup()
+      vim.keymap.set('n', '<leader>cq',
+        function()
+          local input = vim.fn.input("Quick Chat: ")
+          if input ~= "" then
+            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+          end
+        end,
+        { desc = '[C]opilot [c]hat [q]uick'}
+      )
+    end
+  }
 }

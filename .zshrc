@@ -202,11 +202,15 @@ if [[ -d "$HOME/.pyenv" ]]; then
 fi
 
 # docker version manager
-source /home/tcrha/.dvm/dvm.sh
-[[ -r $DVM_DIR/bash_completion ]] && . $DVM_DIR/bash_completion
-
+if [[ -d  "$HOME/.dvm" ]]; then
+    export DVM_DIR="$HOME/.dvm"
+    source $DVM_DIR/dvm.sh
+    [[ -r $DVM_DIR/bash_completion ]] && . $DVM_DIR/bash_completion
+fi
 
 # node version manager
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if  [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi

@@ -84,8 +84,8 @@ return {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
-          elseif require("copilot.suggestion").is_visible() then
-            require("copilot.suggestion").accept()
+          -- elseif require("copilot.suggestion").is_visible() then
+          --   require("copilot.suggestion").accept()
           elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
@@ -120,7 +120,7 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          require("copilot_cmp.comparators").prioritize,
+          -- require("copilot_cmp.comparators").prioritize,
 
           -- Below is the default comparitor list and order for nvim-cmp
           cmp.config.compare.offset,

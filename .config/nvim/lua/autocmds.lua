@@ -73,5 +73,15 @@ return {
         vim.opt_local.spell = true
       end,
     })
+
+    -- start telescope find files if no args or first arg is a directory
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        local  first_arg = vim.fn.argv(0)
+        if first_arg == "" or vim.fn.isdirectory(first_arg) then
+          require("telescope.builtin").find_files()
+        end
+      end,
+    })
   end
 }

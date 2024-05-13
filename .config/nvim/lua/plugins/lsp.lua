@@ -1,5 +1,8 @@
 return {
   "neovim/nvim-lspconfig",
+ dependencies = {
+    {"j-hui/fidget.nvim"},
+    },
   config = function ()
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]ename' })
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode Action' })
