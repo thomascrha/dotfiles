@@ -29,25 +29,8 @@ if mode == "on" then
   config.window_background_opacity = 0.9
 end
 
-config.keys = {
-  {
-    key = 'w',
-    mods = 'CTRL',
-    action = wezterm.action.CloseCurrentTab{confirm=true}
-  },
-  {
-    key = 't',
-    mods = 'CTRL',
-    action = wezterm.action{SpawnTab='CurrentPaneDomain'}
-  },
-  {
-    key = 'v',
-    mods = 'CTRL',
-    action = wezterm.action{PasteFrom="Clipboard"}
-  },
-}
 config.color_scheme = 'OneHalfDark'
-config.font_size = 10
+config.font_size = 11
 config.hide_tab_bar_if_only_one_tab = true
 config.enable_tab_bar = true
 config.enable_scroll_bar = true
@@ -65,12 +48,5 @@ config.window_padding = {
 -- Note that dot (.) & slash (/) are allowed though for
 -- easy selection of (partial) paths.
 config.selection_word_boundary = " \t\n{}[]()\"'`,;:@│*"
---  Defualt Program
---
-
--- config.default_prog = { '/bin/zsh', '-c', 'tmux', 'new', '-s', 'scratch', '||', 'tmux', 'a', '-t', 'scratch' }
-
--- config.text_background_opacity = 0.1
-
 
 return config

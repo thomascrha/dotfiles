@@ -8,7 +8,7 @@ return {
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
-    },
+  },
   config = function()
     require("neotest").setup({
       adapters = {
@@ -27,6 +27,6 @@ return {
     vim.keymap.set("n", "<leader>ta", [[ <Esc><Cmd>lua require("neotest").run.attach()<CR>]], { desc = '[T]est  [A]ttach'})
     vim.keymap.set("n", "<leader>tf", [[ <Esc><Cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>]], { desc = 'Run [T]ests in [F]ile'})
     vim.keymap.set("n", "<leader>td", [[ <Esc><Cmd>lua require("neotest").run.run({strategy = "dap"})<CR>]], { desc = 'Run [T]ests [D]ebug'})
--- require("neotest").run.run({strategy = "dap"})
+    -- require("neotest").run.run({strategy = "dap"})
   end,
 }

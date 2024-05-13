@@ -26,12 +26,6 @@ return {
       vim.keymap.set('n', '<leader>cs', '<cmd>Copilot status<cr>', { desc = '[C]opilot [s]tatus' })
     end
   },
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   config = function ()
-  --     require("copilot_cmp").setup()
-  --   end
-  -- },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
