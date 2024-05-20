@@ -40,7 +40,7 @@ input type:touchpad {
 font pango:"RobotoMono Nerd Font" Regular 8
 
 ### Output configuration
-output * bg /home/tcrha/Pictures/wallpapers/2 - z2VbS7I.jpg fill
+output * bg /home/tcrha/Pictures/wallpapers/Wallpapers 33.jpg fill
 
 # Example configuration:
 #
@@ -51,24 +51,27 @@ output * bg /home/tcrha/Pictures/wallpapers/2 - z2VbS7I.jpg fill
 #########################################################################################
 # Sway execs ############################################################################
 #########################################################################################
-
+# Note the exec_always commands initially check to see if there is already an instance of the program running.
+# This is to prevent multiple instances of the same program from running. i.e. check || if error then run
 
 ### Workstyle
 # Adds names and icons to workspaces
-exec_always ps aux | grep workstyle | grep -v grep || workstyle &> /tmp/workstyle.log
-
+# exec_always ps aux | grep workstyle | grep -v grep || workstyle &> /tmp/workstyle.log
+exec sworkstyle &> /tmp/sworkstyle.log
+#
 ### nm-applet
 # Network manager applet
 exec_always ps aux | grep nm-applet | grep -v grep || nm-applet --indicator &> /tmp/nm-applet.log
 
-### notifications
-exec_always ps aux | grep mako | grep -v grep || mako
+### notification
 
-### dim screen
+exec_always ps aux | grep mako | grep -v grep || mako &> /tmp/mako.log
+
+## dim screen
 exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7105 -L 150.3756
 
 ### autotiling
-exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs
+exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
 
 ### wallpaper
 exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 1800
@@ -82,7 +85,6 @@ exec swayidle -w \
     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
     before-sleep 'swaylock -f -c 000000'
 
-
 ########################################################################################
 # Applications and Bindings ############################################################
 ########################################################################################
@@ -90,7 +92,7 @@ set $term wezterm
 set $browser MOZ_ENABLE_WAYLAND=1 firefox
 set $exit nwg-bar -p center -a middle -i 48 -s preset-0.css
 set $menu wofi --show run --allow-images
-set $filemanager thunar
+set $filemanager nautilus
 set $displays nwg-displays
 
 
@@ -100,7 +102,6 @@ set $displays nwg-displays
 bindsym $mod+Return exec $term
 bindsym $mod+b exec $browser
 bindsym $mod+f exec $filemanager
-bindsym $mod+d exec $displays
 
 # Kill focused window
 bindsym $mod+q kill
@@ -159,10 +160,8 @@ bindsym $mod+Shift+0 move container to workspace number 10, workspace number 10
 # Layout stuff:
 #
 # You can "split" the current object of your focus with
-# $mod+b or $mod+v, for horizontal and vertical splits
+# $mod+h or $mod+v, for horizontal and vertical splits
 # respectively.
-bindsym $mod+h splith
-bindsym $mod+v splitv
 
 bindsym $mod+escape exec $exit
 bindsym $mod+Shift+escape exec swaymsg exit
@@ -170,7 +169,9 @@ bindsym $mod+Shift+escape exec swaymsg exit
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+d layout default
+bindsym $mod+v layout splitv
+bindsym $mod+h layout splith
 
 # Make the current focus fullscreen
 bindsym $mod+Shift+f fullscreen
@@ -183,18 +184,18 @@ bindsym $mod+u focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+a focus parent
-#
+
 # Scratchpad:
 #
 # Sway has a "scratchpad", which is a bag of holding for windows.
 # You can send windows there and get them back later.
 
 # Move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
+# bindsym $mod+Shift+minus move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
+# bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
@@ -230,7 +231,7 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 
-### print screen functions
+### print screen function
 bindsym $mod+Shift+s exec grimshot --notify copy area
 bindsym $mod+Ctrl+Shift+s exec grimshot --notify save area
 
@@ -254,9 +255,7 @@ exec_always ps aux | grep terminal_scratchpa | grep -v grep || WEZTERM_GUAKE=on 
 #########################################################################################
 
 # focus, floating, & sticky
-for_window [app_id="(?i)(?:blueman-manager|azote|gnome-disks)"] floating enable
-for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|gsimplecal|galculator)"] floating enable
-for_window [app_id="(?i)(?:firefox|chromium)"] border none
+for_window [app_id="(?i)(?:nm-connection-editor)"] floating enable
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 
 popup_during_fullscreen smart

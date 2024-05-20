@@ -9,15 +9,12 @@
 # Note if multiple patterns are present in the same application name,
 # precedence is given in order of apparition in this file.
 
-"wezterm" = " wezterm"
-"obsidian" = " obsidian"
-"firefox" = " firefox"
-"character" = " character map"
-"mpv" = " mpv"
-"volume" = " sound control"
-"thunar" = " files"
+"wezterm" = "|wezterm"
+"obsidian" = "|obsidian"
+"firefox" = "|firefox"
+"nautalus" = "|files"
 
 [other]
-fallback_icon = " unkown"
+fallback_icon = "|unkown"
 deduplicate_icons = true
-separator = ": "
+# separator = \\\": "

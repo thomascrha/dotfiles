@@ -1,0 +1,4 @@
+#!/bin/sh
+
+WEZTERM_GUAKE=on tdrop -h 55% -atr --class tdrop-wezterm wezterm start --class wezterm-guake
+

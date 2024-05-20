@@ -8,17 +8,13 @@ return {
       end, { desc = 'Format current buffer with LSP' })
     end
 
-    -- Enable the following language servers
-    --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-    --
-    --  Add any additional override configuration in the following tables. They will be passed to
-    --  the `settings` field of the server config. You must look up that documentation yourself.
     local servers = {
       pyright = {},
       bashls = {},
       dockerls = {},
       html = {},
       jsonls = {},
+      gopls = {},
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },
@@ -79,13 +75,9 @@ return {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
-        -- ["<CR>"] = vim.NIL,
-        --
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
-          -- elseif require("copilot.suggestion").is_visible() then
-          --   require("copilot.suggestion").accept()
           elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
@@ -106,9 +98,6 @@ return {
         end, { "i", "s" }),
       },
       sources = {
-        -- Copilot Source
-        { name = "copilot", group_index = 2 },
-        -- Other Sources
         { name = 'path' },                              -- file paths
         { name = 'nvim_lsp', keyword_length = 3 },      -- from language server
         { name = 'nvim_lsp_signature_help'},            -- display function signatures with current parameter emphasized
@@ -120,15 +109,13 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          -- require("copilot_cmp.comparators").prioritize,
-
           -- Below is the default comparitor list and order for nvim-cmp
           cmp.config.compare.offset,
           -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
           cmp.config.compare.exact,
           cmp.config.compare.score,
-          -- cmp.config.compare.recently_used,
-          -- cmp.config.compare.locality,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
           cmp.config.compare.kind,
           cmp.config.compare.sort_text,
           cmp.config.compare.length,

@@ -119,9 +119,8 @@ alias rw='~/system-files/scripts/re-window.sh'
 alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 
 ### tmux
-alias term='tmux new -s term || tmux attach -t term || tmux switch-client -t term'
-alias guake='tmux new -s guake || tmux attach -t guake || tmux switch-client -t guake'
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
+alias config='tmux new -s config || tmux attach -t config || tmux switch-client -t  config'
 
 alias fuck='sudo !-1'
 alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\" root"
@@ -131,6 +130,13 @@ alias vim='nvim'
 # config with a bare repo
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dotgit='lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+source $HOME/.cargo/env
+
+# Set up go env
+if [[ -f /usr/local/go/bin/go ]]; then
+    export PATH=$PATH:/usr/local/go/bin
+fi
 
 #########################################################################################
 #WSL#####################################################################################
@@ -214,3 +220,5 @@ if  [[ -d "$HOME/.nvm" ]]; then
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
+
+. "$HOME/.cargo/env"

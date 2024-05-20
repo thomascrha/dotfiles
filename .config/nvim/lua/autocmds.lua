@@ -77,7 +77,13 @@ return {
     -- start telescope find files if no args or first arg is a directory
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
-        local  first_arg = vim.fn.argv(0)
+        local first_arg = vim.fn.argv(0)
+
+        -- if first arg is a directory, cd into it
+        if vim.fn.isdirectory(first_arg) ~= 0 then
+          vim.fn.execute("cd " .. first_arg)
+        end
+
         if first_arg == "" or vim.fn.isdirectory(first_arg) then
           require("telescope.builtin").find_files()
         end

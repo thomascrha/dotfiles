@@ -30,7 +30,7 @@ if mode == "on" then
 end
 
 config.color_scheme = 'OneHalfDark'
-config.font_size = 11
+config.font_size = 9
 config.hide_tab_bar_if_only_one_tab = true
 config.enable_tab_bar = true
 config.enable_scroll_bar = true
@@ -42,6 +42,23 @@ config.window_padding = {
   right = 2,
   top = 0,
   bottom = 0,
+}
+
+config.keys = {
+  -- This will create a newconfig.keys = {
+  -- This will create a new split and run your default program inside it
+  {
+    key = '=',
+    mods = 'ALT',
+    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+  },
+  {
+    key = '-',
+    mods = 'ALT',
+    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+
+
 }
 -- Make sure word selection stops on most punctuations.
 --

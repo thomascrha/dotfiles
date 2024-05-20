@@ -47,12 +47,7 @@ return {
       vim.keymap.set('n', '<leader>fw', telescope.grep_string, { desc = '[F]ind current [W]ord' })
       vim.keymap.set('n', '<leader>fg', telescope.live_grep, { desc = '[F]ind by [G]rep' })
       vim.keymap.set('n', '<leader>fd', telescope.diagnostics, { desc = '[F]ind [D]iagnostics' })
-
-      vim.keymap.set('n', '<leader>fb', ":Telescope file_browser path=%:p:h select_buffer=true<CR>", { desc = '[F]ile [B]rowser' })
       vim.keymap.set('n', '<leader>fc', ":Telescope neoclip<CR>", { desc = '[F]ind [C]lips (Register)' })
-
-      -- vim.keymap.set('n', '<leader>cc', telescope.colorscheme, { desc = '[C]olour [S]cheme select' })
-
     end
   },
   {
@@ -60,25 +55,6 @@ return {
     build = "make",
     cond = vim.fn.executable("make") == 1,
   },
-  -- {
-  --   "nvim-telescope/telescope-file-browser.nvim",
-  --   dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-  --   config = function ()
-  --     require("telescope").setup {
-  --       extensions = {
-  --         file_browser = {
-  --           -- intial_mode = "normal",
-  --           -- makes window appear from the bottom
-  --           theme = "ivy",
-  --           -- disables netrw and use telescope-file-browser in its place
-  --           hijack_netrw = true,
-  --           hidden = { file_browser = true, folder_browser = true },
-  --         },
-  --       }
-  --     }
-  --
-  --   end
-  -- },
   {
     "AckslD/nvim-neoclip.lua",
     dependencies = {"kkharji/sqlite.lua"},

@@ -14,7 +14,7 @@ while true; do
     for file in $(ls "$wallpaper_directory"); do
         current_swaybg_pid=$(pgrep -x swaybg)
         wallpaper="$wallpaper_directory/$file"
-        format=$(file "$wallpaper" | cut -d " " -f 4)
+        format=$(file "$wallpaper" | cut -d " " -f 2)
         [ "$format" = "PNG" ] || [ "$format" = "JPEG" ]\
             && echo "Setting wallpaper $wallpaper, format $format, sleeping $duration." \
             && sh -c "swaybg -o \"*\" -i \"$wallpaper\" -m fill -c \"#000000\" > /dev/null 2>&1 &" \

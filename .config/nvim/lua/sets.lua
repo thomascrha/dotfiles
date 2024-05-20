@@ -1,5 +1,8 @@
 return {
   setup = function()
+    -- Nerd font support
+    vim.g.have_nerd_fonts = true
+
     -- Make line numbers default
     vim.wo.number = true
 
@@ -115,5 +118,7 @@ return {
     --         cache_enabled = true
     --     }
     -- end
+
+    vim.o.mousemodel = "extend"
   end
 }
