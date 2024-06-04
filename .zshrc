@@ -91,7 +91,7 @@ alias reload='source ~/.zshrc'
 alias editrc='nvim ~/.zshrc'
 
 # docker
-alias dk='docker rm $(docker ps -a -q)'
+alias dk='docker rm -f $(docker ps -a -q)'
 alias dc='docker container rm $(docker ps -a -q)'
 alias dr='docker update --restart=no $(docker ps -a -q)'
 alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
@@ -157,6 +157,8 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # alias to add proxy info to pip
     # alias pip="pip --proxy http://localhost:3128"
 
+    alias docker-compose="docker compose"
+
     WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
     if [ -z "$WSL_RUNNING" ]; then
         # start the wsl vpnkit
@@ -197,6 +199,8 @@ if [[ $(grep microsoft /proc/version) ]]; then
     export EDITOR="$VISUAL"
 
     export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+
+    alias kill-vpnkit="kill -9 $(ps aux | grep vpnkit | grep -v grep | awk '{print $2}')"
 
 fi
 

@@ -31,7 +31,7 @@ return {
     -----------------------------------------------------------------------------------
     -- manually remove all training whitespace
     -----------------------------------------------------------------------------------
-    vim.keymap.set('n', '<leader>w', '<cmd>StripTrailingWhitespace<cr>', { desc = '' })
+    vim.keymap.set('n', '<leader>ws', '<cmd>StripTrailingWhitespace<cr>', { desc = '' })
 
     -----------------------------------------------------------------------------------
     -- Diagnostic keymaps
