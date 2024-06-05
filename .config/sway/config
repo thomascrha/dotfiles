@@ -4,7 +4,7 @@
 set $mod Mod4
 
 for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
-default_border pixel 10
+default_border pixel 20
 client.focused #188c75 #188c75 #188c75
 focus_follows_mouse no
 
