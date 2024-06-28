@@ -27,6 +27,7 @@ plugins=(
     copybuffer
     history
     jsontools
+    golang
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -137,6 +138,8 @@ source $HOME/.cargo/env
 if [[ -f /usr/local/go/bin/go ]]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
+
+
 
 #########################################################################################
 #WSL#####################################################################################
