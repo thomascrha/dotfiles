@@ -250,19 +250,35 @@ bindsym $mod+Ctrl+Shift+s exec grimshot --notify save area
 bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
 bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
+bindsym $mod+p exec playerctl play-paus
 #########################################################################################
 #GUAKE MODE##############################################################################
 #########################################################################################
-### This works by first running the terminal on startup, and giving it a unique application name (class). Then, when
-### once sway has loaded below a function finds any application with that name - resizes it, moves it to the top of the
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
-exec_always ps aux | grep terminal_scratchpad | grep -v grep || WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad
-for_window [app_id="terminal_scratchpad"] floating enable, move to scratchpad, move position 400px 100px, resize set 1000px 600px
-bindcode Ctrl+49 exec swaymsg [app_id="terminal_scratchpad"] scratchpad show
+# exec_always ps aux | grep terminal_scratchpad | grep -v grep || WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad
+# for_window [app_id="terminal_scratchpad"] floating enable, move to scratchpad, move position 400px 100px, resize set 1000px 600px
+# bindcode Ctrl+49 exec saymsg [app_id="terminal_scratchpad"] scratchpad show
 # bindcode Ctrl+49 exec swaymsg [app_id="terminal_scratchpad"] floating enable, move position 0px 0px, resize set 1365px 600px, scratchpad show
 # bindsym $mod+t exec WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad && swaymsg [app_id="terminal_scratchpad"] floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
 # if not running start it
+# Start with specific app_id/class
+set $ddterm-id dropdown-terminal
+set $ddterm WEZTERM_GUAKE=on $term start --class $ddterm-id
+set $ddterm-resize resize set 100ppt 60ppt, move position 0 0
 
+# resize/move new dropdown terminal windows
+for_window [app_id="$ddterm-id"] {
+  floating enable
+  $ddterm-resize
+  move to scratchpad
+  scratchpad show
+}
+
+# show existing or start new dropdown terminal
+bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
+  || $ddterm \
+  && sleep .1 && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+# ^-- resize again, case moving to different output
 #########################################################################################
 # Application settings ####### ###########################################################
 #########################################################################################

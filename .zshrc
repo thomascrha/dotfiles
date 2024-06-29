@@ -1,37 +1,137 @@
+#############################################################################################
+#Zim Setup###################################################################################
+#############################################################################################
+# Remove older command from the history if a duplicate is to be added.
+setopt HIST_IGNORE_ALL_DUPS
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+bindkey -e
+
+# Prompt for spelling correction of commands.
+#setopt CORRECT
+
+# Customize spelling correction prompt.
+#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
+
+# Use degit instead of git as the default tool to install and update modules.
+zstyle ':zim:zmodule' use 'degit'
+
+# Set a custom prefix for the generated aliases. The default prefix is 'G'.
+zstyle ':zim:git' aliases-prefix 'g'
+
+#
+# input
+#
+
+# Append `../` to your input for each `.` you type after an initial `..`
+#zstyle ':zim:input' double-dot-expand yes
+
+#
+# zsh-autosuggestions
+#
+
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# Customize the style that the suggestions are shown with.
+# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+
+#
+# zsh-syntax-highlighting
+#
+
+# Set what highlighters will be used.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# Customize the main highlighter styles.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
+#typeset -A ZSH_HIGHLIGHT_STYLES
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
+
+# ------------------
+# Initialize modules
+# ------------------
+
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+
+# ------------------------------
+# Post-init module configuration
+# ------------------------------
+
+#
+# zsh-history-substring-search
+#
+
+zmodload -F zsh/terminfo +p:terminfo
+# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+unset key
+# }}} End configuration added by Zim install
+
+#########################################################################################
+#Pokemon########https://github.com/aflaag/pokemon-icat###################################
+#########################################################################################
+pokemon-icat -g 1
+
 #########################################################################################
 #Exports#################################################################################
 #########################################################################################
 export PATH=$HOME/go/bin:/usr/local/bin:$PATH
-export ZSH=$HOME/.oh-my-zsh
 export EDITOR='nvim'
 export VISUAL='nvim'
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 
-source $HOME/.zshworkrc
 #########################################################################################
 ##OH-MY-ZSH##############################################################################
 #########################################################################################
-ZSH_THEME="powerlevel10k/powerlevel10k"
 
-plugins=(
-    zsh-autosuggestions
-    gitfast
-    python
-    docker
-    kubectl
-    sudo
-    web-search
-    copyfile
-    dirhistory
-    copybuffer
-    history
-    jsontools
-    golang
-)
-
-source $ZSH/oh-my-zsh.sh
-
+# plugins=(
+#     zsh-autosuggestions
+#     gitfast
+#     python
+#     docker
+#     sudo
+#     copyfile
+#     dirhistory
+#     copybuffer
+#     history
+#     jsontools
+#     golang
+# )
+#
+# if [[ DEBUG_LOGGER -eq 1 ]]; then
+#     echo "Starting zshrc 7"
+# fi
+# source $ZSH/oh-my-zsh.sh
+#
+# if [[ DEBUG_LOGGER -eq 1 ]]; then
+#     echo "Starting zshrc 11"
+# fi
 #########################################################################################
 #POWERLEVEL10K###########################################################################
 #########################################################################################
@@ -74,6 +174,9 @@ rir() {
     fi;
 }
 
+if [[ DEBUG_LOGGER -eq 1 ]]; then
+    echo "Starting zshrc"
+fi
 #########################################################################################
 #ALIASES#################################################################################
 #########################################################################################
@@ -132,7 +235,12 @@ alias vim='nvim'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dotgit='lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-source $HOME/.cargo/env
+if [[ DEBUG_LOGGER -eq 1 ]]; then
+    echo "Starting zshrc9"
+fi
+if [[ -d $HOME/cargo ]]; then
+    source $HOME/.cargo/env
+fi
 
 # Set up go env
 if [[ -f /usr/local/go/bin/go ]]; then
@@ -140,6 +248,9 @@ if [[ -f /usr/local/go/bin/go ]]; then
 fi
 
 
+if [[ DEBUG_LOGGER -eq 1 ]]; then
+    echo "Starting zshrc 10"
+fi
 
 #########################################################################################
 #WSL#####################################################################################
@@ -208,21 +319,24 @@ if [[ $(grep microsoft /proc/version) ]]; then
 fi
 
 # pyenv init
-if [[ -d "$HOME/.pyenv" ]]; then
+PYENV_ENABLED=false
+if [[ -d "$HOME/.pyenv" ]] && [[ $PYENV_ENABLED == true ]]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
 
 # docker version manager
-if [[ -d  "$HOME/.dvm" ]]; then
+DOCKER_ENABLED=false
+if [[ -d  "$HOME/.dvm" ]] && [[ $DOCKER_ENABLED == true ]]; then
     export DVM_DIR="$HOME/.dvm"
     source $DVM_DIR/dvm.sh
     [[ -r $DVM_DIR/bash_completion ]] && . $DVM_DIR/bash_completion
 fi
 
 # node version manager
-if  [[ -d "$HOME/.nvm" ]]; then
+NVM_ENABLED=false
+if  [[ -d "$HOME/.nvm" ]] && [[ $NVM_ENABLED == true ]]; then
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
