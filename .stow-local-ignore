@@ -1,5 +1,5 @@
-nixos
-Makefile
+\Makefile*
+\*.nix
 
 # Defaults
 # Comments and blank lines are allowed.

@@ -15,7 +15,11 @@
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  environment.shells = with pkgs; [ zsh ];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+
+  networking.hostName = "tcrha-nixos"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 
@@ -24,7 +28,7 @@
 # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
 # Enable networking
-    networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
 # Set your time zone.
   time.timeZone = "Australia/Sydney";
@@ -46,10 +50,10 @@
   };
 
 # Configure keymap in X11
-  services.xserver = {
-    layout = "au";
-    xkbVariant = "";
-  };
+# services.xserver = {
+#   layout = "au";
+#   xkbVariant = "";
+# };
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tcrha = {
@@ -65,13 +69,15 @@
 # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
-    git
-    curl
-    wget
-    zsh
+      git
+      curl
+      wget
+      zsh
+      gnumake
   ];
 
   services.gnome.gnome-keyring.enable = true;
+
 
 # Some programs need SUID wrappers, can be configured further or are
 # started in user sessions.
@@ -100,6 +106,6 @@
 # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
