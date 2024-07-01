@@ -5,18 +5,11 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require('oil').setup({
-      auto_open = false,
-      auto_close = true,
-      auto_preview = false,
-      auto_fold = false,
-      signs = {
-	error = " ",
-	warning = " ",
-	hint = " ",
-	information = " ",
-	other = "nvim"
-      },
-      use_diagnostic_signs = true
+      skip_confirm_for_simple_edits = true,
+      experimental_watch_for_changes = true,
+      view_options = {
+	show_hidden = true
+      }
     })
     vim.keymap.set("n", "<leader>-", "<cmd>Oil<CR>", { desc = "Toggle Oil" })
   end

@@ -57,51 +57,19 @@
     packages = with pkgs; [];
   };
 
-# Enable automatic login for the user.
-  services.getty.autologinUser = "tcrha";
-
 # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true; # so that gtk works properly
-    extraPackages = with pkgs; [
-      swaylock
-      swayidle
-      wl-clipboard
-      wf-recorder
-      mako
-      grim
-      slurp
-      rofi
-    ];
-    extraSessionCommands = ''
-      export SDL_VIDEODRIVER=wayland
-      export QT_QPA_PLATFORM=wayland
-      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-      export _JAVA_AWT_WM_NONREPARENTING=1
-      export MOZ_ENABLE_WAYLAND=1
-      '';
-  };
-
-# List packages installed in system profile. To search, run:
 # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
-      grim
-      slurp
-      mako
-      wl-clipboard
-      spice-vdagent
+    git
+    curl
+    wget
+    zsh
   ];
 
   services.gnome.gnome-keyring.enable = true;
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
 
 # Some programs need SUID wrappers, can be configured further or are
 # started in user sessions.
@@ -129,5 +97,7 @@
 # Before changing this value read the documentation for this option
 # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
