@@ -7,6 +7,12 @@ https://www.youtube.com/watch?v=6WLaNIlDW0M&list=PL_WcXIXdDWWpuypAEKzZF2b5PijTlu
 ## useful commands
 
 ```bash
-# update the system with flake current configuration name tcrha-nixos
-sudo nixos-rebuild switch --flake .#<config-name> # config-name is the name of the configuration in the flake.nix file
+# update nixpkgs 
+nix flake update
+
+# update nixos 
+sudo nixos-rebuild switch --flake .#tcrha-nixos 
+
+# update home-manager 
+home-manager switch --flake .#tcrha-home
 ```
