@@ -205,10 +205,6 @@ alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapo
 alias vim='nvim'
 
 
-# config with a bare repo
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias dotgit='lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc9"
 fi
