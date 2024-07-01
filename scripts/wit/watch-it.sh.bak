@@ -1,0 +1,10 @@
+#!/bin/bash
+directory=$1
+node=$2
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+REMOTE_HOME=/data/226960/
+rsync -avzPh $directory $node:$REMOTE_HOME --exclude-from=$SCRIPT_DIR/exclude_sync --delete
+while inotifywait -r -e modify,create,delete,move --exclude '*/.idea*' --exclude '*__pycache__*' --exclude '*.git*' --exclude '*venv*' --exclude '.pytest*' $directory; do
+    sleep 1
+    rsync -avzPh $directory $node:$REMOTE_HOME --exclude-from=$SCRIPT_DIR/exclude_sync --delete
+done

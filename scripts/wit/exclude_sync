@@ -1,0 +1,11 @@
+*prod-data*
+*prod_data*
+*postgres*
+*geodata_src*
+*.git
+*__pycache__
+*.idea
+*venv
+*pytest*
+*db*
+*node_modules*
