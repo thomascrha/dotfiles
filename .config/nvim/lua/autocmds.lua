@@ -74,6 +74,7 @@ return {
       end,
     })
 
+
     -- start telescope find files if no args or first arg is a directory
     -- vim.api.nvim_create_autocmd("VimEnter", {
     --   callback = function()
@@ -89,16 +90,18 @@ return {
     --     end
     --   end,
     -- })
-    --
-    -- Automatically open preview in oil.nvim
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "OilEnter",
-      callback = vim.schedule_wrap(function(args)
-        local oil = require("oil")
-        if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
-          oil.open_preview()
-        end
-      end),
-    })
+
+
+    -- -- Automatically open preview in oil.nvim
+    -- vim.api.nvim_create_autocmd("User", {
+    --   pattern = "OilEnter",
+    --   callback = vim.schedule_wrap(function(args)
+    --     local oil = require("oil")
+    --     if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
+    --       oil.open_preview()
+    --     end
+    --   end),
+    -- })
+
   end
 }

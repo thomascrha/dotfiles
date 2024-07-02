@@ -1,5 +1,10 @@
-\Makefile*
-\*.nix
+Makefile
+
+flake.nix
+flake.lock
+hardware-configuration.nix
+configuration.nix
+home.nix
 
 # Defaults
 # Comments and blank lines are allowed.

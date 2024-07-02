@@ -318,8 +318,6 @@ if [[ -d "$HOME/.cargo" ]]; then
 fi
 
 if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
-    echo "HERE"
-    echo "HERE"
     . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 fi
 

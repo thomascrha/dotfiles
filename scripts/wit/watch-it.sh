@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# usage and check for no of arugs
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <local_directory> <remote-host> <remote_directory>"
+    exit 1
+fi
+
+
 directory=$1
 node=$2
 remote_directory=$3

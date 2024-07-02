@@ -30,6 +30,8 @@
   home.file = {
     ".zshrc".source = ./.zshrc;
     ".zimrc".source = ./.zimrc;
+    ".p10k.zsh".source = ./.p10k.zsh;
+    ".config/nvim".source = ./.config/nvim;
   };
 
   home.sessionVariables = {

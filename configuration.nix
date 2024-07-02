@@ -58,7 +58,7 @@
   users.users.tcrha = {
     isNormalUser = true;
     description = "tcrha";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
   };
 
@@ -74,10 +74,22 @@
       zsh
       gnumake
       pkgs.home-manager
+      fzf
+      ripgrep
+      fd
+      python3
+      luarocks
+      lua
+      gcc
+      unzip
+      zip
+      nodejs
   ];
 
   services.gnome.gnome-keyring.enable = true;
 
+  # docker
+  virtualisation.docker.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -106,6 +118,6 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
