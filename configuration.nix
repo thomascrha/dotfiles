@@ -67,23 +67,23 @@
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-      neovim
-      git
-      curl
-      wget
-      zsh
-      gnumake
-      pkgs.home-manager
-      fzf
-      ripgrep
-      fd
-      python3
-      luarocks
-      lua
-      gcc
-      unzip
-      zip
-      nodejs
+    neovim
+    git
+    curl
+    wget
+    zsh
+    gnumake
+    pkgs.home-manager
+    fzf
+    ripgrep
+    fd
+    python3
+    luarocks
+    lua
+    gcc
+    unzip
+    zip
+    nodejs
   ];
 
   services.gnome.gnome-keyring.enable = true;
