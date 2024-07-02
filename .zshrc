@@ -312,4 +312,14 @@ if  [[ -d "$HOME/.nvm" ]] && [[ $NVM_ENABLED == true ]]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-. "$HOME/.cargo/env"
+if [[ -d "$HOME/.cargo" ]]; then
+    . "$HOME/.cargo/env"
+    export PATH=$PATH:$HOME/.cargo/bin
+fi
+
+if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
+    echo "HERE"
+    echo "HERE"
+    . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+fi
+
