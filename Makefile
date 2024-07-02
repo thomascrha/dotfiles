@@ -1,12 +1,19 @@
-#!/bin/make
+##!/bin/make
+
 default: help
 help:
 	@echo "Usage: make [target]"
 	@echo "Targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-stow:
-	stow --no-folding -t ${HOME} -v -R -d ${PWD} -S .
+nixos: nix-flake-update nixos-rebuild home-manager
 
-clean-stow:
-	stow -t ${HOME} -d ${PWD} -D .
+home-manager:
+	home-manager switch --flake '.#tcrha-nixos'
+
+nixos-rebuild:
+	sudo nixos-rebuild switch --flake '.#tcrha-nixos'
+
+nix-flake-update:
+	nix flake update
+

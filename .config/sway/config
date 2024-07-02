@@ -250,7 +250,7 @@ bindsym $mod+Ctrl+Shift+s exec grimshot --notify save area
 bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
 bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
-bindsym $mod+p exec playerctl play-paus
+bindsym $mod+p exec playerctl play-pause
 #########################################################################################
 #GUAKE MODE##############################################################################
 #########################################################################################
