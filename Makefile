@@ -6,14 +6,11 @@ help:
 	@echo "Targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-nixos: nix-flake-update nixos-rebuild home-manager
+stow: ## Stow dotfiles
+	stow --no-folding -t ${HOME} -v -R -d ${PWD} -S .
 
-home-manager:
-	home-manager switch --flake '.#tcrha-nixos'
+unstow: ## Unstow dotfiles
+	stow -t ${HOME} -d ${PWD} -D .
 
-nixos-rebuild:
-	sudo nixos-rebuild switch --flake '.#tcrha-nixos'
 
-nix-flake-update:
-	nix flake update
 
