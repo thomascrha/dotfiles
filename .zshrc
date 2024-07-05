@@ -165,7 +165,8 @@ alias la='ls -lA'
 alias l='ls -CF'
 alias e="exit"
 alias c='clear'
-alias reload='source ~/.zshrc'
+# alias reload='source ~/.zshrc'
+alias reload='exec zsh'
 alias editrc='nvim ~/.zshrc'
 
 # docker
