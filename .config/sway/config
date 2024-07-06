@@ -76,7 +76,7 @@ exec_always ps aux | grep mako | grep -v grep || mako &> /tmp/mako.log
 # exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7105 -L 150.3756
 
 ### autotiling
-exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
+# exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
 
 ### wallpaper
 exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 1800
