@@ -87,6 +87,9 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
+# enable vim
+bindkey -v
+
 #########################################################################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
 #########################################################################################
