@@ -26,10 +26,10 @@
     "modules-center": [
         "custom/weather",
         "clock#date",
-        "clock#time",
+        "clock#time"
     ],
     "modules-right": [
-        // "network",
+        "custom/recorder",
         "custom/media",
         "disk",
         "memory",
@@ -38,13 +38,21 @@
         "battery",
         "pulseaudio",
         "backlight",
-        "tray",
+        "tray"
     ],
 
 
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
+    "custom/recorder": {
+        "format": "",
+        "return-type": "json",
+        "interval": 1,
+        "exec": "echo '{\"class\": \"recording\"}'",
+        "exec-if": "pgrep wf-recorder",
+        "on-click": "pkill -f wf-recorder"
+    },
     "custom/weather": {
         "exec": "/home/tcrha/.config/waybar/get_weather.sh Wentworth+Falls",
         "return-type": "json",
@@ -82,7 +90,7 @@
 
     "backlight": {
         "device": "intel_backlight",
-        "format": " {percent}%",
+        "format": " {percent}%"
     },
     "clock#time": {
         "interval": 1,
@@ -91,9 +99,9 @@
     },
 
     "clock#date": {
-      "interval": 10,
-      "format": "  {:%e %b %Y}", // Icon: calendar-alt
-      "tooltip-format": "{:%e %B %Y}"
+        "interval": 10,
+        "format": "  {:%e %b %Y}", // Icon: calendar-alt
+        "tooltip-format": "{:%e %B %Y}"
     },
 
     "custom/media": {
@@ -106,7 +114,7 @@
         "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
         "on-scroll-up": "playerctl next",
         "on-scroll-down": "playerctl previous",
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources/custom_modules folder
     },
 
 
@@ -114,8 +122,8 @@
         "interval": 5,
         "format": "  {usage}%", // Icon: microchip
         "states": {
-          "warning": 70,
-          "critical": 90
+            "warning": 70,
+            "critical": 90
         }
     },
 
@@ -155,17 +163,17 @@
     },
 
     "temperature": {
-      "critical-threshold": 80,
-      "interval": 5,
-      "format": "{icon}  {temperatureC}°C",
-      "format-icons": [
-          "", // Icon: temperature-empty
-          "", // Icon: temperature-quarter
-          "", // Icon: temperature-half
-          "", // Icon: temperature-three-quarters
-          ""  // Icon: temperature-full
-      ],
-      "tooltip": true
+        "critical-threshold": 80,
+        "interval": 5,
+        "format": "{icon}  {temperatureC}°C",
+        "format-icons": [
+            "", // Icon: temperature-empty
+            "", // Icon: temperature-quarter
+            "", // Icon: temperature-half
+            "", // Icon: temperature-three-quarters
+            ""  // Icon: temperature-full
+        ],
+        "tooltip": true
     },
 
     "tray": {

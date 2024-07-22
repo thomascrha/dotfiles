@@ -78,6 +78,12 @@
  * Module styles
  * -------------------------------------------------------------------------- */
 
+#custom-recorder {
+	font-size: 18px;
+	margin: 2px 7px 0px 7px;
+	color:#c9545d;
+}
+
 #battery {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
