@@ -69,8 +69,10 @@ exec_always ps aux | grep nm-applet | grep -v grep || nm-applet --indicator &> /
 
 exec_always ps aux | grep sway-audio-idle-inhibit | grep -v grep || sway-audio-idle-inhibit &> /tmp/sway-audio-idle-inhibit.log
 
-### notification
+### blueman-applet
+exec_always ps aux | grep blueman-applet | grep -v grep || blueman-applet &> /tmp/blueman-applet.log
 
+### notification
 exec_always ps aux | grep mako | grep -v grep || mako &> /tmp/mako.log
 # set $mako "mako -c ~/.config/mako/config"
 
@@ -81,7 +83,7 @@ exec_always ps aux | grep mako | grep -v grep || mako &> /tmp/mako.log
 # exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
 
 ### wallpaper
-exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 1800
+exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360
 
 ### Idle configuration
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -170,7 +172,7 @@ bindsym $mod+Shift+0 move container to workspace number 10, workspace number 10
 # $mod+h or $mod+v, for horizontal and vertical splits
 # respectively.
 
-# bindsym $mod+Shift+escape exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+escape exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
@@ -235,7 +237,7 @@ bindsym $mod+r mode "resize"
 # Wob setup
 
 set $WOBSOCK /tmp/wob.sock
-exec_always rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
+exec_always ps aux | grep wob | grep -v grep || rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 
 ### Media keys
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl get-sink-volume @DEFAULT_SINK@ | awk 'NR==1{print substr($5,1,length($5)-1)}' > $WOBSOCK

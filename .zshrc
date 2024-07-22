@@ -316,7 +316,8 @@ if [[ -d "$HOME/.cargo" ]]; then
     export PATH=$PATH:$HOME/.cargo/bin
 fi
 
-# if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
-#     . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-# fi
+if [[ -f "$HOME/.fzf.zsh" ]]; then
+    source "$HOME/.fzf.zsh"
+    source <(fzf --zsh)
+fi
 
