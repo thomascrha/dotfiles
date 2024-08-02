@@ -1,3 +1,4 @@
+# vim: ts=2 sw=2 syn=toml et
 # Take a look at the mako manpage with the command:
 #   man 5 mako
 # To view all configuration options.
