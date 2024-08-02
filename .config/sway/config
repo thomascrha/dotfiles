@@ -45,6 +45,7 @@ input type:keyboard {
 font pango:"RobotoMono Nerd Font" Regular 8
 
 
+for_window [shell="xwayland"] title_format "[XWayland] %title"
 
 ### Clipboard =================================================================
 # Wipe clipboard on start.
