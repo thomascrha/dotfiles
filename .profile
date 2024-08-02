@@ -16,6 +16,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
@@ -25,7 +26,6 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
-. "$HOME/.cargo/env"
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -36,3 +36,5 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export GDK_BACKEND=wayland
 export XDG_CURRENT_DESKTOP=sway
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+

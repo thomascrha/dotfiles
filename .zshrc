@@ -78,6 +78,8 @@ source ${ZIM_HOME}/init.zsh
 # zsh-history-substring-search
 #
 
+# enable vim
+bindkey -v
 zmodload -F zsh/terminfo +p:terminfo
 # Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
 for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
@@ -87,8 +89,6 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
-# enable vim
-bindkey -v
 
 #########################################################################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
@@ -168,10 +168,10 @@ alias reload='exec zsh'
 alias editrc='nvim ~/.zshrc'
 
 # docker
-alias dk='docker rm -f $(docker ps -a -q)'
-alias dc='docker container rm $(docker ps -a -q)'
-alias dr='docker update --restart=no $(docker ps -a -q)'
-alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
+# alias dk='docker rm -f $(docker ps -a -q)'
+# alias dc='docker container rm $(docker ps -a -q)'
+# alias dr='docker update --restart=no $(docker ps -a -q)'
+# alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
 
 # shorten cd ../../../
 alias .1='cd ..'
@@ -193,7 +193,7 @@ alias upgrade='sudo apt update -y && sudo apt upgrade -y'
 alias mg='sudo mount -t nfs -o vers=4 192.168.10.2:/game ~/game'
 alias rw='~/system-files/scripts/re-window.sh'
 
-alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
+# alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 
 ### tmux
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
@@ -207,9 +207,9 @@ alias vim='nvim'
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc9"
 fi
-if [[ -d $HOME/cargo ]]; then
-    source $HOME/.cargo/env
-fi
+# if [[ -d $HOME/cargo ]]; then
+#     source $HOME/.cargo/env
+# fi
 
 # Set up go env
 if [[ -f /usr/local/go/bin/go ]]; then
@@ -240,8 +240,6 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # alias to add proxy info to pip
     # alias pip="pip --proxy http://localhost:3128"
 
-    alias docker-compose="docker compose"
-
     WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
     if [ -z "$WSL_RUNNING" ]; then
         # start the wsl vpnkit
@@ -259,12 +257,12 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # export DOCKER_HOST=unix:///tmp/socket.remote
 
     # Start Docker daemon automatically when logging in if not running.
-    DOCKER_RUNNING=`ps aux | grep dockerd | grep -v grep`
-    if [ -z "$DOCKER_RUNNING" ]; then
-        # sudo dockerd --bip 172.17.0.1/28 > /dev/null 2>&1 &
-        # disown
-        sudo service docker start
-    fi
+    # DOCKER_RUNNING=`ps aux | grep dockerd | grep -v grep`
+    # if [ -z "$DOCKER_RUNNING" ]; then
+    #     # sudo dockerd --bip 172.17.0.1/28 > /dev/null 2>&1 &
+    #     # disown
+    #     sudo service docker start
+    # fi
 
     # add code to path
     export PATH=$PATH:$HOME/.local/bin
@@ -285,35 +283,6 @@ if [[ $(grep microsoft /proc/version) ]]; then
 
     alias kill-vpnkit="kill -9 $(ps aux | grep vpnkit | grep -v grep | awk '{print $2}')"
 
-fi
-
-# pyenv init
-PYENV_ENABLED=false
-if [[ -d "$HOME/.pyenv" ]] && [[ $PYENV_ENABLED == true ]]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)"
-fi
-
-# docker version manager
-DOCKER_ENABLED=false
-if [[ -d  "$HOME/.dvm" ]] && [[ $DOCKER_ENABLED == true ]]; then
-    export DVM_DIR="$HOME/.dvm"
-    source $DVM_DIR/dvm.sh
-    [[ -r $DVM_DIR/bash_completion ]] && . $DVM_DIR/bash_completion
-fi
-
-# node version manager
-NVM_ENABLED=false
-if  [[ -d "$HOME/.nvm" ]] && [[ $NVM_ENABLED == true ]]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-if [[ -d "$HOME/.cargo" ]]; then
-    . "$HOME/.cargo/env"
-    export PATH=$PATH:$HOME/.cargo/bin
 fi
 
 if [[ -f "$HOME/.fzf.zsh" ]]; then

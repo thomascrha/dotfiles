@@ -36,6 +36,11 @@ input type:touchpad {
   middle_emulation enabled
 }
 
+input type:keyboard {
+    xkb_layout us
+    xkb_options caps:escape
+}
+
 ### fonts
 font pango:"RobotoMono Nerd Font" Regular 8
 
@@ -83,7 +88,7 @@ exec_always ps aux | grep mako | grep -v grep || mako &> /tmp/mako.log
 # exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
 
 ### wallpaper
-exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360
+# exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360
 
 ### Idle configuration
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -101,7 +106,7 @@ set $term wezterm
 set $browser MOZ_ENABLE_WAYLAND=1 firefox
 set $exit nwg-bar -p center -a middle -i 48 -s preset-0.css
 set $menu rofi -modi drun -show drun -show-icons
-set $filemanager nautilus
+set $filemanager thunar
 set $displays nwg-displays
 
 
