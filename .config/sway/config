@@ -90,7 +90,7 @@ exec_always ps aux | grep wob | grep -v grep || rm -f $WOBSOCK && mkfifo $WOBSOC
 # exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7105 -L 150.3756
 
 ### autotiling
-# exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
+exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
 
 ### wallpaper
 # exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360
@@ -99,10 +99,14 @@ exec_always ps aux | grep wob | grep -v grep || rm -f $WOBSOCK && mkfifo $WOBSOC
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
-exec swayidle -w \
-    timeout 300 'swaylock -f -c 000000' \
-    timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-    before-sleep 'swaylock -f -c 000000'
+# exec swayidle -w \
+#     timeout 300 'swaylock -f -c 000000' \
+#     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#     before-sleep 'swaylock -f -c 000000'
+
+# lock screen before suspend. Use loginctl lock-session to lock your screen.
+exec swayidle -w timeout 300 'swaylock -C$HOME/.config/swaylock/config' timeout 420 'systemctl suspend' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock'
+exec swayidle lock 'swaymsg "output * dpms on"&& swaylock' unlock 'kill -s 1 $(pgrep swaylock)'
 
 ########################################################################################
 # Applications and Bindings ############################################################
