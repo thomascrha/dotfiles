@@ -1,4 +1,6 @@
-#############################################################################################
+# add local bin path for pokemon-icat
+export PATH=$PATH:$HOME/.local/bin
+###########################################################################################
 #Zim Setup###################################################################################
 #############################################################################################
 # Remove older command from the history if a duplicate is to be added.
@@ -280,7 +282,6 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # fi
 
     # add code to path
-    export PATH=$PATH:$HOME/.local/bin
 
     # fix screen issues with WSL
     # export SCREENDIR=$HOME/.local/run/screen
