@@ -74,6 +74,8 @@ source ${ZIM_HOME}/init.zsh
 # Post-init module configuration
 # ------------------------------
 
+# enable vim
+bindkey -v
 #
 # zsh-history-substring-search
 #
@@ -89,6 +91,10 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
+# enable vim
+bindkey -v
+# bindkey -M vicmd "k" up-line-or-beginning-search
+# bindkey -M vicmd "j" down-line-or-beginning-search
 
 #########################################################################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
@@ -240,11 +246,20 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # alias to add proxy info to pip
     # alias pip="pip --proxy http://localhost:3128"
 
+    alias docker-compose="docker compose"
+
     WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
     if [ -z "$WSL_RUNNING" ]; then
         # start the wsl vpnkit
         wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
     fi
+    alias docker-compose="docker compose"
+
+    # WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
+    # if [ -z "$WSL_RUNNING" ]; then
+    #     # start the wsl vpnkit
+    #     wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
+    # fi
 
     # DOCKER_FORWARDING=`ps aux | grep ssh | grep -v grep | grep docker`
     # if [ -z "$DOCKER_FORWARDING" ]; then
@@ -281,7 +296,7 @@ if [[ $(grep microsoft /proc/version) ]]; then
 
     export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 
-    alias kill-vpnkit="kill -9 $(ps aux | grep vpnkit | grep -v grep | awk '{print $2}')"
+    alias kill-vpnkit="sudo kill -9 $(ps aux | grep vpnkit | grep -v grep | awk '{print $2}')"
 
 fi
 
