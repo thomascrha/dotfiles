@@ -176,10 +176,12 @@ alias reload='exec zsh'
 alias editrc='nvim ~/.zshrc'
 
 # docker
-alias dk='docker rm -f $(docker ps -a -q)'
-alias dc='docker container rm $(docker ps -a -q)'
-alias dr='docker update --restart=no $(docker ps -a -q)'
-alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
+if [ -x "$(command -v docker)" ]; then
+    alias dk='docker rm -f $(docker ps -a -q)'
+    alias dc='docker container rm $(docker ps -a -q)'
+    alias dr='docker update --restart=no $(docker ps -a -q)'
+    alias dp="docker image prune --force --filter \"until=`docker images --format '{{.CreatedAt}}' | sed -n '2p' | awk '{print $1;}'`\"" # remove all images except the last 2
+fi
 
 # shorten cd ../../../
 alias .1='cd ..'
