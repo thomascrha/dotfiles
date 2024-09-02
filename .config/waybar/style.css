@@ -78,10 +78,15 @@
  * Module styles
  * -------------------------------------------------------------------------- */
 
+#idle_inhibitor {
+    font-size: 18px;
+    margin: 2px 7px 0px 7px;
+}
+
 #custom-recorder {
-	font-size: 18px;
-	margin: 2px 7px 0px 7px;
-	color:#c9545d;
+    font-size: 18px;
+    margin: 2px 7px 0px 7px;
+    color:#c9545d;
 }
 
 #battery {

@@ -8,11 +8,11 @@
 // =============================================================================
 
 {
-    // -------------------------------------------------------------------------
-    // Global configuration
-    // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // Global configuration
+  // -------------------------------------------------------------------------
 
-    "layer": "top",
+  "layer": "top",
 
     "position": "top",
 
@@ -20,165 +20,173 @@
     "height": 30,
 
     "modules-left": [
-        "sway/workspaces",
-        "sway/window",
-        "sway/mode"
+      "sway/workspaces",
+      "sway/window",
+      "sway/mode"
     ],
     "modules-center": [
-        "custom/weather",
-        "clock#date",
-        "clock#time"
+      "custom/weather",
+      "clock#date",
+      "clock#time"
     ],
     "modules-right": [
-        "custom/recorder",
-        "custom/media",
-        "disk",
-        "memory",
-        "cpu",
-        "temperature",
-        "battery",
-        "pulseaudio",
-        "backlight",
-        "tray"
+      "custom/recorder",
+      "custom/media",
+      "disk",
+      "memory",
+      "cpu",
+      "temperature",
+      "battery",
+      "pulseaudio",
+      "backlight",
+      "idle_inhibitor",
+      "tray"
     ],
 
 
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "",
+        "deactivated": ""
+      }
+    },
     "custom/recorder": {
-        "format": "",
-        "return-type": "json",
-        "interval": 1,
-        "exec": "echo '{\"class\": \"recording\"}'",
-        "exec-if": "pgrep wf-recorder",
-        "on-click": "pkill -f wf-recorder"
+      "format": "",
+      "return-type": "json",
+      "interval": 1,
+      "exec": "echo '{\"class\": \"recording\"}'",
+      "exec-if": "pgrep wf-recorder",
+      "on-click": "pkill -f wf-recorder"
     },
     "custom/weather": {
-        "exec": "/home/tcrha/.config/waybar/get_weather.sh Wentworth+Falls",
-        "return-type": "json",
-        "format": "{}",
-        "tooltip": true,
-        "interval": 3600
+      "exec": "/home/tcrha/.config/waybar/get_weather.sh Wentworth+Falls",
+      "return-type": "json",
+      "format": "{}",
+      "tooltip": true,
+      "interval": 3600
     },
 
 
     "disk": {
-        "interval": 30,
-        "format": " {percentage_free}%",
-        "path": "/"
+      "interval": 30,
+      "format": " {percentage_free}%",
+      "path": "/"
     },
 
     "battery": {
-        "interval": 10,
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        // Connected to AC
-        "format": " {icon}   {capacity}%", // Icon: bolt
-        // Not connected to AC
-        "format-discharging": "{icon}   {capacity}%",
-        "format-icons": [
-            "", // Icon: battery-full
-            "", // Icon: battery-three-quarters
-            "", // Icon: battery-half
-            "", // Icon: battery-quarter
-            ""  // Icon: battery-empty
-        ],
-        "tooltip": true
+      "interval": 10,
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      // Connected to AC
+      "format": " {icon}   {capacity}%", // Icon: bolt
+                                          // Not connected to AC
+      "format-discharging": "{icon}   {capacity}%",
+      "format-icons": [
+        "", // Icon: battery-full
+      "", // Icon: battery-three-quarters
+      "", // Icon: battery-half
+      "", // Icon: battery-quarter
+      ""  // Icon: battery-empty
+      ],
+      "tooltip": true
     },
 
     "backlight": {
-        "device": "intel_backlight",
-        "format": "  {percent}%"
+      "device": "intel_backlight",
+      "format": "  {percent}%"
     },
     "clock#time": {
-        "interval": 1,
-        "format": "{:%H:%M}",
-        "tooltip-format": "{:%H:%M:%S}"
+      "interval": 1,
+      "format": "{:%H:%M}",
+      "tooltip-format": "{:%H:%M:%S}"
     },
 
     "clock#date": {
-        "interval": 10,
-        "format": " {:%e %b %Y}", // Icon: calendar-alt
-        "tooltip-format": "{:%e %B %Y}"
+      "interval": 10,
+      "format": " {:%e %b %Y}", // Icon: calendar-alt
+      "tooltip-format": "{:%e %B %Y}"
     },
 
     "custom/media": {
-        "format": "{icon} {}",
-        "escape": true,
-        "return-type": "json",
-        "max-length": 40,
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl next",
-        "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
-        "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous",
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources/custom_modules folder
+      "format": "{icon} {}",
+      "escape": true,
+      "return-type": "json",
+      "max-length": 40,
+      "on-click": "playerctl play-pause",
+      "on-click-right": "playerctl next",
+      "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
+      "on-scroll-up": "playerctl next",
+      "on-scroll-down": "playerctl previous",
+      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources/custom_modules folder
     },
 
     "cpu": {
-        "interval": 5,
-        "format": "   {usage}%", // Icon: microchip
-        "states": {
-            "warning": 70,
-            "critical": 90
-        }
+      "interval": 5,
+      "format": "   {usage}%", // Icon: microchip
+      "states": {
+        "warning": 70,
+        "critical": 90
+      }
     },
 
     "memory": {
-        "interval": 5,
-        "format": " {}%", // Icon: memory
-        "states": {
-            "warning": 70,
-            "critical": 90
-        }
+      "interval": 5,
+      "format": " {}%", // Icon: memory
+      "states": {
+        "warning": 70,
+        "critical": 90
+      }
     },
 
     "sway/mode": {
-        "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
-        "tooltip": false
+      "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
+      "tooltip": false
     },
 
     "sway/window": {
-        "format": "{}",
-        "max-length": 120
+      "format": "{}",
+      "max-length": 120
     },
 
     "pulseaudio": {
-        "format": "{icon}   {volume}%",
-        "format-bluetooth": "{icon}   {volume}%",
-        "format-muted": "",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", ""]
-        },
-        "on-click": "pavucontrol"
+      "format": "{icon}   {volume}%",
+      "format-bluetooth": "{icon}   {volume}%",
+      "format-muted": "",
+      "format-icons": {
+        "headphones": "",
+        "handsfree": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["", ""]
+      },
+      "on-click": "pavucontrol"
     },
 
     "temperature": {
-        "critical-threshold": 80,
-        "interval": 5,
-        "format": "{icon} {temperatureC}°C",
-        "format-icons": [
-            "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
-            "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
-            ""  // Icon: temperature-full
-        ],
-        "tooltip": true
+      "critical-threshold": 80,
+      "interval": 5,
+      "format": "{icon} {temperatureC}°C",
+      "format-icons": [
+        "", // Icon: temperature-empty
+      "", // Icon: temperature-quarter
+      "", // Icon: temperature-half
+      "", // Icon: temperature-three-quarters
+      ""  // Icon: temperature-full
+      ],
+      "tooltip": true
     },
 
     "tray": {
-        "icon-size": 21,
-        "spacing": 10
+      "icon-size": 21,
+      "spacing": 10
     }
 
 }
