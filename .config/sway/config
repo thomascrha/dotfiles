@@ -87,10 +87,10 @@ set $WOBSOCK /tmp/wob.sock
 exec_always ps aux | grep wob | grep -v grep || rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob -vv > /tmp/wob.log
 
 ## dim screen
-# exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7105 -L 150.3756
+exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7 -L 150.3
 
 ### autotiling
-exec_always ps aux | grep autotiling-rs | grep -v grep || autotiling-rs &> /tmp/autotiling-rs.log
+exec_always ps aux | grep autotiling | grep -v grep || autotiling --limit 2 &> /tmp/autotiling-rs.log
 
 ### wallpaper
 # exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360

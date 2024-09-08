@@ -40,6 +40,7 @@
       "pulseaudio",
       "backlight",
       "idle_inhibitor",
+      "custom/wlsunset",
       "tray"
     ],
 
@@ -47,6 +48,12 @@
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
+    "custom/wlsunset": {
+      "format": "",
+      "tooltip": true,
+      "tooltip-format": "wlsunset-on-off",
+      "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh"
+    },
     "idle_inhibitor": {
       "format": "{icon}",
       "format-icons": {

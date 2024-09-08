@@ -9,7 +9,7 @@ return {
     end
 
     local servers = {
-      pyright = {},
+      basedpyright = {},
       bashls = {},
       dockerls = {},
       html = {},
