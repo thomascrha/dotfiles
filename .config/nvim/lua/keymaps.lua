@@ -50,5 +50,12 @@ return {
       { desc = '[s]pelling suggestions for current word' }
     )
     vim.keymap.set("n", "<leader>sa", ":setlocal spell!<CR>", { desc = '[s]pelling [a]ctivate' })
+
+    -----------------------------------------------------------------------------------
+    --- Line numbers
+    -----------------------------------------------------------------------------------
+    --- Toggle relative line numbers
+    vim.keymap.set("n", "<leader>rl", ":set relativenumber!<CR>", { desc = '[r]elative [l]ine numbers' })
+
   end
 }
