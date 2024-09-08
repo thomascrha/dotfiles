@@ -15,6 +15,7 @@ return {
       html = {},
       jsonls = {},
       gopls = {},
+      clangd = {},
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },
