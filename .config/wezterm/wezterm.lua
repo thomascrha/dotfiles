@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 wezterm.on('user-var-changed', function(window, pane, name, value)
-    local overrides = window:get_config_overrides() or {}
+  local overrides = window:get_config_overrides() or {}
   if name == "ZEN_MODE" then
     local incremental = value:find("+")
     local number_value = tonumber(value)
@@ -26,8 +26,11 @@ end)
 -- makes the window transparent when in guake mode is detected
 local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
-  config.window_background_opacity = 0.9
+  config.window_background_opacity = 0.8
 end
+
+-- workaround for wayland when trying to create new windows in a scaled display
+config.default_gui_startup_args = {'start', '--always-new-process'}
 
 config.color_scheme = 'OneHalfDark'
 config.font_size = 11
@@ -56,6 +59,11 @@ config.keys = {
     key = '-',
     mods = 'ALT',
     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  {
+    key = 'w',
+    mods = 'ALT',
+    action = wezterm.action.CloseCurrentPane { confirm = false },
   },
 
 
