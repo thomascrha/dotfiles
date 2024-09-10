@@ -7,4 +7,5 @@ require("autocmds").setup()
 require("lsp").setup()
 require("sets").setup()
 require("keymaps").setup()
+require("avante_lib").load()
 
