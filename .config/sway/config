@@ -277,13 +277,6 @@ bindsym $mod+p exec playerctl play-pause
 #GUAKE MODE##############################################################################
 #########################################################################################
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
-# exec_always ps aux | grep terminal_scratchpad | grep -v grep || WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad
-# for_window [app_id="terminal_scratchpad"] floating enable, move to scratchpad, move position 400px 100px, resize set 1000px 600px
-# bindcode Ctrl+49 exec saymsg [app_id="terminal_scratchpad"] scratchpad show
-# bindcode Ctrl+49 exec swaymsg [app_id="terminal_scratchpad"] floating enable, move position 0px 0px, resize set 1365px 600px, scratchpad show
-# bindsym $mod+t exec WEZTERM_GUAKE=on wezterm start --class terminal_scratchpad && swaymsg [app_id="terminal_scratchpad"] floating enable, move position 392px 75px, resize set 1365px 600px, move to scratchpad
-# if not running start it
-# Start with specific app_id/class
 set $ddterm-id dropdown-terminal
 set $ddterm WEZTERM_GUAKE=on $term start --class $ddterm-id
 set $ddterm-resize resize set 100ppt 60ppt, move position 0 0
@@ -299,7 +292,7 @@ for_window [app_id="$ddterm-id"] {
 # show existing or start new dropdown terminal
 bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
   || $ddterm \
-  && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+  && & swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
 # ^-- resize again, case moving to different output
 #########################################################################################
 # Application settings ####### ###########################################################
