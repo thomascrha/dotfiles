@@ -92,6 +92,9 @@ exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7 -L 150.3
 ### autotiling
 exec_always ps aux | grep autotiling | grep -v grep || autotiling --limit 2 &> /tmp/autotiling-rs.log
 
+### kdeconnect-indicator
+exec_always ps aux | grep kdeconnect-indicator | grep -v grep || kdeconnect-indicator -
+
 ### wallpaper
 # exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360
 
@@ -296,7 +299,7 @@ for_window [app_id="$ddterm-id"] {
 # show existing or start new dropdown terminal
 bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
   || $ddterm \
-  && sleep .1 && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+  && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
 # ^-- resize again, case moving to different output
 #########################################################################################
 # Application settings ####### ###########################################################
