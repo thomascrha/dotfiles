@@ -37,10 +37,10 @@ customCommands:
         Follow this output template and ONLY output raw commit messages without spacing,
         numbers or other decorations.
 
-        fix(app): add password regex pattern
-        test(unit): add new test cases
+        fix(module/app): add password regex pattern
+        test(application_name/unit): add new test cases
         style: remove unused imports
-        refactor(pages): extract common code to \`utils/wait.ts\`
+        refactor(filepath/pages): extract common code to \`utils/wait.ts\`
 
         **Instructions:**
 
