@@ -1,3 +1,6 @@
+# vim: set ft=swayconfig ts=4 sw=4:
+
+set $screen eDP-1
 output "Dell Inc. DELL U3023E 66YJ4H3" {
     mode  2561x1600@59.972Hz
     pos 2560 0
@@ -7,6 +10,7 @@ output "Dell Inc. DELL U3023E 66YJ4H3" {
     adaptive_sync off
     dpms on
 }
+
 output "Dell Inc. DELL U3023E 40G15H3" {
     mode  2560x1600@59.972Hz
     pos 0 0

@@ -1,3 +1,4 @@
+# vim: set ft=swayconfig ts=4 sw=4:
 #########################################################################################
 # General Settings ######################################################################
 #########################################################################################
@@ -272,7 +273,7 @@ bindsym $mod+Ctrl+s exec grim -g "$(slurp)" - | swappy -f -
 bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
 bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
-bindsym $mod+p exec playerctl play-pause
+bindsym $mod+Ctrl+Space exec playerctl play-pause
 #########################################################################################
 #GUAKE MODE##############################################################################
 #########################################################################################
@@ -311,6 +312,43 @@ for_window [app_id="lxqt-policykit-agent"] {
     floating enable
     move position center
 }
+
+# Display PulseAudio volume control application (both GTK and Qt varieties)
+# as a floating window.
+
+for_window [app_id="pavucontrol"] {
+    floating enable
+    move position center
+}
+
+for_window [app_id="pavucontrol-qt"] {
+    floating enable
+    move position center
+}
+
+# apply mark for Xwayland and wayland native browser windows
+for_window [class="Chromium-browser"] mark Browser
+for_window [class="Brave-browser"] mark Browser
+for_window [class="firefox"]  mark Browser
+for_window [app_id="Chromium-browser"] mark Browser
+for_window [app_id="brave-browser"] mark Browser
+for_window [app_id="firefox"] mark Browser
+
+# inhibit scrensaver for fullscreen browser windows
+for_window [con_mark="Browser"] {
+    inhibit_idle fullscreen
+}
+
+# firefox wayland screensharing indicator
+for_window [app_id="firefox" title="Firefox — Sharing Indicator"] {
+    floating enable
+}
+
+# A special mode for passing any keybindings to the focused application
+mode "passthrough" {
+    bindsym $mod+p mode default
+}
+bindsym $mod+p mode "passthrough"
 
 #########################################################################################
 # Autostart #############################################################################

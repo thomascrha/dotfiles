@@ -1,4 +1,4 @@
-### Output configuration
+# vim: set ft=swayconfig ts=4 sw=4:
 set $screen eDP-1
 bindswitch --reload --locked lid:on output $screen disable
 bindswitch --reload --locked lid:off output $screen enable
@@ -33,4 +33,4 @@ exec_always /home/tcrha/.config/sway/scripts/clamshell.sh
 #     scale_filter nearest
 #     adaptive_sync off
 #     dpms on
-# }
+# }a

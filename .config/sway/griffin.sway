@@ -1,3 +1,4 @@
+# vim: set ft=swayconfig ts=4 sw=4:
 ### Output configuration
 # output * bg /home/tcrha/Pictures/wallpapers/Wallpapers 12.jpg fill
 output eDP-1 {
