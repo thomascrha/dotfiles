@@ -11,8 +11,8 @@ customCommands:
         **Criteria:**
 
         1. **Format:** Each commit message must follow the conventional commits format,
-        which is \`<type>(<fileispath>/<scope>): <description>\`.
-          NOTE: The fileishpath is not the fil path more like the parent directory
+        which is \`<type>(<fileishpath>/<scope>): <description>\`.
+          NOTE: The fileishpath is not the complete file path more like the parent directory
         2. **Relevance:** Avoid mentioning a module name unless it's directly relevant
         to the change.
         3. **Enumeration:** List the commit messages from 1 to 10.
