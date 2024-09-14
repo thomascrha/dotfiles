@@ -1,3 +1,5 @@
+# vim: set ft=python ts=4 sw=4 et:
+
 #!/usr/bin/python3
 """
 Automatically assign a dedicated systemd scope to the GUI applications
