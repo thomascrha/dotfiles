@@ -68,7 +68,7 @@ customCommands:
 
         Write your 10 commit messages below in the format shown in Output Template section above." \
           | fzf -m --height 40% --border --ansi --preview "echo {}" --preview-window=up:wrap \
-          | xargs -I {} bash -c '
+          | xargs -0 -I {} bash -c '
               COMMIT_MSG_FILE=$(mktemp)
               echo "{}" > "$COMMIT_MSG_FILE"
               ${EDITOR:-vim} "$COMMIT_MSG_FILE"
