@@ -192,6 +192,11 @@ bindsym $mod+Shift+0 move container to workspace number 10, workspace number 10
 
 bindsym $mod+Shift+escape exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
+# A special mode for passing any keybindings to the focused application
+mode "passthrough" {
+    bindsym $mod+p mode default
+}
+bindsym $mod+p mode "passthrough"
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
 bindsym $mod+t layout tabbed
@@ -274,6 +279,7 @@ bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(dat
 bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
 bindsym $mod+Ctrl+Space exec playerctl play-pause
+
 #########################################################################################
 #GUAKE MODE##############################################################################
 #########################################################################################
@@ -292,9 +298,8 @@ for_window [app_id="$ddterm-id"] {
 
 # show existing or start new dropdown terminal
 bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
-  || $ddterm \
-  && & swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
-# ^-- resize again, case moving to different output
+  || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+
 #########################################################################################
 # Application settings ####### ###########################################################
 #########################################################################################
@@ -344,11 +349,6 @@ for_window [app_id="firefox" title="Firefox — Sharing Indicator"] {
     floating enable
 }
 
-# A special mode for passing any keybindings to the focused application
-mode "passthrough" {
-    bindsym $mod+p mode default
-}
-bindsym $mod+p mode "passthrough"
 
 #########################################################################################
 # Autostart #############################################################################
