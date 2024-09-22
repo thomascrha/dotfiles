@@ -53,20 +53,38 @@ config.keys = {
   {
     key = '=',
     mods = 'ALT',
-    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
   {
     key = '-',
     mods = 'ALT',
-    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
   },
   {
     key = 'w',
     mods = 'ALT',
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
-
-
+  -- {
+  --   key = 'UpArrow',
+  --   mods = 'ALT',
+  --   action = wezterm.action.ActivatePaneDirection "Up" ,
+  -- },
+  -- {
+  --   key = 'LeftArrow',
+  --   mods = 'ALT',
+  --   action = wezterm.action.ActivatePaneDirection "Left",
+  -- },
+  -- {
+  --   key = 'DownArrow',
+  --   mods = 'ALT',
+  --   action = wezterm.action.ActivatePaneDirection "Down",
+  -- },
+  -- {
+  --   key = 'RightArrow',
+  --   mods = 'ALT',
+  --   action = wezterm.action.ActivatePaneDirection "Right" ,
+  -- },
 }
 -- Make sure word selection stops on most punctuations.
 --
