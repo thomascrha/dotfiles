@@ -126,6 +126,7 @@ set $browser firefox
 set $filemanager thunar
 set $email evolution
 set $notes obsidian
+set $teams teams-for-linux
 
 ### Key bindings
 #
@@ -135,12 +136,14 @@ bindsym $mod+b exec $exec_or_move $browser
 bindsym $mod+f exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
 bindsym $mod+n exec $exec_or_move $notes
+bindsym $mod+m exec $exec_or_move $teams
 
 bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Shift+b exec MOZ_ENABLE_WAYLAND=1 $browser
 bindsym $mod+Shift+f exec $filemanager
 bindsym $mod+Shift+e exec $email
 bindsym $mod+Shift+n exec flatpak run md.$notes.Obsidian
+bindsym $mod+Shift+m exec $teams
 
 # Kill focused window
 bindsym $mod+q kill
@@ -168,20 +171,8 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-#
+
 # Workspaces:
-#
-# Switch to workspace
-# bindsym $mod+1 workspace number 1
-# bindsym $mod+2 workspace number 2
-# bindsym $mod+3 workspace number 3
-# bindsym $mod+4 workspace number 4
-# bindsym $mod+5 workspace number 5
-# bindsym $mod+6 workspace number 6
-# bindsym $mod+7 workspace number 7
-# bindsym $mod+8 workspace number 8
-# bindsym $mod+9 workspace number 9
-# bindsym $mod+0 workspace number 10
 
 bindsym --no-repeat $mod+1 workspace number 1; exec "echo 1 > /tmp/sovpipe"
 bindsym --no-repeat $mod+2 workspace number 2; exec "echo 1 > /tmp/sovpipe"
@@ -319,7 +310,7 @@ bindsym $mod+Ctrl+Space exec playerctl play-pause
 #########################################################################################
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
 set $ddterm-id dropdown-terminal
-set $ddterm WEZTERM_GUAKE=on $term start --class $ddterm-id
+set $ddterm WEZTERM_GUAKE=on $terminal start --class $ddterm-id
 set $ddterm-resize resize set 100ppt 60ppt, move position 0 0
 
 # resize/move new dropdown terminal windows
