@@ -1,0 +1,11 @@
+[Unit]
+Description=blueman-applet docklet
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/blueman-applet.log
+StandardError=append:/tmp/blueman-applet.log
+ExecStart=/usr/bin/blueman-applet
+
+[Install]
+WantedBy=multi-user.target

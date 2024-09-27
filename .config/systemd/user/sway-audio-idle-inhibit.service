@@ -1,0 +1,11 @@
+[Unit]
+Description=sway-audio-idle-inhibit
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/sway-audio-idle-inhibit.log
+StandardError=append:/tmp/sway-audio-idle-inhibit.log
+ExecStart=/usr/bin/sway-audio-idle-inhibit
+
+[Install]
+WantedBy=multi-user.target

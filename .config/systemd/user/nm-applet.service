@@ -1,0 +1,12 @@
+[Unit]
+Description=nm-applet docklet
+
+[Service]
+Type=oneshot
+; Type=simple
+; StandardOutput=append:/tmp/nm-applet.log
+; StandardError=append:/tmp/nm-applet.log
+ExecStart=/usr/bin/nm-applet
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+[Unit]
+Description=wlsunset dim screen at sunset
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/wlsunset.log
+StandardError=append:/tmp/wlsunset.log
+Restart=always
+ExecStart=/bin/sh -c '/usr/bin/wlsunset -l -33.7 -L 150.3'
+
+[Install]
+WantedBy=multi-user.target
+
+; [Unit]
+; Description=Apache Spark Master and Slave Servers
+; After=network.target
+; After=network-online.target
+;
+; [Service]
+; User=spark
+; Type=forking
+; ExecStart=/opt/spark-1.6.1-bin-hadoop2.6/sbin/start-all.sh
+; ExecStop=/opt/spark-1.6.1-bin-hadoop2.6/sbin/stop-all.sh
+; TimeoutSec=30
+; Restart=on-failure
+; RestartSec=30
+; StartLimitInterval=350
+; StartLimitBurst=10
+;
+; [Install]
+; WantedBy=multi-user.targetV
