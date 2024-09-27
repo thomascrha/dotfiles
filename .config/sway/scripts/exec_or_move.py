@@ -45,7 +45,10 @@ async def exec_or_move(window_name: str) -> None:
         print('Window not found')
 
         # create application window
-        _ = await i3.command(f'exec {APPLICATIONS.get(window_name.lower(), window_name.lower())}')
+        container = await i3.command(f'exec {APPLICATIONS.get(window_name.lower(), window_name.lower())}')
+
+        # focus on newly created window
+        _ = await i3.command(f'[con_id={container.id}] focus')
 
         return
 
@@ -58,6 +61,8 @@ async def exec_or_move(window_name: str) -> None:
 
     # move to current workspace
     _ = await i3.command(f'[con_id={container.id}] move container to workspace current')
+    # focus on newly created window
+    _ = await i3.command(f'[con_id={container.id}] focus')
 
 
 if __name__ == '__main__':
