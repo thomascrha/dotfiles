@@ -1,6 +1,8 @@
 [Unit]
 Description=kdeconnect-indicator docklet
 After=systemd-user-sessions.service
+After=network.target
+After=network-online.target
 
 [Service]
 Type=oneshot
@@ -10,12 +12,10 @@ Type=oneshot
 ExecStart=/usr/bin/kdeconnect-indicator
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 ; [Unit]
 ; Description=Apache Spark Master and Slave Servers
-; After=network.target
-; After=network-online.target
 ;
 ; [Service]
 ; User=spark

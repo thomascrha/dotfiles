@@ -1,5 +1,8 @@
 [Unit]
 Description=nm-applet docklet
+After=systemd-user-sessions.service
+After=network.target
+After=network-online.target
 
 [Service]
 Type=oneshot
@@ -9,4 +12,4 @@ Type=oneshot
 ExecStart=/usr/bin/nm-applet
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

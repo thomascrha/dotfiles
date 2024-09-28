@@ -10,7 +10,7 @@ Restart=always
 ExecStart=/bin/sh -c '/usr/bin/autotiling --limit 2'
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 ; [Unit]
 ; Description=Apache Spark Master and Slave Servers

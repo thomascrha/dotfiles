@@ -1,11 +1,12 @@
 [Unit]
 Description=blueman-applet docklet
+After=systemd-user-sessions.service
 
 [Service]
-Type=simple
-StandardOutput=append:/tmp/blueman-applet.log
-StandardError=append:/tmp/blueman-applet.log
+Type=oneshot
+; StandardOutput=append:/tmp/blueman-applet.log
+; StandardError=append:/tmp/blueman-applet.log
 ExecStart=/usr/bin/blueman-applet
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

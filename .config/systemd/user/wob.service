@@ -10,7 +10,7 @@ Restart=always
 ExecStart=/bin/sh -c 'rm -f /tmp/wob.sock && mkfifo /tmp/wob.sock && tail -f /tmp/wob.sock | wob -vv'
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 ; [Unit]
 ; Description=Apache Spark Master and Slave Servers

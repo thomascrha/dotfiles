@@ -10,7 +10,7 @@ Restart=always
 ExecStart=sh -c 'rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov -vv > /tmp/sov.log'
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 ; [Unit]
 ; Description=Apache Spark Master and Slave Servers

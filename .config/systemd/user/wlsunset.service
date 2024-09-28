@@ -1,6 +1,8 @@
 [Unit]
 Description=wlsunset dim screen at sunset
 After=systemd-user-sessions.service
+After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
@@ -10,12 +12,10 @@ Restart=always
 ExecStart=/bin/sh -c '/usr/bin/wlsunset -l -33.7 -L 150.3'
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 ; [Unit]
 ; Description=Apache Spark Master and Slave Servers
-; After=network.target
-; After=network-online.target
 ;
 ; [Service]
 ; User=spark
