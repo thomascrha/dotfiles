@@ -179,6 +179,7 @@
 
     "temperature": {
       "critical-threshold": 80,
+      "thermal-zone": 9,
       "interval": 5,
       "format": "{icon} {temperatureC}°C",
       "format-icons": [
