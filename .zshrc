@@ -154,6 +154,16 @@ rir() {
     fi;
 }
 
+# upgrade system using dnf or apt determined by the system-files
+upgrade() {
+    if [[ -f /etc/redhat-release ]]; then
+        sudo dnf upgrade -y
+    elif [[ -f /etc/debian_version ]]; then
+        sudo apt update -y && sudo apt upgrade -y
+    fi
+}
+
+
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc"
 fi
@@ -171,7 +181,6 @@ alias la='ls -lA'
 alias l='ls -CF'
 alias e="exit"
 alias c='clear'
-# alias reload='source ~/.zshrc'
 alias reload='exec zsh'
 alias editrc='nvim ~/.zshrc'
 
@@ -198,12 +207,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
 
-alias update='sudo apt update -y'
-alias upgrade='sudo apt update -y && sudo apt upgrade -y'
 alias mg='sudo mount -t nfs -o vers=4 192.168.10.2:/game ~/game'
-alias rw='~/system-files/scripts/re-window.sh'
-
-# alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 
 ### tmux
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
@@ -217,9 +221,6 @@ alias vim='nvim'
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc9"
 fi
-# if [[ -d $HOME/cargo ]]; then
-#     source $HOME/.cargo/env
-# fi
 
 # Set up go env
 if [[ -f /usr/local/go/bin/go ]]; then
