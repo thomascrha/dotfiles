@@ -129,7 +129,7 @@ set $menu rofi -modi drun -show drun -show-icons
 #
 set $exec_or_move /home/tcrha/.config/sway/scripts/exec_or_move.py
 set $terminal wezterm
-set $browser firefox
+set $browser 'MOZ_ENABLE_WAYLAND=1 firefox'
 set $filemanager thunar
 set $email evolution
 set $notes obsidian
@@ -146,10 +146,10 @@ bindsym $mod+n exec $exec_or_move $notes
 bindsym $mod+m exec $exec_or_move $teams
 
 bindsym $mod+Shift+Return exec $terminal
-bindsym $mod+Shift+b exec MOZ_ENABLE_WAYLAND=1 $browser
+bindsym $mod+Shift+b exec $browser
 bindsym $mod+Shift+f exec $filemanager
 bindsym $mod+Shift+e exec $email
-bindsym $mod+Shift+n exec flatpak run md.$notes.Obsidian
+bindsym $mod+Shift+n exec $notes
 bindsym $mod+Shift+m exec $teams
 
 # Kill focused window
