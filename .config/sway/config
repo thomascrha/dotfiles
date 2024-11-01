@@ -1,4 +1,4 @@
-# vim: set ft=swayconfig ts=4 sw=4:
+# vim: set ft=swayconfig ts=2 sw=2:
 #########################################################################################
 # General Settings ######################################################################
 #########################################################################################
@@ -51,8 +51,8 @@ input type:touchpad {
 }
 
 input type:keyboard {
-    xkb_layout us
-    xkb_options caps:escape
+  xkb_layout us
+  xkb_options caps:escape
 }
 
 ### fonts
@@ -358,6 +358,7 @@ for_window [window_role="task_dialog"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
+for_window [app_id="org.gnome.Calculator"] floating enable
 popup_during_fullscreen smart
 for_window [app_id="lxqt-policykit-agent"] {
     floating enable

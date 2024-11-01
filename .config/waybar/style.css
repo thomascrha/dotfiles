@@ -51,7 +51,7 @@
     background: #323232;
     color: white;
     font-family: Cantarell, Noto Sans, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 /* Each module */
@@ -68,6 +68,7 @@
 #window,
 #disk,
 #custom-media,
+#custom-power
 #tray {
     padding-left: 5px;
     padding-right: 5px;
@@ -78,6 +79,21 @@
  * Module styles
  * -------------------------------------------------------------------------- */
 
+#custom-media {
+    font-size: 14px;
+    margin: 2px 7px 0px 7px;
+}
+
+#custom-power {
+    font-size: 18px;
+    margin: 2px 7px 0px 7px;
+    padding-top: 5px;
+}
+#custom-weather {
+    font-size: 14px;
+    margin: 2px 7px 0px 7px;
+    padding-top: 3px;
+}
 #idle_inhibitor {
     font-size: 18px;
     margin: 2px 7px 0px 7px;
@@ -121,10 +137,6 @@
     font-weight: bold;
 }
 
-#cpu {
-  /* No styles */
-}
-
 #cpu.warning {
     color: orange;
 }
@@ -156,36 +168,12 @@
     padding-bottom: 2px;
 }
 
-#network {
-    /* No styles */
-}
-
 #network.disconnected {
     color: orange;
 }
 
-#pulseaudio {
-    /* No styles */
-}
-
-#pulseaudio.muted {
-    /* No styles */
-}
-
-#custom-spotify {
-    color: rgb(102, 220, 105);
-}
-
-#temperature {
-    /* No styles */
-}
-
 #temperature.critical {
     color: red;
-}
-
-#tray {
-    /* No styles */
 }
 
 #window {

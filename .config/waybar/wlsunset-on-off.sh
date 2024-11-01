@@ -1,8 +1,15 @@
 #!/bin/bash
 
-if pgrep -x "wlsunset" > /dev/null
+if pgrep -x "wlsunset"
 then
-    pkill wlsunset > /dev/null 2>&1
+    systemctl --user stop wlsunset
+    rm /tmp/wlsunset.state
+    ICON=""
 else
-    wlsunset -l -33.7 -L 150.3 > /dev/null 2>&1 &
+    systemctl --user start wlsunset
+    rm /tmp/wlsunset.state
+    ICON=""
 fi
+
+echo "{\"text\":\"${ICON}\", \"tooltip\":\"$(cat /tmp/wlsunset.log | grep -e 'calculated sun trajectory' | tail -1 | awk '{sub(/calculated sun trajectory: /, ""); print}')\"}" > /tmp/wlsunset.state
+

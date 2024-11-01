@@ -22,7 +22,8 @@
     "modules-left": [
       "sway/workspaces",
       "sway/window",
-      "sway/mode"
+      "sway/mode",
+      "custom/media"
     ],
     "modules-center": [
       "custom/weather",
@@ -31,7 +32,6 @@
     ],
     "modules-right": [
       "custom/recorder",
-      "custom/media",
       "disk",
       "memory",
       "cpu",
@@ -41,19 +41,35 @@
       "backlight",
       "idle_inhibitor",
       "custom/wlsunset",
-      "tray"
+      "tray",
+      "custom/power"
     ],
 
 
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
-    "custom/wlsunset": {
-      "format": "",
-      "tooltip": true,
-      "tooltip-format": "wlsunset-on-off",
-      "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh"
+    "custom/power": {
+      "format" : "⏻ ",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "/home/tcrha/.config/waybar/power_menu.xml",
+        "menu-actions": {
+          "shutdown": "shutdown",
+          "reboot": "reboot",
+          "suspend": "systemctl suspend",
+          "hibernate": "systemctl hibernate",
+        },
     },
+
+    "custom/wlsunset": {
+      "return-type": "json",
+      "exec": "cat /tmp/wlsunset.state",
+      "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh",
+      "tooltip": true,
+      "interval": 1
+    },
+
     "idle_inhibitor": {
       "format": "{icon}",
       "format-icons": {

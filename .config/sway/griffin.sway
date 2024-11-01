@@ -7,21 +7,21 @@ output eDP-1 {
     transform normal
     scale 0.9
 }
-# output "Dell Inc. DELL U3023E 66YJ4H3" {
-#     mode  2561x1600@59.972Hz
-#     pos 2560 0
-#     transform normal
-#     scale 1.0
-#     scale_filter nearest
-#     adaptive_sync off
-#     dpms on
-# }
-# output "Dell Inc. DELL U3023E 40G15H3" {
-#     mode  2560x1600@59.972Hz
-#     pos 0 2560
-#     transform normal
-#     scale 1.0
-#     scale_filter nearest
-#     adaptive_sync off
-#     dpms on
-# }
+output "Dell Inc. DELL U3023E 66YJ4H3" {
+    mode  2561x1600@59.972Hz
+    pos 2560 0
+    transform normal
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync off
+    dpms on
+}
+output "Dell Inc. DELL U3023E 40G15H3" {
+    mode  2560x1600@59.972Hz
+    pos 0 2560
+    transform normal
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync off
+    dpms on
+}
