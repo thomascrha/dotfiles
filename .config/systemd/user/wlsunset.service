@@ -9,7 +9,7 @@ Type=simple
 StandardOutput=append:/tmp/wlsunset.log
 StandardError=append:/tmp/wlsunset.log
 Restart=always
-ExecStart=/bin/sh -c 'echo "" > /tmp/wlsunset.state && /usr/bin/wlsunset -l -33.7 -L 150.3'
+ExecStart=/bin/bash -c 'rm /tmp/wlsunset.state && echo "{\\"text\\":\\"\\", \\"tooltip\\":\\"hello\\"}" > /tmp/wlsunset.state && /usr/bin/wlsunset -l -33.7 -L 150.3'
 
 [Install]
 WantedBy=default.target

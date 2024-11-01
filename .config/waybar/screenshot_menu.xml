@@ -12,6 +12,11 @@
 			</object>
 		</child>
 		<child>
+			<object class="GtkMenuItem" id="screenshot-edit-selection">
+				<property name="label">Selection Screenshot (edit)</property>
+			</object>
+		</child>
+		<child>
 			<object class="GtkMenuItem" id="screenshot-file-fullscreen">
 				<property name="label">Fullscreen Screenshot (file)</property>
 			</object>
@@ -19,6 +24,11 @@
 		<child>
 			<object class="GtkMenuItem" id="screenshot-clipboard-fullscreen">
 				<property name="label">Fullscreen Screenshot (clip)</property>
+			</object>
+		</child>
+		<child>
+			<object class="GtkMenuItem" id="screenshot-edit-selection">
+				<property name="label">Selection Screenshot (edit)</property>
 			</object>
 		</child>
 	</object>
