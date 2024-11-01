@@ -43,6 +43,7 @@
       "custom/wlsunset",
       "tray",
       "custom/power"
+      //"custom/screenshotting"
     ],
 
 
@@ -50,16 +51,16 @@
     // Modules
     // -------------------------------------------------------------------------
     "custom/power": {
-      "format" : "⏻ ",
-        "tooltip": false,
-        "menu": "on-click",
-        "menu-file": "/home/tcrha/.config/waybar/power_menu.xml",
-        "menu-actions": {
-          "shutdown": "shutdown",
-          "reboot": "reboot",
-          "suspend": "systemctl suspend",
-          "hibernate": "systemctl hibernate",
-        },
+      "format" : "⏻",
+      "tooltip": false,
+      "menu": "on-click",
+      "menu-file": "/home/tcrha/.config/waybar/power_menu.xml",
+      "menu-actions": {
+        "shutdown": "shutdown",
+        "reboot": "reboot",
+        "suspend": "systemctl suspend",
+        "hibernate": "systemctl hibernate",
+      },
     },
 
     "custom/wlsunset": {

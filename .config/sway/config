@@ -347,9 +347,8 @@ bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
   || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
 
 #########################################################################################
-# Application settings ####### ###########################################################
+# Application settings ##################################################################
 #########################################################################################
-
 # focus, floating, & sticky
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable
 for_window [window_role="pop-up"] floating enable
