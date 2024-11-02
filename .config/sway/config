@@ -138,7 +138,8 @@ set $teams teams-for-linux
 #
 # Basics:
 bindsym $mod+Return exec $exec_or_move $terminal
-bindsym $mod+b exec $exec_or_move $browser
+# requried as the env variable MOZ_ENABLE_WAYLAND=1 breaks the script
+bindsym $mod+b exec $exec_or_move firefox
 bindsym $mod+f exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
 bindsym $mod+n exec $exec_or_move $notes
