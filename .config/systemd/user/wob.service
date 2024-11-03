@@ -12,21 +12,3 @@ ExecStart=/bin/sh -c 'rm -f /tmp/wob.sock && mkfifo /tmp/wob.sock && tail -f /tm
 [Install]
 WantedBy=default.target
 
-; [Unit]
-; Description=Apache Spark Master and Slave Servers
-; After=network.target
-; After=network-online.target
-;
-; [Service]
-; User=spark
-; Type=forking
-; ExecStart=/opt/spark-1.6.1-bin-hadoop2.6/sbin/start-all.sh
-; ExecStop=/opt/spark-1.6.1-bin-hadoop2.6/sbin/stop-all.sh
-; TimeoutSec=30
-; Restart=on-failure
-; RestartSec=30
-; StartLimitInterval=350
-; StartLimitBurst=10
-;
-; [Install]
-; WantedBy=multi-user.targetV

@@ -1,13 +1,12 @@
 #!/bin/bash
+rm /tmp/wlsunset.state
 
 if pgrep -x "wlsunset"
 then
     systemctl --user stop wlsunset
-    rm /tmp/wlsunset.state
     ICON=""
 else
     systemctl --user start wlsunset
-    rm /tmp/wlsunset.state
     ICON=""
 fi
 
