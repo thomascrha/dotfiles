@@ -157,7 +157,7 @@ rir() {
 # upgrade system using dnf or apt determined by the system-files
 upgrade() {
     if [[ -f /etc/redhat-release ]]; then
-        sudo dnf upgrade -y
+        sudo dnf --refresh upgrade -y
     elif [[ -f /etc/debian_version ]]; then
         sudo apt update -y && sudo apt upgrade -y
     fi

@@ -7,7 +7,7 @@ Type=simple
 StandardOutput=append:/tmp/autotiling.log
 StandardError=append:/tmp/autotiling.log
 Restart=always
-ExecStart=/bin/sh -c '/usr/bin/autotiling --limit 2'
+ExecStart=/bin/sh -c '/home/tcrha/.local/bin/autotiling --limit 2'
 
 [Install]
 WantedBy=default.target
