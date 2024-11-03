@@ -4,8 +4,6 @@ After=systemd-user-sessions.service
 
 [Service]
 Type=oneshot
-; StandardOutput=append:/tmp/blueman-applet.log
-; StandardError=append:/tmp/blueman-applet.log
 ExecStart=/usr/bin/blueman-applet
 
 [Install]

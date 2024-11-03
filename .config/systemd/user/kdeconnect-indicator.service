@@ -1,12 +1,13 @@
 [Unit]
 Description=kdeconnect-indicator docklet
 After=graphical-session.target
-; After=systemd-user-sessions.service
-; After=network.target
-; After=network-online.target
+After=systemd-user-sessions.service
+After=network.target
+After=network-online.target
 
 [Service]
-Type=oneshot
+Type=simple
+Restart=always
 ExecStart=/usr/bin/kdeconnect-indicator
 
 [Install]

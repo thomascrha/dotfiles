@@ -6,9 +6,6 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-; Type=simple
-; StandardOutput=append:/tmp/nm-applet.log
-; StandardError=append:/tmp/nm-applet.log
 ExecStart=/usr/bin/nm-applet
 
 [Install]

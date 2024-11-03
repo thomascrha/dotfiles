@@ -9,24 +9,7 @@ Type=simple
 StandardOutput=append:/tmp/wlsunset.log
 StandardError=append:/tmp/wlsunset.log
 Restart=always
-ExecStart=/bin/bash -c 'rm /tmp/wlsunset.state && echo "{\\"text\\":\\"\\", \\"tooltip\\":\\"hello\\"}" > /tmp/wlsunset.state && /usr/bin/wlsunset -l -33.7 -L 150.3'
+ExecStart=/bin/bash -c 'rm /tmp/wlsunset.state || true && echo "{\\"text\\":\\"\\", \\"tooltip\\":\\"hello\\"}" > /tmp/wlsunset.state && /usr/bin/wlsunset -l -33.7 -L 150.3'
 
 [Install]
 WantedBy=default.target
-
-; [Unit]
-; Description=Apache Spark Master and Slave Servers
-;
-; [Service]
-; User=spark
-; Type=forking
-; ExecStart=/opt/spark-1.6.1-bin-hadoop2.6/sbin/start-all.sh
-; ExecStop=/opt/spark-1.6.1-bin-hadoop2.6/sbin/stop-all.sh
-; TimeoutSec=30
-; Restart=on-failure
-; RestartSec=30
-; StartLimitInterval=350
-; StartLimitBurst=10
-;
-; [Install]
-; WantedBy=multi-user.targetV
