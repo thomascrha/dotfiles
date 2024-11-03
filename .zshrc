@@ -181,7 +181,7 @@ alias la='ls -lA'
 alias l='ls -CF'
 alias e="exit"
 alias c='clear'
-alias reload='exec zsh'
+alias reload='clear && exec zsh'
 alias editrc='nvim ~/.zshrc'
 
 # docker
@@ -230,6 +230,13 @@ fi
 
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc 10"
+fi
+
+#########################################################################################
+#Linux Native#####################################################################################
+#########################################################################################
+if [[ $(grep Linux /proc/version) ]]; then
+    alias wezterm='flatpak run org.wezfurlong.wezterm'
 fi
 
 #########################################################################################
