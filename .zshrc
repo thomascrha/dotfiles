@@ -156,8 +156,14 @@ rir() {
 
 # upgrade system using dnf or apt determined by the system-files
 upgrade() {
+    # check if flatpak is installed
+    if [ -x "$(command -v flatpak)" ]; then
+        flatpak update -y
+    fi
+
     if [[ -f /etc/redhat-release ]]; then
         sudo dnf --refresh upgrade -y
+
     elif [[ -f /etc/debian_version ]]; then
         sudo apt update -y && sudo apt upgrade -y
     fi
