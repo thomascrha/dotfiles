@@ -31,7 +31,6 @@
       "clock#time"
     ],
     "modules-right": [
-      "custom/screenshotting",
       "custom/recorder",
       "disk",
       "memory",
@@ -43,6 +42,7 @@
       "idle_inhibitor",
       "custom/wlsunset",
       "tray",
+      "custom/screenshotting",
       "custom/power"
     ],
 
@@ -63,18 +63,18 @@
         "logout": "swaymsg exit"
       }
     },
-    "cusom/screenshotting": {
-      "format": "",
+    "custom/screenshotting": {
+      "format": "",
       "tooltip": false,
       "menu": "on-click",
       "menu-file": "/home/tcrha/.config/waybar/screenshot_menu.xml",
       "menu-actions": {
-        "screenshot-file-selection": "grimshot --notify save area",
-        "screenshot-clipboard-selection": "grimshot --notify copy area",
-        "screenshot-edit-selection": "grim -g \"$(slurp)\" - | swappy -f -",
-        "screenshot-file-fullscreen": "grimshot --notify save",
-        "screenshot-edit-fullscreen": "grim -g \"$(slurp)\" | swappy -f -",
-        "screenshot-clipboard-fullscreen": "grimshot --notify copy"
+        "screenshot-selection-file": "grimshot --notify save area",
+        "screenshot-selection-clip": "grimshot --notify copy area",
+        "screenshot-selection-edit": "grim -g \"$(slurp)\" - | swappy -f -",
+        "screenshot-fullscreen-file": "grimshot --notify save",
+        "screenshot-fullscreen-clip": "grimshot --notify copy",
+        "screenshot-fullscreen-edit": "grim - | swappy -f -"
       }
     },
 

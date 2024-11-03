@@ -57,6 +57,7 @@
 /* Each module */
 #battery,
 #clock,
+#custom-screenshotting,
 #custom-weather,
 #cpu,
 #custom-keyboard-layout,
@@ -84,6 +85,10 @@
     margin: 2px 7px 0px 7px;
 }
 
+#custom-screenshotting {
+    font-size: 18px;
+    margin: 2px 7px 0px 7px;
+}
 #custom-power {
     font-size: 18px;
     margin: 2px 7px 0px 7px;

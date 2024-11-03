@@ -69,57 +69,6 @@ for_window [shell="xwayland"] title_format "[XWayland] %title"
 exec_always ps aux | grep wl-paste | grep -v grep || wl-paste -t text --watch clipman store &> /tmp/clipman.log
 bindsym $mod+c exec "clipman pick -t rofi --err-on-no-selection && wtype -M ctrl -M shift v"
 
-#########################################################################################
-# Sway execs ############################################################################
-#########################################################################################
-# Note the exec_always commands initially check to see if there is already an instance of the program running.
-# This is to prevent multiple instances of the same program from running. i.e. check || if error then run
-
-### Workstyle
-# Adds names and icons to workspaces
-# exec_always ps aux | grep workstyle | grep -v grep || workstyle &> /tmp/workstyle.log
-# exec sworkstyle &> /tmp/sworkstyle.log
-#
-### nm-applet
-# Network manager applet
-# exec_always ps aux | grep nm-applet | grep -v grep || nm-applet --indicator &> /tmp/nm-applet.log
-#!/bin/sh
-
-# exec_always ps aux | grep sway-audio-idle-inhibit | grep -v grep || sway-audio-idle-inhibit &> /tmp/sway-audio-idle-inhibit.log
-
-### blueman-applet
-# exec_always ps aux | grep blueman-applet | grep -v grep || blueman-applet &> /tmp/blueman-applet.log
-
-# Wob setup
-# exec_always ps aux | grep wob | grep -v grep || rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob -vv > /tmp/wob.log
-
-## dim screen
-# exec_always ps aux | grep wlsunset | grep -v grep || wlsunset -l -33.7 -L 150.3
-
-### autotiling
-# exec_always ps aux | grep autotiling | grep -v grep || autotiling --limit 2 &> /tmp/autotiling.log
-
-### kdeconnect-indicator
-# exec_always ps aux | grep kdeconnect-indicator | grep -v grep || kdeconnect-indicator -
-
-# exec_always ps aux | grep sov | grep -v grep | grep -v sovpipe || sh -c 'rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov -vv > /tmp/sov.log'
-
-### wallpaper
-# exec_always ps aux | grep rotate-wallpaper | grep -v grep || /home/tcrha/.config/sway/rotate-wallpaper.sh ~/Pictures/wallpapers 360
-
-### Idle configuration
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-# exec swayidle -w \
-#     timeout 300 'swaylock -f -c 000000' \
-#     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#     before-sleep 'swaylock -f -c 000000'
-
-# lock screen before suspend. Use loginctl lock-session to lock your screen.
-# exec swayidle -w timeout 300 'swaylock -C$HOME/.config/swaylock/config' timeout 420 'systemctl suspend' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock'
-# exec swayidle lock 'swaymsg "output * dpms on"&& swaylock' unlock 'kill -s 1 $(pgrep swaylock)'
-
 ########################################################################################
 # Applications and Bindings ############################################################
 ########################################################################################

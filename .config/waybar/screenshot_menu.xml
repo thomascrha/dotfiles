@@ -2,33 +2,33 @@
 <interface>
 	<object class="GtkMenu" id="menu">
 		<child>
-			<object class="GtkMenuItem" id="screenshot-file-selection">
+			<object class="GtkMenuItem" id="screenshot-selection-file">
 				<property name="label">Selection Screenshot (file)</property>
 			</object>
 		</child>
 		<child>
-			<object class="GtkMenuItem" id="screenshot-clipboard-selection">
+			<object class="GtkMenuItem" id="screenshot-selection-clip">
 				<property name="label">Selection Screenshot (clip)</property>
 			</object>
 		</child>
 		<child>
-			<object class="GtkMenuItem" id="screenshot-edit-selection">
+			<object class="GtkMenuItem" id="screenshot-selection-edit">
 				<property name="label">Selection Screenshot (edit)</property>
 			</object>
 		</child>
 		<child>
-			<object class="GtkMenuItem" id="screenshot-file-fullscreen">
+			<object class="GtkMenuItem" id="screenshot-fullscreen-file">
 				<property name="label">Fullscreen Screenshot (file)</property>
 			</object>
 		</child>
 		<child>
-			<object class="GtkMenuItem" id="screenshot-clipboard-fullscreen">
+			<object class="GtkMenuItem" id="screenshot-fullscreen-clip">
 				<property name="label">Fullscreen Screenshot (clip)</property>
 			</object>
 		</child>
 		<child>
-			<object class="GtkMenuItem" id="screenshot-edit-selection">
-				<property name="label">Selection Screenshot (edit)</property>
+			<object class="GtkMenuItem" id="screenshot-fullscreen-edit">
+				<property name="label">Fullscreen Screenshot (edit)</property>
 			</object>
 		</child>
 	</object>
