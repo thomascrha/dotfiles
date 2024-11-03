@@ -7,6 +7,7 @@ import asyncio
 APPLICATIONS = {
     'firefox': 'MOZ_ENABLE_WAYLAND=1 firefox',
     'obsidian': 'flatpak run md.obsidian.Obsidian',
+    'wezterm': 'flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua'
 }
 
 def get_container(tree: Con, window_name: str):

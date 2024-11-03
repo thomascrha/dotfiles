@@ -28,7 +28,7 @@ local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.8
 end
-
+config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
 config.default_gui_startup_args = {'start', '--always-new-process'}
 

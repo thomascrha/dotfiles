@@ -127,7 +127,7 @@ set $menu rofi -modi drun -show drun -show-icons
 
 #
 set $exec_or_move /home/tcrha/.config/sway/scripts/exec_or_move.py
-set $terminal wezterm
+set $terminal flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua
 set $browser 'MOZ_ENABLE_WAYLAND=1 firefox'
 set $filemanager thunar
 set $email evolution
@@ -137,12 +137,12 @@ set $teams teams-for-linux
 ### Key bindings
 #
 # Basics:
-bindsym $mod+Return exec $exec_or_move $terminal
+bindsym $mod+Return exec $exec_or_move wezterm
 # requried as the env variable MOZ_ENABLE_WAYLAND=1 breaks the script
 bindsym $mod+b exec $exec_or_move firefox
 bindsym $mod+f exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
-bindsym $mod+n exec $exec_or_move $notes
+bindsym $mod+n exec $exec_or_move obsidian
 bindsym $mod+m exec $exec_or_move $teams
 
 bindsym $mod+Shift+Return exec $terminal
@@ -333,6 +333,7 @@ bindsym $mod+Ctrl+Space exec playerctl play-pause
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
 set $ddterm-id dropdown-terminal
 set $ddterm WEZTERM_GUAKE=on $terminal start --class $ddterm-id
+# set $ddterm WEZTERM_GUAKE=on flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua start --class $ddterm-id
 set $ddterm-resize resize set 100ppt 60ppt, move position 0 0
 
 # resize/move new dropdown terminal windows
