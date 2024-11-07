@@ -1,0 +1,14 @@
+[Unit]
+Description=lisgd touchscreen gestures
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/lisgd.log
+StandardError=append:/tmp/lisgd.log
+Restart=always
+ExecStart=lisgd -d /dev/input/event
+
+[Install]
+WantedBy=default.target
+

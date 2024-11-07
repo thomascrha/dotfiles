@@ -2,7 +2,7 @@
 
 running_apps=$(pgrep -fc "swaylock-effects")
 if [ "$running_apps" = 0 ]; then
-    LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-1}
+    LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-300}
     swayidle -w \
         timeout $LT 'swaylock-effects -f' \
         timeout $((LT + ST)) 'swaymsg "output * power off"' \

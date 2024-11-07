@@ -1,0 +1,14 @@
+[Unit]
+Description=rot8 rotation using accelarometer
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/rot8.log
+StandardError=append:/tmp/rot8.log
+Restart=always
+ExecStart=rot8 --hooks 'systemctl --user restart lisgd.service'
+
+[Install]
+WantedBy=default.target
+

@@ -81,9 +81,7 @@ bindkey -v
 #
 # zsh-history-substring-search
 #
-
-# enable vim
-bindkey -v
+bindkey '^R' history-incremental-search-backward
 zmodload -F zsh/terminfo +p:terminfo
 # Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
 for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up

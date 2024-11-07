@@ -50,6 +50,7 @@ input type:touchpad {
   middle_emulation enabled
 }
 
+
 input type:keyboard {
   xkb_layout us
   xkb_options caps:escape
@@ -80,7 +81,7 @@ set $terminal flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm
 set $browser MOZ_ENABLE_WAYLAND=1 firefox
 set $filemanager thunar
 set $email evolution
-set $notes obsidian
+set $notes flatpak run md.obsidian.Obsidian
 set $teams teams-for-linux
 
 ### Key bindings
@@ -295,6 +296,21 @@ for_window [app_id="$ddterm-id"] {
 # show existing or start new dropdown terminal
 bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
   || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+
+#########################################################################################
+# Rotation ##############################################################################
+#########################################################################################
+
+bindswitch tablet:on exec 'squeekboard &', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger map_to_output eDP-1', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen map_to_output eDP-1'
+bindswitch tablet:off exec 'killall squeekboard &', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger eDP-1', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen ap_to_output eDP-1'
+
+# TODO move to systemd
+exec rot8 --hooks 'killall lisgd; lisgd -d /dev/input/event5 &'
+exec 'lisgd -d /dev/input/event5 &'
 
 #########################################################################################
 # Application settings ##################################################################
