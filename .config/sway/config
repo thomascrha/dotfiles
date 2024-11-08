@@ -308,10 +308,6 @@ bindswitch tablet:off exec 'killall squeekboard &', \
     exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger eDP-1', \
     exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen ap_to_output eDP-1'
 
-# TODO move to systemd
-exec rot8 --hooks 'killall lisgd; lisgd -d /dev/input/event5 &'
-exec 'lisgd -d /dev/input/event5 &'
-
 #########################################################################################
 # Application settings ##################################################################
 #########################################################################################

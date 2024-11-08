@@ -7,7 +7,7 @@ Type=simple
 StandardOutput=append:/tmp/lisgd.log
 StandardError=append:/tmp/lisgd.log
 Restart=always
-ExecStart=lisgd -d /dev/input/event
+ExecStart=/usr/bin/lisgd -d /dev/input/event5
 
 [Install]
 WantedBy=default.target
