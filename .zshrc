@@ -164,6 +164,9 @@ upgrade() {
 
     elif [[ -f /etc/debian_version ]]; then
         sudo apt update -y && sudo apt upgrade -y
+
+    elif [[ -f /etc/arch-release ]]; then
+        sudo pacman -Syu --noconfirm
     fi
 }
 
