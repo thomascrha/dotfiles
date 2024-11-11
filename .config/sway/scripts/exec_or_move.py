@@ -5,9 +5,9 @@ from i3ipc.aio import Connection, Con
 import asyncio
 
 APPLICATIONS = {
-    'firefox': 'MOZ_ENABLE_WAYLAND=1 firefox',
-    'obsidian': 'flatpak run md.obsidian.Obsidian',
-    'wezterm': 'flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua'
+    # 'firefox': 'MOZ_ENABLE_WAYLAND=1 firefox',
+#     'obsidian': 'flatpak run md.obsidian.Obsidian',
+#     'wezterm': 'flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua'
 }
 
 def get_container(tree: Con, window_name: str):
@@ -48,9 +48,6 @@ async def exec_or_move(window_name: str) -> None:
         # create application window
         container = await i3.command(f'exec {APPLICATIONS.get(window_name.lower(), window_name.lower())}')
 
-        # focus on newly created window
-        _ = await i3.command(f'[con_id={container.id}] focus')
-
         return
 
     container = container[0]
@@ -73,6 +70,7 @@ if __name__ == '__main__':
 
     window_name = sys.argv[1]
 
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     loop.run_until_complete(exec_or_move(window_name=window_name))
 

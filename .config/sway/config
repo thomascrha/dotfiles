@@ -77,12 +77,12 @@ set $menu rofi -modi drun -show drun -show-icons
 
 #
 set $exec_or_move /home/tcrha/.config/sway/scripts/exec_or_move.py
-#set $terminal flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua
 set $terminal wezterm
-set $browser MOZ_ENABLE_WAYLAND=1 firefox
+set $browser firefox
 set $filemanager thunar
 set $email evolution
-set $notes obsidian --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations
+set $notes obsidian
+# --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations
 # set $notes flatpak run md.obsidian.Obsidian
 set $teams teams-for-linux
 
@@ -91,8 +91,8 @@ set $teams teams-for-linux
 # Basics:
 # requried as the variable for each of these will be different
 bindsym $mod+Return exec $exec_or_move $terminal
-bindsym $mod+b exec $exec_or_move firefox
-bindsym $mod+n exec $exec_or_move obsidian
+bindsym $mod+b exec $exec_or_move $browser
+bindsym $mod+n exec $exec_or_move $notes
 bindsym $mod+f exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
 bindsym $mod+m exec $exec_or_move $teams
