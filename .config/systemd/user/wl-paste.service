@@ -1,0 +1,11 @@
+[Unit]
+Description=sway-audio-idle-inhibit
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/sway-audio-idle-inhibit.log
+StandardError=append:/tmp/sway-audio-idle-inhibit.log
+ExecStart=/usr/bin/wl-paste -t text --watch clipman store
+
+[Install]
+WantedBy=default.target

@@ -66,8 +66,7 @@ for_window [shell="xwayland"] title_format "[XWayland] %title"
 # Wipe clipboard on start.
 # exec cliphist wipe
 # Listen to clipboard changes on the primary keyboard.
-# exec wl-paste --watch cliphist store
-exec_always ps aux | grep wl-paste | grep -v grep || wl-paste -t text --watch clipman store &> /tmp/clipman.log
+## Check wl-paste service for more details
 bindsym $mod+c exec "clipman pick -t rofi --err-on-no-selection && wtype -M ctrl -M shift v"
 
 ########################################################################################
