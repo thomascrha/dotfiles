@@ -92,7 +92,7 @@
 #custom-power {
     font-size: 18px;
     margin: 2px 7px 0px 7px;
-    padding-top: 5px;
+    /* padding-top: 5px; */
 }
 #custom-weather {
     font-size: 15px;
