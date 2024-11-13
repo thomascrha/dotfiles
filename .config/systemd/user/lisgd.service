@@ -7,7 +7,7 @@ Type=simple
 StandardOutput=append:/tmp/lisgd.log
 StandardError=append:/tmp/lisgd.log
 Restart=always
-ExecStart=/bin/sh -c /home/tcrha/.config/systemd/user/lisgd-run.sh
+ExecStart=/bin/sh -c /home/tcrha/.config/systemd/user/lisgd-start.sh
 
 [Install]
 WantedBy=default.target

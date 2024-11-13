@@ -57,6 +57,7 @@
 /* Each module */
 #battery,
 #clock,
+#custom-screenrotation-lock,
 #custom-screenshotting,
 #custom-weather,
 #cpu,
@@ -80,6 +81,10 @@
  * Module styles
  * -------------------------------------------------------------------------- */
 
+#custom-screenrotation-lock {
+    font-size: 14px;
+    margin: 2px 0px 0px 0px;
+}
 #custom-media {
     font-size: 14px;
     margin: 2px 7px 0px 7px;

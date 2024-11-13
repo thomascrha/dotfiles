@@ -9,7 +9,7 @@ Type=simple
 StandardOutput=append:/tmp/wlsunset.log
 StandardError=append:/tmp/wlsunset.log
 Restart=always
-ExecStart=/home/tcrha/.config/waybar/wlsunset-start.sh
+ExecStart=/home/tcrha/.config/systemd/user/wlsunset-start.sh
 
 [Install]
 WantedBy=default.target

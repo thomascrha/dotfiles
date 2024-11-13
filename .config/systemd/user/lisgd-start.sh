@@ -1,6 +1,8 @@
 #!/bin/bash
 
-lisgd -d /dev/input/event5 \
+TOUCHSCREEN=/dev/input/event5
+
+lisgd -d $TOUCHSCREEN \
     -g "2,DRUL,*,*,R,pactl set-sink-volume @DEFAULT_SINK@ +10%" \
     -g "2,URDL,*,*,R,pactl set-sink-volume @DEFAULT_SINK@ -10%" \
     -g "3,LR,*,*,R,swaymsg layout tabbed" \

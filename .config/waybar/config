@@ -42,6 +42,7 @@
       "idle_inhibitor",
       "custom/wlsunset",
       "tray",
+      "custom/screenrotation-lock",
       "custom/screenshotting",
       "custom/power"
     ],
@@ -78,6 +79,13 @@
       }
     },
 
+    "custom/screenrotation-lock": {
+      "return-type": "json",
+      "exec": "cat /tmp/rot8.state",
+      "on-click": "/home/tcrha/.config/waybar/rot8-on-off.sh",
+      "tooltip": true,
+      "interval": 1
+    },
     "custom/wlsunset": {
       "return-type": "json",
       "exec": "cat /tmp/wlsunset.state",
