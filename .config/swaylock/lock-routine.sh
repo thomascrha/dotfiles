@@ -1,6 +1,7 @@
 #!/bin/bash
 
-running_apps=$(pgrep -fc "swaylock")
+running_apps=$(pgrep -fc "swaylock -f")
+echo "Running apps: $running_apps"
 if [ $running_apps = 0 ]; then
     LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-300}
     swayidle -w \
