@@ -9,7 +9,12 @@ output "Dell Inc. DELL U3023E 66YJ4H3" {
     scale_filter nearest
     adaptive_sync off
     dpms on
+    bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
+
+set $notes obsidian --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations
+bindsym --no-warn $mod+n exec $exec_or_move $notes
+bindsym --no-warn $mod+Shift+n exec $notes
 
 output "Dell Inc. DELL U3023E 40G15H3" {
     mode  2560x1600@59.972Hz
@@ -19,4 +24,5 @@ output "Dell Inc. DELL U3023E 40G15H3" {
     scale_filter nearest
     adaptive_sync off
     dpms on
+    bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
