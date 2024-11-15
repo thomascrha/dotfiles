@@ -96,7 +96,7 @@ bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Shift+b exec $browser
 bindsym $mod+Shift+f exec $filemanager
 bindsym $mod+Shift+e exec $email
-bindsym $mod+Shift+n exec obsidian
+bindsym $mod+Shift+n exec $notes
 bindsym $mod+Shift+m exec $teams
 
 # Kill focused window
