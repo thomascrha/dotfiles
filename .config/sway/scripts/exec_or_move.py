@@ -5,8 +5,8 @@ from i3ipc.aio import Connection, Con
 import asyncio
 
 APPLICATIONS = {
+    'obsidian': 'obsidian --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations',
     # 'firefox': 'MOZ_ENABLE_WAYLAND=1 firefox',
-#     'obsidian': 'flatpak run md.obsidian.Obsidian',
 #     'wezterm': 'flatpak run org.wezfurlong.wezterm --config-file ~/.config/wezterm/wezterm.lua'
 }
 

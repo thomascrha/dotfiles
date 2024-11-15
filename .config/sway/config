@@ -77,8 +77,7 @@ set $terminal wezterm
 set $browser firefox
 set $filemanager thunar
 set $email evolution
-set $notes obsidian
-# --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations
+set $notes obsidian --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations
 # set $notes flatpak run md.obsidian.Obsidian
 set $teams teams-for-linux
 
@@ -88,7 +87,7 @@ set $teams teams-for-linux
 # requried as the variable for each of these will be different
 bindsym $mod+Return exec $exec_or_move $terminal
 bindsym $mod+b exec $exec_or_move $browser
-bindsym $mod+n exec $exec_or_move $notes
+bindsym $mod+n exec $exec_or_move obsidian
 bindsym $mod+f exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
 bindsym $mod+m exec $exec_or_move $teams
@@ -97,7 +96,7 @@ bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Shift+b exec $browser
 bindsym $mod+Shift+f exec $filemanager
 bindsym $mod+Shift+e exec $email
-bindsym $mod+Shift+n exec $notes
+bindsym $mod+Shift+n exec obsidian
 bindsym $mod+Shift+m exec $teams
 
 # Kill focused window
