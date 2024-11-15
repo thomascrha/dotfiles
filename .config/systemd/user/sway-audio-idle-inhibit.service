@@ -1,5 +1,6 @@
 [Unit]
 Description=sway-audio-idle-inhibit
+After=systemd-user-sessions.service
 
 [Service]
 Type=simple
