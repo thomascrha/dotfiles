@@ -5,9 +5,9 @@ After=systemd-user-sessions.service
 
 [Service]
 Type=simple
-StandardOutput=append:/tmp/autotiling.log
-StandardError=append:/tmp/autotiling.log
-Restart=always
+Restart=on-failure
+StandardError=journal
+StandardOutput=journal
 ExecStart=/usr/bin/autotiling --limit 2
 
 [Install]

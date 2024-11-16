@@ -8,8 +8,10 @@ ConditionEnvironment=WAYLAND_DISPLAY
 [Service]
 Type=simple
 restart=on-failure
-StandardOutput=append:/tmp/wl-paste.log
-StandardError=append:/tmp/wl-paste.log
+StandardOutput=journal
+StandardError=journal
+; StandardOutput=append:/tmp/wl-paste.log
+; StandardError=append:/tmp/wl-paste.log
 ExecStart=/usr/bin/wl-paste -t text --watch clipman store
 
 [Install]

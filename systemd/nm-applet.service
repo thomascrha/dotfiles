@@ -1,13 +1,16 @@
 [Unit]
 Description=nm-applet docklet
-After=systemd-user-sessions.service
-After=network.target
-After=network-online.target
+PartOf=graphical-session.target
+After=graphical-session.target
 After=sway-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=oneshot
+Type=simple
+StandardOutput=journal
+StandardError=journal
+Restart=on-failure
 ExecStart=/usr/bin/nm-applet
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

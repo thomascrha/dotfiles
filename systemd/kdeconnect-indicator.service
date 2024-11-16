@@ -8,9 +8,9 @@ After=network-online.target
 
 [Service]
 Type=simple
-StandardOutput=append:/tmp/kdeconnect-indicator.log
-StandardError=append:/tmp/kdeconnect-indicator.log
-Restart=always
+StandardOutput=journal
+StandardError=journal
+Restart=on-failure
 ExecStart=/usr/bin/kdeconnect-indicator
 
 [Install]

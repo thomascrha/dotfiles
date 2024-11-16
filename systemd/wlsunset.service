@@ -7,8 +7,10 @@ ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
-StandardOutput=append:/tmp/wlsunset.log
-StandardError=append:/tmp/wlsunset.log
+StandardOutput=journal
+StandardError=journal
+; StandardOutput=append:/tmp/wlsunset.log
+; StandardError=append:/tmp/wlsunset.log
 Restart=on-failure
 ExecStart=/usr/lib/systemd/user/wlsunset-start.sh
 

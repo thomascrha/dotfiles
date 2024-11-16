@@ -8,8 +8,10 @@ ConditionEnvironment=WAYLAND_DISPLAY
 [Service]
 Type=simple
 Restart=on-failure
-StandardOutput=append:/tmp/swaylock.log
-StandardError=append:/tmp/swaylock.log
+StandardOutput=journal
+StandardError=journal
+; StandardOutput=append:/tmp/swaylock.log
+; StandardError=append:/tmp/swaylock.log
 ExecStart=/usr/lib/systemd/user/swaylock-start.sh
 
 [Install]

@@ -8,8 +8,8 @@ ConditionEnvironment=WAYLAND_DISPLAY
 [Service]
 Type=simple
 Restart=always
-StandardOutput=append:/tmp/sway-audio-idle-inhibit.log
-StandardError=append:/tmp/sway-audio-idle-inhibit.log
+StandardError=journal
+StandardOutput=journal
 ExecStart=/usr/bin/sway-audio-idle-inhibit
 
 [Install]
