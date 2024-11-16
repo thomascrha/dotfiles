@@ -1,9 +1,11 @@
 [Unit]
 Description=sway-audio-idle-inhibit
 After=sway-session.target
+After=systemd-user-sessions.service
 
 [Service]
 Type=simple
+Restart=always
 StandardOutput=append:/tmp/sway-audio-idle-inhibit.log
 StandardError=append:/tmp/sway-audio-idle-inhibit.log
 ExecStart=/usr/bin/sway-audio-idle-inhibit

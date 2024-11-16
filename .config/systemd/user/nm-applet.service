@@ -1,5 +1,6 @@
 [Unit]
 Description=nm-applet docklet
+After=systemd-user-sessions.service
 After=network.target
 After=network-online.target
 After=sway-session.target

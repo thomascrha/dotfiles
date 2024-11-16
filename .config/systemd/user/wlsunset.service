@@ -1,6 +1,7 @@
 [Unit]
 Description=wlsunset dim screen at sunset
 After=sway-session.target
+After=systemd-user-sessions.service
 
 [Service]
 Type=simple

@@ -1,5 +1,6 @@
 [Unit]
 Description=lisgd touchscreen gestures
+After=systemd-user-sessions.service
 After=sway-session.target
 
 [Service]

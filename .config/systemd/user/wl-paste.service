@@ -1,11 +1,12 @@
 [Unit]
-Description=sway-audio-idle-inhibit
+Description=Watch clipboard and store in clipman
 After=sway-session.target
+After=systemd-user-sessions.service
 
 [Service]
 Type=simple
-StandardOutput=append:/tmp/sway-audio-idle-inhibit.log
-StandardError=append:/tmp/sway-audio-idle-inhibit.log
+StandardOutput=append:/tmp/wl-paste.log
+StandardError=append:/tmp/wl-paste.log
 ExecStart=/usr/bin/wl-paste -t text --watch clipman store
 
 [Install]

@@ -8,9 +8,11 @@ for service in *.service; do
     service_status=$(systemctl --user is-active $service_name)
     echo "Service $service_name is $service_status"
     # mathc against active or activating
-    if [[ $service_status != "active" || $service_status != "activating" ]]; then
+    # if [[ $service_status != "active" || $service_status != "activating" ]]; then
         # restart the service
-        systemctl --user restart $service_name &
-    fi
+        # echo "Restarting $service_name"
+        # systemctl --user restart $service_name &
+    # fi
+    # systemctl --user enable $service_name
     # systemctl --user restart $service_name &
 done
