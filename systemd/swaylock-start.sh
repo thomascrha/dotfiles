@@ -1,5 +1,4 @@
 #!/bin/bash
-# vim:filetype=swayconfig
 # Idle and lock configuration
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -34,18 +33,18 @@
 #     unlock 'pkill -xu "$USER" -SIGUSR1 -f swaylock-effects'
 
 # exec_always /home/tcrha/.config/swaylock/lock-routine.sh
-running_apps=$(pgrep -fc "swaylock -f")
-echo "Running apps: $running_apps"
-if [ $running_apps = 0 ]; then
-    LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-300}
-    swayidle -w \
-        timeout $LT 'swaylock -f' \
-        timeout $((LT + ST)) 'swaymsg "output * power off"' \
-                      resume 'swaymsg "output * power on"'  \
-        timeout $ST 'pgrep -xu "$USER" -f swaylock >/dev/null && swaymsg "output * power off"' \
-             resume 'pgrep -xu "$USER" -f swaylock >/dev/null && swaymsg "output * power on"'  \
-        before-sleep 'swaylock -f' \
-        lock 'swaylock -f' \
-        unlock 'pkill -xu "$USER" -SIGUSR1 -f swaylock'
-fi
+# running_apps=$(pgrep -fc "swaylock -f")
+# echo "Running apps: $running_apps"
+# if [ $running_apps = 0 ]; then
+LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-500}
+swayidle -w \
+    timeout $LT 'swaylock -f' \
+    timeout $((LT + ST)) 'swaymsg "output * power off"' \
+                  resume 'swaymsg "output * power on"'  \
+    timeout $ST 'pgrep -xu "$USER" -f swaylock >/dev/null && swaymsg "output * power off"' \
+         resume 'pgrep -xu "$USER" -f swaylock >/dev/null && swaymsg "output * power on"'  \
+    before-sleep 'swaylock -f' \
+    lock 'swaylock -f' \
+    unlock 'pkill -xu "$USER" -SIGUSR1 -f swaylock'
+# fi
 
