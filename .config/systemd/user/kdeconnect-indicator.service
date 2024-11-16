@@ -1,9 +1,6 @@
 [Unit]
 Description=kdeconnect-indicator docklet
-After=graphical-session.target
-After=systemd-user-sessions.service
-After=network.target
-After=network-online.target
+After=sway-session.target
 
 [Service]
 Type=simple

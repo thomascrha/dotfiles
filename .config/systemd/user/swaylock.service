@@ -1,6 +1,6 @@
 [Unit]
 Description=swaylock effects service
-After=systemd-user-sessions.service
+After=sway-session.target
 
 [Service]
 Type=simple

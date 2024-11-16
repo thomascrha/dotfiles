@@ -1,8 +1,6 @@
 [Unit]
 Description=wlsunset dim screen at sunset
-After=systemd-user-sessions.service
-After=network.target
-After=network-online.target
+After=sway-session.target
 
 [Service]
 Type=simple

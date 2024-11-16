@@ -1,6 +1,6 @@
 [Unit]
 Description=blueman-applet docklet
-After=systemd-user-sessions.service
+After=sway-session.target
 
 [Service]
 Type=oneshot

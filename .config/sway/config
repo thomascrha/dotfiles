@@ -353,6 +353,9 @@ for_window [app_id="qalculate-gtk"] floating enable, border normal, move positio
 # Autostart #############################################################################
 #A########################################################################################
 include $(hostname).sway
-include "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf"
+# Requires sway-systemd to get all the autstart stuff
+include /etc/sway/config.d/*.conf
+
+# include "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf"
 # Applies all generated settings from SwaySettings
 include ~/.config/sway/.generated_settings/*.conf
