@@ -78,18 +78,17 @@
         "screenshot-fullscreen-edit": "grim - | swappy -f -"
       }
     },
-
     "custom/screenrotation-lock": {
       "return-type": "json",
-      "exec": "cat /tmp/rot8.state",
-      "on-click": "/home/tcrha/.config/waybar/rot8-on-off.sh",
+      "exec": "/home/tcrha/.config/waybar/rot8-on-off.sh",
+      "on-click": "/home/tcrha/.config/waybar/rot8-on-off.sh click",
       "tooltip": true,
       "interval": 1
     },
     "custom/wlsunset": {
       "return-type": "json",
-      "exec": "cat /tmp/wlsunset.state",
-      "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh",
+      "exec": "/home/tcrha/.config/waybar/wlsunset-on-off.sh",
+      "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh click",
       "tooltip": true,
       "interval": 1
     },

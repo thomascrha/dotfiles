@@ -1,14 +1,20 @@
 #!/bin/bash
-rm /tmp/wlsunset.state
 
-if pgrep -x "wlsunset"
+if pgrep -x "wlsunset" 2>&1 > /dev/null
 then
-    systemctl --user stop wlsunset
-    ICON=""
+    if [[ $1 == click ]]; then
+        systemctl --user stop wlsunset
+        ICON="" # off  
+    else
+        ICON="" # on
+    fi
 else
-    systemctl --user start wlsunset
-    ICON=""
+    if [[ $1 == click ]]; then
+        systemctl --user start wlsunset
+        ICON="" # on
+    else
+        ICON="" # off  
+    fi
 fi
 
-echo "{\"text\":\"${ICON}\", \"tooltip\":\"$(cat /tmp/wlsunset.log | grep -e 'calculated sun trajectory' | tail -1 | awk '{sub(/calculated sun trajectory: /, ""); print}')\"}" > /tmp/wlsunset.state
-
+echo "{\"text\":\"${ICON}\", \"tooltip\":\"$(cat /tmp/wlsunset.log | grep -e 'calculated sun trajectory' | tail -1 | awk '{sub(/calculated sun trajectory: /, ""); print}')\"}" 

@@ -1,16 +1,25 @@
 #!/bin/bash
-rm /tmp/rot8.state
 
-if pgrep -x "rot8"
+if pgrep -x "rot8" 2>&1 > /dev/null
 then
-    systemctl --user stop rot8
-    TOOLTIP="Screen locked"
-    ICON="🔒"
+    if [[ $1 == click ]]; then
+        systemctl --user stop rot8 2>&1 > /dev/null
+        TOOLTIP="Screen locked"
+        ICON="🔒"
+    else
+        TOOLTIP="Screen unlocked"
+        ICON="🔓"
+    fi
 else
-    systemctl --user start rot8
-    TOOLTIP="Screen unlocked"
-    ICON="🔓"
+    if [[ $1 == click ]]; then
+        systemctl --user start rot8 2>&1 > /dev/null
+        TOOLTIP="Screen unlocked"
+        ICON="🔓"
+    else
+        TOOLTIP="Screen locked"
+        ICON="🔒"
+    fi
 fi
 
-echo "{\"text\":\"${ICON}\", \"tooltip\":\"${TOOLTIP}\"}" > /tmp/rot8.state
+echo "{\"text\":\"${ICON}\", \"tooltip\":\"${TOOLTIP}\"}"
 

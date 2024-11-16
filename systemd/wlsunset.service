@@ -7,10 +7,12 @@ ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
-StandardOutput=journal
-StandardError=journal
-; StandardOutput=append:/tmp/wlsunset.log
-; StandardError=append:/tmp/wlsunset.log
+; StandardOutput=journal
+; StandardError=journal
+; Needed for the waybar switch as i read this log and do want to
+; work out how to get it working with journalctl
+StandardOutput=append:/tmp/wlsunset.log
+StandardError=append:/tmp/wlsunset.log
 Restart=on-failure
 ExecStart=/usr/lib/systemd/user/wlsunset-start.sh
 
