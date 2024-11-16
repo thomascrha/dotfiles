@@ -31,5 +31,10 @@
 				<property name="label">Fullscreen Screenshot (edit)</property>
 			</object>
 		</child>
+		<child>
+			<object class="GtkMenuItem" id="videoshot-selection-file">
+				<property name="label">Selection Videoshoot (file)</property>
+			</object>
+		</child>
 	</object>
 </interface>
