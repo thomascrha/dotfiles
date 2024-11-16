@@ -75,6 +75,7 @@
         "screenshot-selection-edit": "grim -g \"$(slurp)\" - | swappy -f -",
         "screenshot-fullscreen-file": "grimshot --notify save",
         "screenshot-fullscreen-clip": "grimshot --notify copy",
+        "videoshot-fullscreen-file": "wf-recorder -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
         "videoshot-selection-file": "wf-recorder -g \"$(slurp)\" -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
         "screenshot-fullscreen-edit": "grim - | swappy -f -"
       }

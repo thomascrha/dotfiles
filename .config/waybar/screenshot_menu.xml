@@ -32,8 +32,13 @@
 			</object>
 		</child>
 		<child>
+			<object class="GtkMenuItem" id="videoshot-fullscreen-file">
+				<property name="label">Fullscreen Videoshot (file)</property>
+			</object>
+		</child>
+		<child>
 			<object class="GtkMenuItem" id="videoshot-selection-file">
-				<property name="label">Selection Videoshoot (file)</property>
+				<property name="label">Selection Videoshot (file)</property>
 			</object>
 		</child>
 	</object>
