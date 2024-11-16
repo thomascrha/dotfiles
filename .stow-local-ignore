@@ -1,5 +1,6 @@
 wsl-vpnkit.service
 scripts
+systemd
 Makefile
 
 flake.nix

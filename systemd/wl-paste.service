@@ -1,13 +1,16 @@
 [Unit]
 Description=Watch clipboard and store in clipman
+PartOf=graphical-session.target
+After=graphical-session.target
 After=sway-session.target
-After=systemd-user-sessions.service
+ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
+restart=on-failure
 StandardOutput=append:/tmp/wl-paste.log
 StandardError=append:/tmp/wl-paste.log
 ExecStart=/usr/bin/wl-paste -t text --watch clipman store
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

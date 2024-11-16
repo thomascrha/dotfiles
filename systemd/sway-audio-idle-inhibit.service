@@ -1,7 +1,9 @@
 [Unit]
 Description=sway-audio-idle-inhibit
+PartOf=graphical-session.target
+After=graphical-session.target
 After=sway-session.target
-After=systemd-user-sessions.service
+ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
@@ -11,4 +13,5 @@ StandardError=append:/tmp/sway-audio-idle-inhibit.log
 ExecStart=/usr/bin/sway-audio-idle-inhibit
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
+

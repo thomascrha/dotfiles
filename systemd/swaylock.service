@@ -1,0 +1,16 @@
+[Unit]
+Description=swaylock effects service
+PartOf=graphical-session.target
+After=graphical-session.target
+After=sway-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=simple
+Restart=on-failure
+StandardOutput=append:/tmp/swaylock.log
+StandardError=append:/tmp/swaylock.log
+ExecStart=/usr/lib/systemd/user/swaylock-start.sh
+
+[Install]
+WantedBy=graphical-session.target

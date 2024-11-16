@@ -1,0 +1,16 @@
+[Unit]
+Description=wlsunset dim screen at sunset
+PartOf=graphical-session.target
+After=graphical-session.target
+After=sway-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/wlsunset.log
+StandardError=append:/tmp/wlsunset.log
+Restart=on-failure
+ExecStart=/usr/lib/systemd/user/wlsunset-start.sh
+
+[Install]
+WantedBy=graphical-session.target

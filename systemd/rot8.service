@@ -1,0 +1,16 @@
+[Unit]
+Description=rot8 rotation using accelarometer
+PartOf=graphical-session.target
+After=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=simple
+StandardOutput=append:/tmp/rot8.log
+StandardError=append:/tmp/rot8.log
+Restart=on-failure
+ExecStart=/bin/sh -c /usr/lib/systemd/user/rot8-start.sh
+
+[Install]
+WantedBy=graphical-session.target
+
