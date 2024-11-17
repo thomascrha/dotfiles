@@ -1,0 +1,6 @@
+#!/bin/sh
+
+POWER_PROFILE=${1:-"balanced"}
+
+# set performance profile through D-bus
+powerprofilesctl set $POWER_PROFILE

@@ -1,0 +1,2 @@
+# Rule for when switching to low battery
+SUBSYSTEM=="power_supply", ATTR{status}=="Not charging", ATTR{capacity_level}=="Low", RUN+="/usr/local/bin/set-power-profile power-saver"

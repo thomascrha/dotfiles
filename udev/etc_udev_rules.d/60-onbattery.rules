@@ -1,0 +1,2 @@
+# Rule for when switching to battery
+SUBSYSTEM=="power_supply",ATTR{status}=="Not charging",ATTR{capacity_level}=="Normal",RUN+="/usr/local/bin/set-power-profile balanced"

@@ -50,14 +50,14 @@
 #waybar {
     background: #323232;
     color: white;
-    font-family: Cantarell, Noto Sans, sans-serif;
-    font-size: 14px;
+    font-family: Roboto Nerd Font, FontAwesome, Material Icons, sans-serif;
+    font-size: 12px;
 }
 
 /* Each module */
 #battery,
 #clock,
-#custom-screenrotation-lock,
+#backlight,
 #custom-screenshotting,
 #custom-weather,
 #cpu,
@@ -69,53 +69,31 @@
 #temperature,
 #window,
 #disk,
+#power-profiles-daemon,
 #custom-media,
-#custom-power
+#custom-power,
 #tray {
+    font-size: 14px;
     padding-left: 5px;
     padding-right: 5px;
 }
 
-
-/* -----------------------------------------------------------------------------
- * Module styles
- * -------------------------------------------------------------------------- */
-
-#custom-screenrotation-lock {
-    font-size: 14px;
-    margin: 2px 0px 0px 0px;
-}
-#custom-media {
-    font-size: 14px;
-    margin: 2px 7px 0px 7px;
+#custom-media,
+#custom-screenrotation-lock,
+#custom-screenshotting,
+#custom-power,
+#idle_inhibitor,
+#custom-wlsunset,
+#custom-recorder,
+#power-profiles-daemon {
+    font-size: 18px;
 }
 
-#custom-screenshotting {
-    font-size: 18px;
-    margin: 2px 7px 0px 7px;
-}
-#custom-power {
-    font-size: 18px;
-    margin: 2px 7px 0px 7px;
-    /* padding-top: 5px; */
-}
-#custom-weather {
-    font-size: 15px;
-    margin: 2px 7px 0px 7px;
-    padding-bottom: 1px;
-}
-#idle_inhibitor {
-    font-size: 18px;
-    margin: 2px 7px 0px 7px;
-}
-#custom-wlsunset {
-    font-size: 18px;
-    margin: 2px 7px 0px 7px;
+#power-profiles-daemon {
+    padding-right: 15px;
 }
 
 #custom-recorder {
-    font-size: 18px;
-    margin: 2px 7px 0px 7px;
     color:#c9545d;
 }
 

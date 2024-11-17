@@ -323,6 +323,10 @@ for_window [app_id="pavucontrol"] {
     move position center
 }
 
+for_window [app_id="pwvucontrol"] {
+    floating enable
+    move position center
+}
 for_window [app_id="pavucontrol-qt"] {
     floating enable
     move position center
