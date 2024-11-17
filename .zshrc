@@ -96,6 +96,14 @@ bindkey -v
 # bindkey -M vicmd "k" up-line-or-beginning-search
 # bindkey -M vicmd "j" down-line-or-beginning-search
 
+# Enable and run ssh-agent
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval $(ssh-agent -s)
+fi
+if [ -f $HOME/.ssh/id_ed25519 ]; then
+    ssh-add -l > /dev/null 2>&1 || ssh-add $HOME/.ssh/id_ed25519
+fi
+
 #########################################################################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
 #########################################################################################
