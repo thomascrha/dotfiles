@@ -5,8 +5,7 @@
 ## Requires: sway, swaymsg, jq, wezterm, bc
 
 DEFAULT_HEIGHT=70
-MAX_HEIGHT=${GUAKE_MAX_HEIGHT:-972}
-MAX_WIDTH=${GUAKE_MAX_WIDTH:-1802}
+MAX_HEIGHT=${GUAKE_MAX_HEIGHT:-1802}
 
 HEIGHT=$(swaymsg -t get_tree | jq -r '.. | select(.app_id? == "dropdown-terminal") | .window_rect | "\(.height)"')
 
