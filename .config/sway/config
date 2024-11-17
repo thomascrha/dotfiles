@@ -56,6 +56,8 @@ input type:keyboard {
   xkb_options caps:escape
 }
 
+input * xkb_numlock enable
+
 ### fonts
 font pango:"RobotoMono Nerd Font" Regular 8
 
@@ -283,17 +285,6 @@ for_window [app_id="$ddterm-id"] {
 # bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
 #   || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
 bindsym Ctrl+Grave exec /home/tcrha/.config/sway/scripts/guake.sh
-
-#########################################################################################
-# Rotation ##############################################################################
-#########################################################################################
-
-bindswitch tablet:on exec 'squeekboard &', \
-    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger map_to_output eDP-1', \
-    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen map_to_output eDP-1'
-bindswitch tablet:off exec 'killall squeekboard &', \
-    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger eDP-1', \
-    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen ap_to_output eDP-1'
 
 #########################################################################################
 # Application settings ##################################################################

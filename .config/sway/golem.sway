@@ -33,6 +33,17 @@ output "Dell Inc. DELL U3023E 40G15H3" {
     bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
 
+#########################################################################################
+# Rotation ##############################################################################
+#########################################################################################
+
+bindswitch tablet:on exec 'squeekboard &', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger map_to_output eDP-1', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen map_to_output eDP-1'
+bindswitch tablet:off exec 'killall squeekboard &', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Finger eDP-1', \
+    exec 'swaymsg input 1386:20807:Wacom_Pen_and_multitouch_sensor_Pen ap_to_output eDP-1'
+
 exec_always /home/tcrha/.config/sway/scripts/clamshell.sh
 
 
