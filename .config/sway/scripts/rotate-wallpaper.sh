@@ -1,4 +1,8 @@
 #!/bin/sh
+## This script is used to rotate wallpapers in sway window manager
+## It uses swaybg to set the wallpaper and shuf to shuffle the wallpapers
+## in the directory.
+## Requires: sway, swaybg, shuf
 
 # set -x
 IFS="

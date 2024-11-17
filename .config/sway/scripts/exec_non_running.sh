@@ -1,4 +1,5 @@
 #!/bin/bash
+## This script is used to start a program if it is not running
 
 set -xe
 

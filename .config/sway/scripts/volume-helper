@@ -1,4 +1,8 @@
 #!/usr/bin/sh
+## volume-helper - A script to change the volume of the default SINK
+## using pactl and display a desktop notification using notify-send.
+##Requires pactl and notify-send to be installed.
+
 
 if ! command -v pactl >/dev/null; then
     exit 0;

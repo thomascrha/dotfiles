@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+## This script is used to open an application if it is not already open on the current workspace.
+## If the application is already open on the current workspace, it will focus on the window.
+## Requires i3ipc-python and python >= 3.7 (asyncio)
 
 import sys
 from i3ipc.aio import Connection, Con

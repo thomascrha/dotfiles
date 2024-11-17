@@ -1,4 +1,8 @@
 #!/bin/sh
+## This script is used to enable/disable the laptop screen
+## when the lid is closed/opened. It uses swaymsg to communicate
+## with the sway IPC.
+## Requires: sway, swaymsg
 
 LAPTOP_OUTPUT="eDP-1"
 LID_STATE_FILE="/proc/acpi/button/lid/LID/state"

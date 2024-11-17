@@ -1,17 +1,18 @@
 #!/bin/bash
+## This script is used to show/hide the dropdown terminal
+## in sway window manager. It uses swaymsg to communicate
+## with the sway IPC.
+## Requires: sway, swaymsg, jq, wezterm, bc
 
 DEFAULT_HEIGHT=70
-MAX_HEIGHT=${GUAKE_MAX_HEIGHT:-970}
-MAX_WIDTH=${GUAKE_MAX_WIDTH:-1800}
-# get the current size of the dropdown terminal window
-# WIDTH=$(swaymsg -t get_tree | jq -r '.. | select(.app_id? == "dropdown-terminal") | .window_rect | "\(.width)"')
+MAX_HEIGHT=${GUAKE_MAX_HEIGHT:-972}
+MAX_WIDTH=${GUAKE_MAX_WIDTH:-1802}
+
 HEIGHT=$(swaymsg -t get_tree | jq -r '.. | select(.app_id? == "dropdown-terminal") | .window_rect | "\(.height)"')
 
 # CURRENT_WIDTH_PPT=$((100 * $WIDTH / $MAX_WIDTH))
-CURRENT_HEIGHT_PPT=$((100 * $HEIGHT / $MAX_HEIGHT))
-
-# fetch the old values of the dropdown terminal window - if don't exist use the values given by the window as
-# sway aplys some default values to the window
+CURRENT_HEIGHT_PPT=$(echo "($HEIGHT * 100 + $MAX_HEIGHT - 1) / $MAX_HEIGHT" | bc)
+echo $CURRENT_HEIGHT_PPT
 
 if [[ -f /tmp/guake_size ]]; then
     # WIDTH_PPT=$(cat /tmp/guake_size | cut -d' ' -f1)
@@ -21,8 +22,12 @@ else
     HEIGHT_PPT=$DEFAULT_HEIGHT
 fi
 
-if [[ $CURRENT_HEIGHT_PPT -lt 10 ]]; then
+if [[ $CURRENT_HEIGHT_PPT -lt 20 ]]; then
     HEIGHT_PPT=$DEFAULT_HEIGHT
+fi
+
+if [[ $CURRENT_HEIGHT_PPT -gt 100 ]]; then
+    HEIGHT_PPT=100
 fi
 
 # write the current values to a file
@@ -32,23 +37,4 @@ echo "$CURRENT_WIDTH_PPT $CURRENT_HEIGHT_PPT" > /tmp/guake_size
     WEZTERM_GUAKE=on /usr/bin/wezterm start --class dropdown-terminal
 
 /usr/bin/swaymsg "[app_id=\"dropdown-terminal\"] resize set 100ppt ${HEIGHT_PPT}ppt, move position 0 0"
-
-
-
-#
-# show existing or start new dropdown terminal
-# bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
-  # || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
-# swaymsg '[app_id="dropdown-terminal"]'
-# set $ddterm-id dropdown-terminal
-# set $ddterm WEZTERM_GUAKE=on $terminal start --class $ddterm-id
-# set $ddterm-resize resize set 100ppt 100ppt, move position 0 0
-#
-# # resize/move new dropdown terminal windows
-# for_window [app_id="$ddterm-id"] {
-#   floating enable
-#   $ddterm-resize
-#   move to scratchpad
-#   scratchpad show
-# }
 
