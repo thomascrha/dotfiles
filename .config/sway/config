@@ -269,7 +269,7 @@ bindsym $mod+Ctrl+Space exec playerctl play-pause
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
 set $ddterm-id dropdown-terminal
 set $ddterm WEZTERM_GUAKE=on $terminal start --class $ddterm-id
-set $ddterm-resize resize set 100ppt 60ppt, move position 0 0
+set $ddterm-resize resize set 100ppt 70ppt, move position 0 0
 
 # resize/move new dropdown terminal windows
 for_window [app_id="$ddterm-id"] {
@@ -280,8 +280,9 @@ for_window [app_id="$ddterm-id"] {
 }
 
 # show existing or start new dropdown terminal
-bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
-  || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+# bindsym Ctrl+Grave exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
+#   || $ddterm && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+bindsym Ctrl+Grave exec /home/tcrha/.config/sway/scripts/guake.sh
 
 #########################################################################################
 # Rotation ##############################################################################
