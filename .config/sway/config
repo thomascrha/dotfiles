@@ -56,8 +56,6 @@ input type:keyboard {
   xkb_options caps:escape
 }
 
-input * xkb_numlock enable
-
 ### fonts
 font pango:"RobotoMono Nerd Font" Regular 8
 

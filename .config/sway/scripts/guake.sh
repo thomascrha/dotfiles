@@ -22,6 +22,14 @@ HEIGHT_PPT=$(cat /tmp/guake_size)
 echo "HEIGHT_PPT: $HEIGHT_PPT"
 
 if [[ $HEIGHT_PPT -lt 20 ]]; then
+# get the old height
+if [[ -f /tmp/guake_size ]]; then
+    # WIDTH_PPT=$(cat /tmp/guake_size | cut -d' ' -f1)
+    HEIGHT_PPT=$(cat /tmp/guake_size)
+else
+    
+# do some validation
+if [[ $HEIGHT_PPT -lt 5 ]]; then
     HEIGHT_PPT=$DEFAULT_HEIGHT
 fi
 
@@ -32,6 +40,8 @@ fi
 if [[ ! -z $CURRENT_HEIGHT_PPT ]]; then
     echo $CURRENT_HEIGHT_PPT > /tmp/guake_size
 fi
+
+echo "$CURRENT_WIDTH_PPT $CURRENT_HEIGHT_PPT" > /tmp/guake_size
 
 /usr/bin/swaymsg '[app_id="dropdown-terminal"] scratchpad show'
 
