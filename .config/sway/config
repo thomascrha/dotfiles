@@ -7,7 +7,7 @@ set $mod Mod4
 for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
 default_border pixel 20
 # client.focused #188c75 #188c75 #188c75
-focus_follows_mouse no
+focus_follows_mouse yes
 
 gaps inner 10
 
@@ -214,25 +214,33 @@ bindsym $mod+a focus parent
 # Resizing containers:
 #
 mode "resize" {
-    bindsym Left resize shrink width 10px
-    bindsym Shift+Left resize shrink width 50px
-    bindsym $mod+Shift+Left move left 50px
-    bindsym $mod+Left move left 10px
+    bindsym Ctrl+Left resize shrink width 50px
+    bindsym Shift+Left resize shrink width 10px
+    bindsym Ctrl+Shift+Left exec /bin/bash -c 'swaymsg resize shrink width 50px && swaymsg move left 25px'
+    bindsym Ctrl+Alt+Left exec /bin/bash -c 'swaymsg resize grow width 50px && swaymsg move left 25px'
+    bindsym $mod+Shift+Left move left 10px
+    bindsym $mod+Left move left 50px
 
-    bindsym Down resize grow height 10px
-    bindsym Shift+Down resize grow height 50px
-    bindsym $mod+Shift+Down move down 50px
-    bindsym $mod+Down move down 10px
+    bindsym Ctrl+Down resize shrink height 50px
+    bindsym Shift+Down resize grow height 10px
+    bindsym Ctrl+Shift+Down exec /bin/bash -c 'swaymsg resize shrink height 50px && swaymsg move down 25px'
+    bindsym Ctrl+Alt+Down exec /bin/bash -c 'swaymsg resize grow height 50px && swaymsg move down 25px'
+    bindsym $mod+Shift+Down move down 10px
+    bindsym $mod+Down move down 50px
 
-    bindsym Up resize shrink height 10px
-    bindsym Shift+Up resize shrink height 50px
-    bindsym $mod+Shift+Up move up 50px
-    bindsym $mod+Up move up 10px
+    bindsym Ctrl+Up resize grow height 50px
+    bindsym Shift+Up resize shrink height 10px
+    bindsym Ctrl+Shift+Up exec /bin/bash -c 'swaymsg resize grow height 50px && swaymsg move up 25px'
+    bindsym Ctrl+Alt+Up exec /bin/bash -c 'swaymsg resize shrink height 50px && swaymsg move up 25px'
+    bindsym $mod+Shift+Up move up 10px
+    bindsym $mod+Up move up 50px
 
-    bindsym Right resize grow width 10px
-    bindsym Shift+Right resize grow width 50px
-    bindsym $mod+Shift+Right move right 50px
-    bindsym $mod+Right move right 10px
+    bindsym Ctrl+Right resize grow width 50px
+    bindsym Shift+Right resize grow width 10px
+    bindsym Ctrl+Shift+Right exec /bin/bash -c 'swaymsg resize grow width 50px && swaymsg move right 25px'
+    bindsym Ctrl+Alt+Right exec /bin/bash -c 'swaymsg resize shrink width 50px && swaymsg move right 25px'
+    bindsym $mod+Shift+Right move right 10px
+    bindsym $mod+Right move right 50px
 
     # Return to default mode
     bindsym Return mode "default"
