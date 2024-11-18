@@ -9,7 +9,12 @@ if [[ ! -f /tmp/guake_size ]]; then
     echo $DEFAULT_HEIGHT > /tmp/guake_size
 fi
 
-GAPS_AND_BORDERS=50
+GAPS_AND_BORDERS=${GAPS_AND_BORDERS:-50}
+# if waybar is not running remove 20 from the height
+if [[ ! $(pgrep -x waybar) ]]; then
+    GAPS_AND_BORDERS=$(echo "$GAPS_AND_BORDERS - 25" | bc)
+fi
+
 MAX_HEIGHT=$(echo "($(swaymsg -t get_outputs | jq '.[] | select(.focused == true) | .rect | .height') - $GAPS_AND_BORDERS)" | bc)
 
 echo "MAX_HEIGHT: $MAX_HEIGHT"
