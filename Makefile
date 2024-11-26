@@ -8,7 +8,7 @@ help:
 
 stow: ## Stow dotfiles
 	stow --no-folding -t ${HOME} -v -R -d ${PWD} -S .
-	find ${HOME} -xtype l -delete
+	sudo find ${HOME} -xtype l -delete
 
 unstow: ## Unstow dotfiles
 	stow -t ${HOME} -d ${PWD} -D .
