@@ -1,4 +1,8 @@
 return {
+  {
+    "rcarriga/nvim-dap-ui"
+  },
+  {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
   -- NOTE: And you can specify dependencies as well
@@ -11,7 +15,7 @@ return {
 
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
-    'jay-babu/mason-nvim-dap.nvim',
+    -- 'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
     'mfussenegger/nvim-dap-python',
@@ -38,7 +42,7 @@ return {
       unpack(keys),
     }
   end,
-  config = function()
+  setup = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
 
@@ -90,4 +94,5 @@ return {
     require('dap-python').setup(path)
     require('dap.ext.vscode').load_launchjs(nil, {python = {'py'} })
   end,
+  }
 }
