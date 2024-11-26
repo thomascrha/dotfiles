@@ -1,32 +1,40 @@
 return {
   setup = function()
     local function augroup(name)
-      return vim.api.nvim_create_augroup( name, { clear = true })
+      return vim.api.nvim_create_augroup(name, { clear = true })
     end
+
+    local create_autocmd = vim.api.nvim_create_autocmd
+    local set_keymap = vim.keymap.set
+    local opt_local = vim.opt_local
+
     -- Check if we need to reload the file when it changed
-    vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+    create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
       group = augroup("checktime"),
       command = "checktime",
+      desc = "Reload the file when it changes",
     })
 
     -- Highlight on yank
-    vim.api.nvim_create_autocmd("TextYankPost", {
+    create_autocmd("TextYankPost", {
       group = augroup("highlight_yank"),
       callback = function()
         vim.highlight.on_yank()
       end,
+      desc = "Highlight text on yank",
     })
 
-    -- resize splits if window got resized
-    vim.api.nvim_create_autocmd({ "VimResized" }, {
+    -- Resize splits if window got resized
+    create_autocmd("VimResized", {
       group = augroup("resize_splits"),
       callback = function()
         vim.cmd("tabdo wincmd =")
       end,
+      desc = "Resize splits when the window is resized",
     })
 
-    -- go to last loc when opening a buffer
-    vim.api.nvim_create_autocmd("BufReadPost", {
+    -- Go to last location when opening a buffer
+    create_autocmd("BufReadPost", {
       group = augroup("last_loc"),
       callback = function()
         local exclude = { "gitcommit" }
@@ -40,10 +48,11 @@ return {
           pcall(vim.api.nvim_win_set_cursor, 0, mark)
         end
       end,
+      desc = "Go to last location when opening a buffer",
     })
 
-    -- close some filetypes with <q>
-    vim.api.nvim_create_autocmd("FileType", {
+    -- Close some filetypes with <q>
+    create_autocmd("FileType", {
       group = augroup("close_with_q"),
       pattern = {
         "help",
@@ -60,52 +69,25 @@ return {
       },
       callback = function(event)
         vim.bo[event.buf].buflisted = false
-        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+        set_keymap("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
       end,
+      desc = "Close certain filetypes with <q>",
     })
 
-    -- wrap and check for spell in text filetypes
-    vim.api.nvim_create_autocmd("FileType", {
+    -- Wrap and check for spell in text filetypes
+    create_autocmd("FileType", {
       group = augroup("wrap_spell"),
       pattern = { "gitcommit", "markdown", "text", "tex", "org", "mail" },
       callback = function()
-        vim.opt_local.wrap = true
-        vim.opt_local.spell = true
+        opt_local.wrap = true
+        opt_local.spell = true
       end,
+      desc = "Enable wrap and spell check for text filetypes",
     })
 
-
-    -- start telescope find files if no args or first arg is a directory
-    -- vim.api.nvim_create_autocmd("VimEnter", {
-    --   callback = function()
-    --     local first_arg = vim.fn.argv(0)
-    --
-    --     -- if first arg is a directory, cd into it
-    --     if vim.fn.isdirectory(first_arg) ~= 0 then
-    --       vim.fn.execute("cd " .. first_arg)
-    --     end
-    --
-    --     if first_arg == "" or vim.fn.isdirectory(first_arg) then
-    --       require("telescope.builtin").find_files()
-    --     end
-    --   end,
-    -- })
-
-
-    -- -- Automatically open preview in oil.nvim
-    -- vim.api.nvim_create_autocmd("User", {
-    --   pattern = "OilEnter",
-    --   callback = vim.schedule_wrap(function(args)
-    --     local oil = require("oil")
-    --     if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
-    --       oil.open_preview()
-    --     end
-    --   end),
-    -- })
-
-    -- Auto select virtualenv Nvim open
-    vim.api.nvim_create_autocmd('VimEnter', {
-      desc = 'Auto select virtualenv Nvim open',
+    -- Auto select virtualenv on Nvim open
+    create_autocmd('VimEnter', {
+      desc = 'Auto select virtualenv on Nvim open',
       pattern = '*',
       callback = function()
         local venv = vim.fn.findfile('pyproject.toml', vim.fn.getcwd() .. ';')
@@ -116,6 +98,5 @@ return {
       end,
       once = true,
     })
-
   end
 }

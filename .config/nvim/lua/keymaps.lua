@@ -1,12 +1,12 @@
 return {
   setup = function()
     -----------------------------------------------------------------------------------
-    -- indent file
+    -- Indent file
     -----------------------------------------------------------------------------------
     vim.keymap.set('n', '<leader>ii', 'gg=G``', { desc = 'Automatically [i]ndent file' })
 
     -----------------------------------------------------------------------------------
-    -- indent files with space instead of tabs
+    -- Indent files with space instead of tabs
     -----------------------------------------------------------------------------------
     vim.keymap.set('n', '<leader>i2', ':set autoindent expandtab tabstop=2 shiftwidth=2<cr>', { desc = '[I]ndent file using [2] spaces' })
     vim.keymap.set('n', '<leader>i4', ':set autoindent expandtab tabstop=4 shiftwidth=4<cr>', { desc = '[I]ndent file using [4] spaces' })
@@ -15,29 +15,30 @@ return {
     -- Keymaps for better default experience
     -----------------------------------------------------------------------------------
     -- See `:help vim.keymap.set()`
-    vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+    vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true, desc = 'Disable space key' })
 
     -----------------------------------------------------------------------------------
-    -- use leader and yank to copy to the clipboard Primeagen
+    -- Use leader and yank to copy to the clipboard
     -----------------------------------------------------------------------------------
     vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = '[y]ank into system clipboard' })
     vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
 
-    -- on WSL this doesn't work with clip.exe - simply use ctrl-shift-v in INSET mode
+    -- On WSL this doesn't work with clip.exe - simply use ctrl-shift-v in INSERT mode
     if not vim.fn.has("wsl") then
       vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]], { desc = '[p]aste into buffer from system clipboard' })
       vim.keymap.set("n", "<leader>P", [["+P]], { desc = '[P]aste onto new line from system clipboard' })
     end
+
     -----------------------------------------------------------------------------------
-    -- manually remove all training whitespace
+    -- Manually remove all trailing whitespace
     -----------------------------------------------------------------------------------
-    vim.keymap.set('n', '<leader>ws', '<cmd>StripTrailingWhitespace<cr>', { desc = '' })
+    vim.keymap.set('n', '<leader>ws', '<cmd>StripTrailingWhitespace<cr>', { desc = 'Remove trailing whitespace' })
 
     -----------------------------------------------------------------------------------
     -- Diagnostic keymaps
     -----------------------------------------------------------------------------------
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'previous diagnostic hint' })
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'next diagnostic hint' })
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic hint' })
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic hint' })
 
     -----------------------------------------------------------------------------------
     -- Spelling
@@ -52,10 +53,9 @@ return {
     vim.keymap.set("n", "<leader>sa", ":setlocal spell!<CR>", { desc = '[s]pelling [a]ctivate' })
 
     -----------------------------------------------------------------------------------
-    --- Line numbers
+    -- Line numbers
     -----------------------------------------------------------------------------------
-    --- Toggle relative line numbers
+    -- Toggle relative line numbers
     vim.keymap.set("n", "<leader>rl", ":set relativenumber!<CR>", { desc = '[r]elative [l]ine numbers' })
-
   end
 }

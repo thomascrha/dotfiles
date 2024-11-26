@@ -7,8 +7,10 @@ return {
       local copilot = require('copilot')
       local suggestion = require('copilot.suggestion')
 
+      -- set the default model to claude-3-5-sonnet
       copilot.setup({
         auto_refresh = true,
+        model = "claude-3-5-sonnet",
         suggestion = {
           auto_trigger = true
 
@@ -35,7 +37,6 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
     opts = {
