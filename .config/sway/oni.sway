@@ -2,17 +2,30 @@
 
 output "Dell Inc. DELL U3023E 66YJ4H3" {
     mode  2561x1600@59.972Hz
-    pos 2560 0
+    # pos 2560 0
+    pos 0 0
     transform normal
     scale 1.0
     scale_filter nearest
-    adaptive_sync off
+    adaptive_sync on
     dpms on
     bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
 
-bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 66YJ4H3" toggle
-bindsym $mod+Shift+l output "Dell Inc. DELL U3023E 40G15H3" toggle
+output "Dell Inc. DELL U3023E 40G15H3" {
+    mode  2560x1600@59.972Hz
+    # pos 0 0
+    pos 2560 0
+    transform normal
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync on
+    dpms on
+    bg /home/tcrha/.config/sway/images/wallpaper.png fill
+}
+
+bindsym $mod+Shift+l output "Dell Inc. DELL U3023E 66YJ4H3" toggle
+bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
 
 bindsym --no-warn Ctrl+Grave exec GUAKE_MAX_HEIGHT=1544 /home/tcrha/.config/sway/scripts/guake.sh
 
@@ -20,13 +33,3 @@ bindsym --no-warn Ctrl+Grave exec GUAKE_MAX_HEIGHT=1544 /home/tcrha/.config/sway
 # bindsym --no-warn $mod+n exec $exec_or_move $notes
 # bindsym --no-warn $mod+Shift+n exec $notes
 
-output "Dell Inc. DELL U3023E 40G15H3" {
-    mode  2560x1600@59.972Hz
-    pos 0 0
-    transform normal
-    scale 1.0
-    scale_filter nearest
-    adaptive_sync off
-    dpms on
-    bg /home/tcrha/.config/sway/images/wallpaper.png fill
-}
