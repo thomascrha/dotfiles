@@ -1,9 +1,35 @@
 return {
   {
     'lewis6991/gitsigns.nvim',
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       local gs = require("gitsigns")
-      gs.setup({})
+      gs.setup({
+        signs = {
+          add          = { text = '│' },
+          change       = { text = '│' },
+          delete       = { text = '_' },
+          topdelete    = { text = '‾' },
+          changedelete = { text = '~' },
+          untracked    = { text = '┆' },
+        },
+        signcolumn = true,
+        watch_gitdir = {
+          interval = 1000,
+          follow_files = true
+        },
+        attach_to_untracked = true,
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = 'eol',
+          delay = 1000,
+        },
+        preview_config = {
+          border = 'rounded',
+          style = 'minimal',
+          relative = 'cursor',
+        },
+      })
       -- Navigation
       vim.keymap.set('n', ']c', function()
         if vim.wo.diff then return ']c' end
