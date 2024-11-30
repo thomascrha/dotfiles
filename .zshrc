@@ -81,18 +81,16 @@ bindkey -v
 #
 # zsh-history-substring-search
 #
-bindkey '^R' history-incremental-search-backward
-zmodload -F zsh/terminfo +p:terminfo
+# bindkey '^R' history-incremental-search-backward
+# zmodload -F zsh/terminfo +p:terminfo
 # Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
-for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
-for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
-for key ('k') bindkey -M vicmd ${key} history-substring-search-up
-for key ('j') bindkey -M vicmd ${key} history-substring-search-down
-unset key
+# for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+# for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+# for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+# for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+# unset key
 # }}} End configuration added by Zim install
 
-# enable vim
-bindkey -v
 # bindkey -M vicmd "k" up-line-or-beginning-search
 # bindkey -M vicmd "j" down-line-or-beginning-search
 
@@ -103,6 +101,8 @@ bindkey -v
 # if [ -f $HOME/.ssh/id_ed25519 ]; then
 #     ssh-add -l > /dev/null 2>&1 || ssh-add $HOME/.ssh/id_ed25519
 # fi
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
 #########################################################################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
