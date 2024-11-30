@@ -226,7 +226,6 @@ alias mg='sudo mount -t nfs -o vers=4 192.168.10.2:/game ~/game'
 
 ### tmux
 alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client -t neovim'
-alias config='tmux new -s config || tmux attach -t config || tmux switch-client -t  config'
 
 alias fuck='sudo !-1'
 alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\" root"
