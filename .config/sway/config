@@ -79,7 +79,7 @@ set $exec_or_move /home/tcrha/.config/sway/scripts/exec_or_move.py
 set $terminal wezterm
 set $browser firefox
 set $filemanager thunar
-set $email evolution
+set $email thunderbird
 set $notes obsidian --no-sandbox --ozone-platform=wayland --ozone-platform-hint=auto --enable-features=UseOzonePlatform,WaylandWindowDecorations
 # set $notes flatpak run md.obsidian.Obsidian
 set $teams teams-for-linux
