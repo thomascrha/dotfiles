@@ -1,7 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
- dependencies = {
-    {
+  dependencies = {
       "j-hui/fidget.nvim",
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -13,8 +12,8 @@ return {
       "hrsh7th/cmp-cmdline",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
-    },
-    },
+      "j-hui/fidget.nvim"
+  },
   config = function ()
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]ename' })
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode Action' })

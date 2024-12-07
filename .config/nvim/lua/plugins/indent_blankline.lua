@@ -1,6 +1,7 @@
 return {
   {
     "lukas-reineke/indent-blankline.nvim",
+    dependencies = { "axelf4/vim-strip-trailing-whitespace" },
     config = function()
       local highlight = {
         "CursorColumn",
