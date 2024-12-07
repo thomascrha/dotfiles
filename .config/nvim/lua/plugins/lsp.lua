@@ -1,7 +1,19 @@
 return {
   "neovim/nvim-lspconfig",
  dependencies = {
-    {"j-hui/fidget.nvim"},
+    {
+      "j-hui/fidget.nvim",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
+      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lsp",
+    },
     },
   config = function ()
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]ename' })
