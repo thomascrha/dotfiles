@@ -4,3 +4,5 @@ __pycache__/**
 
 .config/nvim/undodir/**
 .config/nvim/lazy-lock.json
+
+.tmp_*
