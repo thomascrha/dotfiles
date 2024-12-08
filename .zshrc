@@ -272,14 +272,14 @@ if [[ $(grep microsoft /proc/version) ]]; then
     # alias to add proxy info to pip
     # alias pip="pip --proxy http://localhost:3128"
 
-    alias docker-compose="docker compose"
-
-    WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
-    if [ -z "$WSL_RUNNING" ]; then
-        # start the wsl vpnkit
-        wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
-    fi
-    alias docker-compose="docker compose"
+    # alias docker-compose="docker compose"
+    #
+    # WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
+    # if [ -z "$WSL_RUNNING" ]; then
+    #     # start the wsl vpnkit
+    #     wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
+    # fi
+    # alias docker-compose="docker compose"
 
     # WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
     # if [ -z "$WSL_RUNNING" ]; then

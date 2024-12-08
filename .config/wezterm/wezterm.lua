@@ -91,6 +91,11 @@ local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm"
 
 local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
 
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+    sessionizer.config.paths = {
+        "/home/tcrha/qbe"
+    }
+end
 sessionizer.config.paths = {
   "/home/tcrha/Projects",
   "/home/tcrha/dotfiles"
