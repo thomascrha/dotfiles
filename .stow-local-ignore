@@ -1,5 +1,7 @@
 wsl-vpnkit.service
 scripts
+ssh
+udev
 systemd
 Makefile
 
