@@ -58,12 +58,12 @@ end
 -----------------------------
 
 -- Tabline
-local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
-tabline.setup({
-  options = { theme = 'OneHalfDark' }
-})
-
--- local bar= wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
+-- local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+-- tabline.setup({
+--   options = { theme = 'OneHalfDark' }
+-- })
+--
+local bar= wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 -- resuurrect.wezterm
@@ -91,22 +91,43 @@ local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm"
 
 local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
 
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-    sessionizer.config.paths = {
-        "/home/tcrha/qbe"
-    }
-end
 sessionizer.config.paths = {
+  "/home/tcrha/qbe",
   "/home/tcrha/Projects",
   "/home/tcrha/dotfiles"
 }
+
+local resurrect_event_listeners = {
+  "resurrect.error",
+  "resurrect.save_state.finished",
+}
+local is_periodic_save = false
+wezterm.on("resurrect.periodic_save", function()
+  is_periodic_save = true
+end)
+for _, event in ipairs(resurrect_event_listeners) do
+  wezterm.on(event, function(...)
+    if event == "resurrect.save_state.finished" and is_periodic_save then
+      is_periodic_save = false
+      return
+    end
+    local args = { ... }
+    local msg = event
+    for _, v in ipairs(args) do
+      msg = msg .. " " .. tostring(v)
+    end
+    wezterm.gui.gui_windows()[1]:toast_notification("Wezterm - resurrect", msg, nil, 4000)
+  end)
+end
+
+resurrect.periodic_save()
 
 -----------------------------
 --- Keybindings
 -----------------------------
 ---
 local act = wezterm.action
-config.leader = { key = '`', mods = 'ALT', timeout_milliseconds = 1000 }
+config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1000 }
 config.keys = {
   {
     key = "/",
@@ -178,6 +199,68 @@ config.keys = {
       end),
     }),
   },
+  {
+    key = 'q',
+    mods = 'LEADER',
+    action = wezterm.action_callback(function(window, pane)
+      local workspaces = wezterm.mux.get_workspace_names()
+      if #workspaces == 0 then
+        window:toast_notification('wezterm', 'No workspaces to delete', nil, 4000)
+        return
+      end
+
+      local choices = {}
+      local active_workspace = wezterm.mux.get_active_workspace()
+
+      for _, workspace_name in ipairs(workspaces) do
+        table.insert(choices, {
+          label = workspace_name .. (workspace_name == active_workspace and ' (active)' or ''),
+          id = workspace_name,
+        })
+      end
+
+      window:perform_action(
+        act.InputSelector {
+          description = '⚠️  Select workspace to delete',
+          title = '⚠️  Select workspace to delete',
+          choices = choices,
+          action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+            if id then
+              if id == active_workspace then
+                window:toast_notification('wezterm', 'Cannot delete active workspace', nil, 4000)
+                return
+              end
+              local success, stdout = wezterm.run_child_process({ "wezterm", "cli", "list", "--format=json" })
+
+              if success then
+                local json = wezterm.json_parse(stdout)
+                if not json then
+                  window:toast_notification('wezterm', 'Failed to parse workspace info', nil, 4000)
+                  return
+                end
+
+                local workspace_panes = {}
+                for _, p in ipairs(json) do
+                  if p.workspace == id then
+                    table.insert(workspace_panes, p)
+                  end
+                end
+
+                for _, p in ipairs(workspace_panes) do
+                  wezterm.run_child_process({ "wezterm", "cli", "kill-pane", "--pane-id=" .. p.pane_id })
+                end
+                window:toast_notification('wezterm', 'Workspace "' .. id .. '" deleted', nil, 4000)
+              else
+                window:toast_notification('wezterm', 'Failed to list workspaces', nil, 4000)
+              end
+            end
+          end),
+        },
+        pane
+      )
+    end),
+  },
+
   {
     key = 'n',
     mods = 'LEADER',
@@ -259,73 +342,48 @@ config.keys = {
   },
 }
 
-local resurrect_event_listeners = {
-  "resurrect.error",
-  "resurrect.save_state.finished",
-}
-local is_periodic_save = false
-wezterm.on("resurrect.periodic_save", function()
-  is_periodic_save = true
-end)
-for _, event in ipairs(resurrect_event_listeners) do
-  wezterm.on(event, function(...)
-    if event == "resurrect.save_state.finished" and is_periodic_save then
-      is_periodic_save = false
-      return
-    end
-    local args = { ... }
-    local msg = event
-    for _, v in ipairs(args) do
-      msg = msg .. " " .. tostring(v)
-    end
-    wezterm.gui.gui_windows()[1]:toast_notification("Wezterm - resurrect", msg, nil, 4000)
-  end)
-end
-
-
-
 -- Must be the last line
 workspace_switcher.apply_to_config(config)
 modal.apply_to_config(config)
 resurrect.periodic_save()
--- bar.apply_to_config(
---   config,
---   {
---     colors = {
---       tab_bar = {
---         active_tab = {
---           bg_color = "#000000"
---         },
---         inactive_tab = {
---           bg_color = "#000000"
---         },
---       }
---     },
---     modules = {
---       workspaces = {
---         enabled = false,
---       },
---       leader = {
---         enabled = false,
---       },
---       pane = {
---         enabled = false,
---       },
---       username = {
---         enabled = false,
---       },
---       hostname = {
---         enabled = false,
---       },
---       clock = {
---         enabled = false
---       },
---       cwd = {
---         enabled = false
---       },
---     },
---   }
--- )
-tabline.apply_to_config(config)
+bar.apply_to_config(
+  config,
+  {
+    colors = {
+      tab_bar = {
+        active_tab = {
+          bg_color = "#000000"
+        },
+        inactive_tab = {
+          bg_color = "#000000"
+        },
+      }
+    },
+    modules = {
+      workspaces = {
+        enabled = false,
+      },
+      leader = {
+        enabled = false,
+      },
+      pane = {
+        enabled = false,
+      },
+      username = {
+        enabled = false,
+      },
+      hostname = {
+        enabled = false,
+      },
+      clock = {
+        enabled = false
+      },
+      cwd = {
+        enabled = false
+      },
+    },
+  }
+)
+-- tabline.apply_to_config(config)
 sessionizer.apply_to_config(config)
 return config
