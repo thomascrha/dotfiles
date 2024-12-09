@@ -18,7 +18,7 @@ end
 -----------------------------
 config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
--- config.default_gui_startup_args = {'start', '--always-new-process'}
+config.default_gui_startup_args = {'start', '--always-new-process'}
 
 config.color_scheme = 'OneHalfDark'
 config.font_size = 11
