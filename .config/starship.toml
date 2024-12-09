@@ -1,0 +1,18 @@
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = '[PICKING](bold red)'
+rebase = '[REBASING](bold yellow)'
+merge = '[MERGING](bold green)'
+bisect = '[BISECTING](bold blue)'
+
+[git_status]
+ahead = '⇡${count}'
+untracked = '?${count}'
+unstaged = '±${count}'
+staged = '±${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
+unmerged = '═${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}'
+modified = '✱${count}'
