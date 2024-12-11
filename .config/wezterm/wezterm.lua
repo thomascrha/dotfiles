@@ -56,19 +56,23 @@ end
 -----------------------------
 --- Plugins
 -----------------------------
+-- Bar -----------------------------------
+local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 
--- Tabline
--- local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
--- tabline.setup({
---   options = { theme = 'OneHalfDark' }
--- })
---
-local bar= wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
-
+-- Smart Workspace Switcher --------------
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
--- resuurrect.wezterm
-local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 
+-- Resurrect ------------------------------
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+local resurrect_event_listeners = {
+  "resurrect.error",
+  "resurrect.save_state.finished",
+}
+-- Saves the state whenever I select a workspace
+wezterm.on("smart_workspace_switcher.workspace_switcher.selected", function(window, path, label)
+  local workspace_state = resurrect.workspace_state
+  resurrect.save_state(workspace_state.get_workspace_state())
+end)
 -- loads the state whenever I create a new workspace
 wezterm.on("smart_workspace_switcher.workspace_switcher.created", function(window, path, label)
   local workspace_state = resurrect.workspace_state
@@ -81,26 +85,7 @@ wezterm.on("smart_workspace_switcher.workspace_switcher.created", function(windo
   })
 end)
 
--- Saves the state whenever I select a workspace
-wezterm.on("smart_workspace_switcher.workspace_switcher.selected", function(window, path, label)
-  local workspace_state = resurrect.workspace_state
-  resurrect.save_state(workspace_state.get_workspace_state())
-end)
-
-local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
-
-local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
-
-sessionizer.config.paths = {
-  "/home/tcrha/qbe",
-  "/home/tcrha/Projects",
-  "/home/tcrha/dotfiles"
-}
-
-local resurrect_event_listeners = {
-  "resurrect.error",
-  "resurrect.save_state.finished",
-}
+resurrect.periodic_save()
 local is_periodic_save = false
 wezterm.on("resurrect.periodic_save", function()
   is_periodic_save = true
@@ -120,12 +105,21 @@ for _, event in ipairs(resurrect_event_listeners) do
   end)
 end
 
-resurrect.periodic_save()
+-- Modal ---------------------------------
+local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
+
+-- Sessionizer ---------------------------
+local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
+
+sessionizer.config.paths = {
+  "/home/tcrha/qbe",
+  "/home/tcrha/Projects",
+  "/home/tcrha/dotfiles"
+}
 
 -----------------------------
 --- Keybindings
 -----------------------------
----
 local act = wezterm.action
 config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1000 }
 config.keys = {
@@ -144,7 +138,7 @@ config.keys = {
     mods = "LEADER",
     action = workspace_switcher.switch_workspace(),
   },
-  -- This will create a newconfig.keys = {
+
   -- This will create a new split and run your default program inside it
   { key = 'x', mods = 'LEADER', action = wezterm.action.CloseCurrentPane { confirm = false }},
   { key = 'UpArrow', mods = 'SHIFT', action = act.ScrollByLine(-1) },
@@ -384,6 +378,5 @@ bar.apply_to_config(
     },
   }
 )
--- tabline.apply_to_config(config)
 sessionizer.apply_to_config(config)
 return config
