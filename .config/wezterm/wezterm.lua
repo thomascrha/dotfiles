@@ -59,6 +59,8 @@ end
 -- Bar -----------------------------------
 local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 
+-- Smart Splits ---------------------------
+local smart_splits = wezterm.plugin.require('https://github.com/mrjones2014/smart-splits.nvim')
 -- Smart Workspace Switcher --------------
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 
@@ -121,8 +123,18 @@ sessionizer.config.paths = {
 --- Keybindings
 -----------------------------
 local act = wezterm.action
-config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1000 }
+local function is_vim(pane)
+  -- this is set by the plugin, and unset on ExitPre in Neovim
+  return pane:get_user_vars().IS_NVIM == 'true'
+end
+config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
 config.keys = {
+  {
+    -- make ctrl+` open input the text ` (backtick)
+    key = "`",
+    mods = "ALT",
+    action = act.SendString("`")
+  },
   {
     key = "/",
     mods = "LEADER",
@@ -334,8 +346,158 @@ config.keys = {
       end)
     end),
   },
+  {
+    key = "LeftArrow",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "LeftArrow", mods = 'CTRL' },
+        }, pane)
+      else
+        win:perform_action({ ActivatePaneDirection = "Left" }, pane)
+      end
+    end),
+  },
+  {
+    key = "LeftArrow",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "LeftArrow", mods = 'ALT' },
+        }, pane)
+      else
+        win:perform_action({ AdjustPaneSize = { direction = "Left", amount = 10 } }, pane)
+      end
+    end),
+  },
+  {
+    key = "RightArrow",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "RightArrow", mods = 'CTRL' },
+        }, pane)
+      else
+        win:perform_action({ ActivatePaneDirection = "Right" }, pane)
+      end
+    end),
+  },
+  {
+    key = "RightArrow",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "RightArrow", mods = 'ALT' },
+        }, pane)
+      else
+        win:perform_action({ AdjustPaneSize = { direction = "Right", amount = 10 } }, pane)
+      end
+    end),
+  },
+  {
+    key = "UpArrow",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "UpArrow", mods = 'CTRL' },
+        }, pane)
+      else
+        win:perform_action({ ActivatePaneDirection = "Up" }, pane)
+      end
+    end),
+  },
+  {
+    key = "UpArrow",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "UpArrow", mods = 'ALT' },
+        }, pane)
+      else
+        win:perform_action({ AdjustPaneSize = { direction = "Up", amount = 10 } }, pane)
+      end
+    end),
+  },
+  {
+    key = "DownArrow",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "DownArrow", mods = 'CTRL' },
+        }, pane)
+      else
+        win:perform_action({ ActivatePaneDirection = "Down" }, pane)
+      end
+    end),
+  },
+  {
+    key = "DownArrow",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = "DownArrow", mods = 'ALT' },
+        }, pane)
+      else
+        win:perform_action({ AdjustPaneSize = { direction = "Down", amount = 10 } }, pane)
+      end
+    end),
+  }
 }
 
+-- local function split_nav(resize_or_move, key)
+--   return {
+--     key = key .. 'Arrow',
+--     mods = resize_or_move == 'resize' and 'META' or 'CTRL',
+--     action = w.action_callback(function(win, pane)
+--       if is_vim(pane) then
+--         -- pass the keys through to vim/nvim
+--         win:perform_action({
+--           SendKey = { key = key, mods = resize_or_move == 'resize' and 'META' or 'CTRL' },
+--         }, pane)
+--       else
+--         if resize_or_move == 'resize' then
+--           win:perform_action({ AdjustPaneSize = { key, 10 } }, pane)
+--         else
+--           win:perform_action({ ActivatePaneDirection = key }, pane)
+--         end
+--       end
+--     end),
+--   }
+-- end
+--
+-- config.keys.upd
+--   keys = {
+--     -- move between split panes
+--     split_nav('move', 'Left'),
+--     split_nav('move', 'Down'),
+--     split_nav('move', 'Up'),
+--     split_nav('move', 'Right'),
+--     -- resize panes
+--     split_nav('resize', 'Left'),
+--     split_nav('resize', 'Down'),
+--     split_nav('resize', 'Up'),
+--     split_nav('resize', 'Left'),
+--   },
+-- }
+-----------------------------
+-- Load plugins
+-----------------------------
 -- Must be the last line
 workspace_switcher.apply_to_config(config)
 modal.apply_to_config(config)
@@ -378,5 +540,39 @@ bar.apply_to_config(
     },
   }
 )
+-- you can put the rest of your Wezterm config here
+smart_splits.apply_to_config(config, {
+  -- the default config is here, if you'd like to use the default keys,
+  -- you can omit this configuration table parameter and just use
+  -- smart_splits.apply_to_config(config)
+
+  -- directional keys to use in order of: left, down, up, right
+  direction_keys = { 'LeftArrow', 'DownArrow', 'UpArrow', 'RightArrow' },
+
+  -- modifier keys to combine with direction_keys
+  modifiers = {
+    move = 'CTRL', -- modifier to use for pane movement, e.g. CTRL+h to move left
+    resize = 'ALT', -- modifier to use for pane resize, e.g. ALT+h to resize to the left
+  },
+  -- log level to use: info, warn, error
+  log_level = 'info'
+})
 sessionizer.apply_to_config(config)
+
 return config
+--
+-- return {
+--   config = config,
+--   keys = {
+--     -- move between split panes
+--     split_nav('move', 'h'),
+--     split_nav('move', 'j'),
+--     split_nav('move', 'k'),
+--     split_nav('move', 'l'),
+--     -- resize panes
+--     split_nav('resize', 'h'),
+--     split_nav('resize', 'j'),
+--     split_nav('resize', 'k'),
+--     split_nav('resize', 'l'),
+--   },
+-- }
