@@ -60,7 +60,7 @@ end
 local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 
 -- Smart Splits ---------------------------
-local smart_splits = wezterm.plugin.require('https://github.com/mrjones2014/smart-splits.nvim')
+-- local smart_splits = wezterm.plugin.require('https://github.com/mrjones2014/smart-splits.nvim')
 -- Smart Workspace Switcher --------------
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 
@@ -70,45 +70,44 @@ local resurrect_event_listeners = {
   "resurrect.error",
   "resurrect.save_state.finished",
 }
--- Saves the state whenever I select a workspace
-wezterm.on("smart_workspace_switcher.workspace_switcher.selected", function(window, path, label)
-  local workspace_state = resurrect.workspace_state
-  resurrect.save_state(workspace_state.get_workspace_state())
-end)
--- loads the state whenever I create a new workspace
-wezterm.on("smart_workspace_switcher.workspace_switcher.created", function(window, path, label)
-  local workspace_state = resurrect.workspace_state
-
-  workspace_state.restore_workspace(resurrect.load_state(label, "workspace"), {
-    window = window,
-    relative = true,
-    restore_text = true,
-    on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-  })
-end)
-
 resurrect.periodic_save()
-local is_periodic_save = false
-wezterm.on("resurrect.periodic_save", function()
-  is_periodic_save = true
-end)
-for _, event in ipairs(resurrect_event_listeners) do
-  wezterm.on(event, function(...)
-    if event == "resurrect.save_state.finished" and is_periodic_save then
-      is_periodic_save = false
-      return
-    end
-    local args = { ... }
-    local msg = event
-    for _, v in ipairs(args) do
-      msg = msg .. " " .. tostring(v)
-    end
-    wezterm.gui.gui_windows()[1]:toast_notification("Wezterm - resurrect", msg, nil, 4000)
-  end)
-end
+-- -- Saves the state whenever I select a workspace
+-- wezterm.on("smart_workspace_switcher.workspace_switcher.selected", function(window, path, label)
+--   local workspace_state = resurrect.workspace_state
+--   resurrect.save_state(workspace_state.get_workspace_state())
+-- end)
+-- -- loads the state whenever I create a new workspace
+-- wezterm.on("smart_workspace_switcher.workspace_switcher.created", function(window, path, label)
+--   local workspace_state = resurrect.workspace_state
+--
+--   workspace_state.restore_workspace(resurrect.load_state(label, "workspace"), {
+--     window = window,
+--     relative = true,
+--     restore_text = true,
+--     on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+--   })
+-- end)
+
+-- local is_periodic_save = false
+-- wezterm.on("resurrect.periodic_save", function()
+--   is_periodic_save = true
+-- end)
+-- for _, event in ipairs(resurrect_event_listeners) do
+--   wezterm.on(event, function(...)
+--     if event == "resurrect.save_state.finished" and is_periodic_save then
+--       is_periodic_save = false
+--       return
+--     end
+--     local args = { ... }
+--     local msg = event
+--     for _, v in ipairs(args) do
+--       msg = msg .. " " .. tostring(v)
+--     end
+--   end)
+-- end
 
 -- Modal ---------------------------------
-local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
+-- local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 
 -- Sessionizer ---------------------------
 local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
@@ -160,11 +159,6 @@ config.keys = {
 
   { key = "-", mods = "LEADER", action = act.SplitVertical { domain="CurrentPaneDomain" }},
   { key = "\\", mods = "LEADER", action = act.SplitHorizontal { domain="CurrentPaneDomain" }},
-  { key = 'UpArrow', mods = "ALT", action = act.ActivatePaneDirection "Up" },
-  { key = 'LeftArrow', mods = "ALT", action = act.ActivatePaneDirection "Left" },
-  { key = 'DownArrow', mods = "ALT", action = act.ActivatePaneDirection "Down" },
-  { key = 'RightArrow', mods = "ALT", action = act.ActivatePaneDirection "Right" },
-
   { key = 'c', mods = "LEADER", action = act.SpawnTab "CurrentPaneDomain" },
   { key = 'w', mods = "LEADER", action = act.CloseCurrentTab { confirm = false }},
   -- goto tabs via index
@@ -211,7 +205,6 @@ config.keys = {
     action = wezterm.action_callback(function(window, pane)
       local workspaces = wezterm.mux.get_workspace_names()
       if #workspaces == 0 then
-        window:toast_notification('wezterm', 'No workspaces to delete', nil, 4000)
         return
       end
 
@@ -233,7 +226,6 @@ config.keys = {
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
               if id == active_workspace then
-                window:toast_notification('wezterm', 'Cannot delete active workspace', nil, 4000)
                 return
               end
               local success, stdout = wezterm.run_child_process({ "wezterm", "cli", "list", "--format=json" })
@@ -241,7 +233,6 @@ config.keys = {
               if success then
                 local json = wezterm.json_parse(stdout)
                 if not json then
-                  window:toast_notification('wezterm', 'Failed to parse workspace info', nil, 4000)
                   return
                 end
 
@@ -255,9 +246,7 @@ config.keys = {
                 for _, p in ipairs(workspace_panes) do
                   wezterm.run_child_process({ "wezterm", "cli", "kill-pane", "--pane-id=" .. p.pane_id })
                 end
-                window:toast_notification('wezterm', 'Workspace "' .. id .. '" deleted', nil, 4000)
               else
-                window:toast_notification('wezterm', 'Failed to list workspaces', nil, 4000)
               end
             end
           end),
@@ -313,7 +302,6 @@ config.keys = {
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-      win:toast_notification('wezterm', 'configuration saved', nil, 4000)
     end),
   },
   {
@@ -335,7 +323,6 @@ config.keys = {
           local state = resurrect.load_state(id, "workspace")
           resurrect.workspace_state.restore_workspace(state, opts)
           -- send notification
-          -- win:toast_notification("Wezterm - resurrect", "Workspace " .. label .. " restored", nil, 4000)
         elseif type == "window" then
           local state = resurrect.load_state(id, "window")
           resurrect.window_state.restore_window(pane:window(), state, opts)
@@ -348,20 +335,6 @@ config.keys = {
   },
   {
     key = "LeftArrow",
-    mods = "CTRL",
-    action = wezterm.action_callback(function(win, pane)
-      if is_vim(pane) then
-        -- pass the keys through to vim/nvim
-        win:perform_action({
-          SendKey = { key = "LeftArrow", mods = 'CTRL' },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Left" }, pane)
-      end
-    end),
-  },
-  {
-    key = "LeftArrow",
     mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       if is_vim(pane) then
@@ -370,21 +343,7 @@ config.keys = {
           SendKey = { key = "LeftArrow", mods = 'ALT' },
         }, pane)
       else
-        win:perform_action({ AdjustPaneSize = { direction = "Left", amount = 10 } }, pane)
-      end
-    end),
-  },
-  {
-    key = "RightArrow",
-    mods = "CTRL",
-    action = wezterm.action_callback(function(win, pane)
-      if is_vim(pane) then
-        -- pass the keys through to vim/nvim
-        win:perform_action({
-          SendKey = { key = "RightArrow", mods = 'CTRL' },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Right" }, pane)
+        win:perform_action({ ActivatePaneDirection = "Left" }, pane)
       end
     end),
   },
@@ -398,21 +357,7 @@ config.keys = {
           SendKey = { key = "RightArrow", mods = 'ALT' },
         }, pane)
       else
-        win:perform_action({ AdjustPaneSize = { direction = "Right", amount = 10 } }, pane)
-      end
-    end),
-  },
-  {
-    key = "UpArrow",
-    mods = "CTRL",
-    action = wezterm.action_callback(function(win, pane)
-      if is_vim(pane) then
-        -- pass the keys through to vim/nvim
-        win:perform_action({
-          SendKey = { key = "UpArrow", mods = 'CTRL' },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Up" }, pane)
+        win:perform_action({ ActivatePaneDirection = "Right" }, pane)
       end
     end),
   },
@@ -426,21 +371,7 @@ config.keys = {
           SendKey = { key = "UpArrow", mods = 'ALT' },
         }, pane)
       else
-        win:perform_action({ AdjustPaneSize = { direction = "Up", amount = 10 } }, pane)
-      end
-    end),
-  },
-  {
-    key = "DownArrow",
-    mods = "CTRL",
-    action = wezterm.action_callback(function(win, pane)
-      if is_vim(pane) then
-        -- pass the keys through to vim/nvim
-        win:perform_action({
-          SendKey = { key = "DownArrow", mods = 'CTRL' },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Down" }, pane)
+        win:perform_action({ ActivatePaneDirection = "Up" }, pane)
       end
     end),
   },
@@ -454,10 +385,66 @@ config.keys = {
           SendKey = { key = "DownArrow", mods = 'ALT' },
         }, pane)
       else
-        win:perform_action({ AdjustPaneSize = { direction = "Down", amount = 10 } }, pane)
+        win:perform_action({ ActivatePaneDirection = "Down" }, pane)
       end
     end),
-  }
+   },
+  -- {
+  --   key = "LeftArrow",
+  --   mods = "ALT",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     if is_vim(pane) then
+  --       -- pass the keys through to vim/nvim
+  --       win:perform_action({
+  --         SendKey = { key = "LeftArrow", mods = 'ALT' },
+  --       }, pane)
+  --     else
+  --       win:perform_action({ AdjustPaneSize = { direction = "Left", amount = 10 } }, pane)
+  --     end
+  --   end),
+  -- },
+  -- {
+  --   key = "RightArrow",
+  --   mods = "ALT",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     if is_vim(pane) then
+  --       -- pass the keys through to vim/nvim
+  --       win:perform_action({
+  --         SendKey = { key = "RightArrow", mods = 'ALT' },
+  --       }, pane)
+  --     else
+  --       win:perform_action({ AdjustPaneSize = { direction = "Right", amount = 10 } }, pane)
+  --     end
+  --   end),
+  -- },
+  -- {
+  --   key = "UpArrow",
+  --   mods = "ALT",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     if is_vim(pane) then
+  --       -- pass the keys through to vim/nvim
+  --       win:perform_action({
+  --         SendKey = { key = "UpArrow", mods = 'ALT' },
+  --       }, pane)
+  --     else
+  --       win:perform_action({ AdjustPaneSize = { direction = "Up", amount = 10 } }, pane)
+  --     end
+  --   end),
+  -- },
+  -- {
+  --   key = "DownArrow",
+  --   mods = "ALT",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     if is_vim(pane) then
+  --       -- pass the keys through to vim/nvim
+  --       win:perform_action({
+  --         SendKey = { key = "DownArrow", mods = 'ALT' },
+  --       }, pane)
+  --     else
+  --       win:perform_action({ AdjustPaneSize = { direction = "Down", amount = 10 } }, pane)
+  --     end
+  --   end),
+  -- }
 }
 
 -- local function split_nav(resize_or_move, key)
@@ -541,22 +528,22 @@ bar.apply_to_config(
   }
 )
 -- you can put the rest of your Wezterm config here
-smart_splits.apply_to_config(config, {
-  -- the default config is here, if you'd like to use the default keys,
-  -- you can omit this configuration table parameter and just use
-  -- smart_splits.apply_to_config(config)
-
-  -- directional keys to use in order of: left, down, up, right
-  direction_keys = { 'LeftArrow', 'DownArrow', 'UpArrow', 'RightArrow' },
-
-  -- modifier keys to combine with direction_keys
-  modifiers = {
-    move = 'CTRL', -- modifier to use for pane movement, e.g. CTRL+h to move left
-    resize = 'ALT', -- modifier to use for pane resize, e.g. ALT+h to resize to the left
-  },
-  -- log level to use: info, warn, error
-  log_level = 'info'
-})
+-- smart_splits.apply_to_config(config, {
+--   -- the default config is here, if you'd like to use the default keys,
+--   -- you can omit this configuration table parameter and just use
+--   -- smart_splits.apply_to_config(config)
+--
+--   -- directional keys to use in order of: left, down, up, right
+--   direction_keys = { 'LeftArrow', 'DownArrow', 'UpArrow', 'RightArrow' },
+--
+--   -- modifier keys to combine with direction_keys
+--   modifiers = {
+--     move = 'ALT', -- modifier to use for pane movement, e.g. CTRL+h to move left
+--     resize = 'ALT', -- modifier to use for pane resize, e.g. ALT+h to resize to the left
+--   },
+--   -- log level to use: info, warn, error
+--   log_level = 'info'
+-- })
 sessionizer.apply_to_config(config)
 
 return config
