@@ -135,6 +135,24 @@ config.keys = {
     action = act.SendString("`")
   },
   {
+    key = "t",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      -- Create a searchable list of paths that contain a git repo using fd
+      -- then check to see if there is a resseruct state for that path and if there
+      -- is, restore it. if there isn't, open the path as a new workspace withe the same
+      -- name as the rerrected state name.
+      local paths = {
+        "/home/tcrha/Projects",
+        "/home/tcrha/dotfiles"
+      }
+
+      for path in paths do
+        local success, stdout = wezterm.run_child_process({ "fd", "--type", "d", "--max-depth", "1", "--changed-within", "1d", "--hidden", "--no-ignore", "--no-ignore-vcs", "--no-ignore-file", "--no-ignore-global", "--no-ignore-parent
+
+    end),
+  },
+  {
     key = "/",
     mods = "LEADER",
     action = sessionizer.show,
