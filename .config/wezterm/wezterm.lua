@@ -138,18 +138,89 @@ config.keys = {
     key = "t",
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
-      -- Create a searchable list of paths that contain a git repo using fd
-      -- then check to see if there is a resseruct state for that path and if there
-      -- is, restore it. if there isn't, open the path as a new workspace withe the same
-      -- name as the rerrected state name.
       local paths = {
         "/home/tcrha/Projects",
         "/home/tcrha/dotfiles"
       }
 
-      for path in paths do
-        local success, stdout = wezterm.run_child_process({ "fd", "--type", "d", "--max-depth", "1", "--changed-within", "1d", "--hidden", "--no-ignore", "--no-ignore-vcs", "--no-ignore-file", "--no-ignore-global", "--no-ignore-parent
+      local choices = {}
+      for _, path in ipairs(paths) do
+        -- Find git repositories in the path using git rev-parse to find repository root
+        local success, stdout = wezterm.run_child_process({
+          "find",
+          path,
+          "-name", ".git",
+          "-type", "d",
+          "-prune"
+        })
 
+        if success then
+          -- Process each .git directory found
+          for git_dir in stdout:gmatch("[^\r\n]+") do
+            -- Get the parent directory of the .git folder (the repository root)
+            local project_path = git_dir:gsub("/.git$", "")
+            -- Get the project name from the path
+            local project_name = project_path:match(".*/(.+)$")
+            if project_name then
+              table.insert(choices, {
+                label = project_name,
+                id = project_path
+              })
+            end
+          end
+        end
+      end
+
+      if #choices == 0 then
+        wezterm.log_info("No git repositories found")
+        return
+      end
+
+      -- Show the selector
+      win:perform_action(
+        act.InputSelector {
+          title = "Select Project",
+          choices = choices,
+          action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+            print(inner_window, inner_pane, id, label)
+            if id then
+              -- First switch to the workspace
+              inner_window:perform_action(
+                act.SwitchToWorkspace {
+                  name = label,
+                  spawn = {
+                    args = { 'zsh' },
+                    cwd = id,
+                  },
+                },
+                inner_pane
+              )
+
+              -- Wait a moment for the workspace to be ready
+              wezterm.sleep_ms(100)
+
+              -- Get the state file path for this workspace
+              local state_path = resurrect.get_state_path(label, "workspace")
+              local exists = wezterm.run_child_process({"test", "-f", state_path})
+
+              if exists then
+                -- State exists, load and restore it
+                local state = resurrect.load_state(label, "workspace")
+                resurrect.workspace_state.restore_workspace(state, {
+                  window = inner_window,
+                  relative = true,
+                  restore_text = true,
+                  on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+                })
+              else
+                -- No existing state, save initial state
+                resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+              end
+            end
+          end),
+        },
+        pane
+      )
     end),
   },
   {
@@ -505,7 +576,6 @@ config.keys = {
 -----------------------------
 -- Must be the last line
 workspace_switcher.apply_to_config(config)
-modal.apply_to_config(config)
 resurrect.periodic_save()
 bar.apply_to_config(
   config,
