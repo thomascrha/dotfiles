@@ -59,64 +59,17 @@ end
 -- Bar -----------------------------------
 local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 
--- Smart Splits ---------------------------
--- local smart_splits = wezterm.plugin.require('https://github.com/mrjones2014/smart-splits.nvim')
 -- Smart Workspace Switcher --------------
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 
 -- Resurrect ------------------------------
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
-local resurrect_event_listeners = {
-  "resurrect.error",
-  "resurrect.save_state.finished",
-}
-resurrect.periodic_save()
--- -- Saves the state whenever I select a workspace
--- wezterm.on("smart_workspace_switcher.workspace_switcher.selected", function(window, path, label)
---   local workspace_state = resurrect.workspace_state
---   resurrect.save_state(workspace_state.get_workspace_state())
--- end)
--- -- loads the state whenever I create a new workspace
--- wezterm.on("smart_workspace_switcher.workspace_switcher.created", function(window, path, label)
---   local workspace_state = resurrect.workspace_state
---
---   workspace_state.restore_workspace(resurrect.load_state(label, "workspace"), {
---     window = window,
---     relative = true,
---     restore_text = true,
---     on_pane_restore = resurrect.tab_state.default_on_pane_restore,
---   })
--- end)
-
--- local is_periodic_save = false
--- wezterm.on("resurrect.periodic_save", function()
---   is_periodic_save = true
--- end)
--- for _, event in ipairs(resurrect_event_listeners) do
---   wezterm.on(event, function(...)
---     if event == "resurrect.save_state.finished" and is_periodic_save then
---       is_periodic_save = false
---       return
---     end
---     local args = { ... }
---     local msg = event
---     for _, v in ipairs(args) do
---       msg = msg .. " " .. tostring(v)
---     end
---   end)
--- end
-
--- Modal ---------------------------------
--- local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
-
--- Sessionizer ---------------------------
-local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
-
-sessionizer.config.paths = {
-  "/home/tcrha/qbe",
-  "/home/tcrha/Projects",
-  "/home/tcrha/dotfiles"
-}
+resurrect.periodic_save({
+  interval_seconds = 60,
+  save_workspaces = true,
+  save_windows = true,
+  save_tabs = true,
+})
 
 -----------------------------
 --- Keybindings
@@ -126,6 +79,10 @@ local function is_vim(pane)
   -- this is set by the plugin, and unset on ExitPre in Neovim
   return pane:get_user_vars().IS_NVIM == 'true'
 end
+local paths = {
+  "/home/tcrha/Projects",
+  "/home/tcrha/dotfiles"
+}
 config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
 config.keys = {
   {
@@ -135,13 +92,9 @@ config.keys = {
     action = act.SendString("`")
   },
   {
-    key = "t",
+    key = "/",
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
-      local paths = {
-        "/home/tcrha/Projects",
-        "/home/tcrha/dotfiles"
-      }
 
       local choices = {}
       for _, path in ipairs(paths) do
@@ -179,7 +132,9 @@ config.keys = {
       -- Show the selector
       win:perform_action(
         act.InputSelector {
-          title = "Select Project",
+          title = "Switch Project",
+          fuzzy_description = "Search Project: ",
+          fuzzy = true,
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             print(inner_window, inner_pane, id, label)
@@ -200,19 +155,22 @@ config.keys = {
               wezterm.sleep_ms(100)
 
               -- Get the state file path for this workspace
-              local state_path = resurrect.get_state_path(label, "workspace")
+              local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
               local exists = wezterm.run_child_process({"test", "-f", state_path})
 
               if exists then
-                -- State exists, load and restore it
-                local state = resurrect.load_state(label, "workspace")
-                resurrect.workspace_state.restore_workspace(state, {
-                  window = inner_window,
+                print("State exists")
+                local opts = {
+                  -- do in the current window
+                  -- window = win:mux_window(), -- THIS IS THE NEW PART
                   relative = true,
                   restore_text = true,
                   on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-                })
+                }
+                local state = resurrect.load_state(label, "workspace")
+                resurrect.workspace_state.restore_workspace(state, opts)
               else
+                print("State does not exist")
                 -- No existing state, save initial state
                 resurrect.save_state(resurrect.workspace_state.get_workspace_state())
               end
@@ -222,16 +180,6 @@ config.keys = {
         pane
       )
     end),
-  },
-  {
-    key = "/",
-    mods = "LEADER",
-    action = sessionizer.show,
-  },
-  {
-    key = "Tab",
-    mods = "LEADER",
-    action = sessionizer.switch_to_most_recent,
   },
   {
     key = "s",
