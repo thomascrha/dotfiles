@@ -484,41 +484,6 @@ config.keys = {
   -- }
 }
 
--- local function split_nav(resize_or_move, key)
---   return {
---     key = key .. 'Arrow',
---     mods = resize_or_move == 'resize' and 'META' or 'CTRL',
---     action = w.action_callback(function(win, pane)
---       if is_vim(pane) then
---         -- pass the keys through to vim/nvim
---         win:perform_action({
---           SendKey = { key = key, mods = resize_or_move == 'resize' and 'META' or 'CTRL' },
---         }, pane)
---       else
---         if resize_or_move == 'resize' then
---           win:perform_action({ AdjustPaneSize = { key, 10 } }, pane)
---         else
---           win:perform_action({ ActivatePaneDirection = key }, pane)
---         end
---       end
---     end),
---   }
--- end
---
--- config.keys.upd
---   keys = {
---     -- move between split panes
---     split_nav('move', 'Left'),
---     split_nav('move', 'Down'),
---     split_nav('move', 'Up'),
---     split_nav('move', 'Right'),
---     -- resize panes
---     split_nav('resize', 'Left'),
---     split_nav('resize', 'Down'),
---     split_nav('resize', 'Up'),
---     split_nav('resize', 'Left'),
---   },
--- }
 -----------------------------
 -- Load plugins
 -----------------------------
@@ -563,39 +528,5 @@ bar.apply_to_config(
     },
   }
 )
--- you can put the rest of your Wezterm config here
--- smart_splits.apply_to_config(config, {
---   -- the default config is here, if you'd like to use the default keys,
---   -- you can omit this configuration table parameter and just use
---   -- smart_splits.apply_to_config(config)
---
---   -- directional keys to use in order of: left, down, up, right
---   direction_keys = { 'LeftArrow', 'DownArrow', 'UpArrow', 'RightArrow' },
---
---   -- modifier keys to combine with direction_keys
---   modifiers = {
---     move = 'ALT', -- modifier to use for pane movement, e.g. CTRL+h to move left
---     resize = 'ALT', -- modifier to use for pane resize, e.g. ALT+h to resize to the left
---   },
---   -- log level to use: info, warn, error
---   log_level = 'info'
--- })
-sessionizer.apply_to_config(config)
 
 return config
---
--- return {
---   config = config,
---   keys = {
---     -- move between split panes
---     split_nav('move', 'h'),
---     split_nav('move', 'j'),
---     split_nav('move', 'k'),
---     split_nav('move', 'l'),
---     -- resize panes
---     split_nav('resize', 'h'),
---     split_nav('resize', 'j'),
---     split_nav('resize', 'k'),
---     split_nav('resize', 'l'),
---   },
--- }
