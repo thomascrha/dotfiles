@@ -72,6 +72,54 @@ resurrect.periodic_save({
 })
 
 -----------------------------
+--- Default projects
+-----------------------------
+---
+
+local paths = {
+  "/home/tcrha/Projects",
+  -- "/home/tcrha/dotfiles"
+}
+local choices = {}
+for _, path in ipairs(paths) do
+  -- Find git repositories in the path using git rev-parse to find repository root
+  local success, stdout = wezterm.run_child_process({"fd", "-t", "d", "-H", "^.git$", "--prune", path})
+
+  if success then
+    -- Process each .git directory found
+    for git_dir in stdout:gmatch("[^\r\n]+") do
+      -- Extract just the project name (last directory before .git)
+      local project_name = git_dir:match(".*/([^/]+)/.git/?$")
+      if project_name then
+        -- Get the full path without the .git suffix
+        local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
+        -- if not in choices, add it
+        if not choices[project_path] then
+          table.insert(choices, {
+            label = project_name,
+            id = project_path
+          })
+        end
+      end
+    end
+  end
+end
+
+print(choices)
+if #choices > 0 then
+  for _, choice in ipairs(choices) do
+    local state_path = resurrect.save_state_dir .. "workspace/" .. choice.label .. ".json"
+    local exists = wezterm.run_child_process({"test", "-f", state_path})
+
+    if not exists then
+      print("State does not exist for " .. choice.label)
+      -- No existing state, save initial state
+      -- resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+    end
+  end
+end
+
+-----------------------------
 --- Keybindings
 -----------------------------
 local act = wezterm.action
@@ -79,10 +127,6 @@ local function is_vim(pane)
   -- this is set by the plugin, and unset on ExitPre in Neovim
   return pane:get_user_vars().IS_NVIM == 'true'
 end
-local paths = {
-  "/home/tcrha/Projects",
-  "/home/tcrha/dotfiles"
-}
 config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
 config.keys = {
   {
@@ -90,92 +134,6 @@ config.keys = {
     key = "`",
     mods = "ALT",
     action = act.SendString("`")
-  },
-  {
-    key = "/",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-
-      local choices = {}
-      for _, path in ipairs(paths) do
-        -- Find git repositories in the path using git rev-parse to find repository root
-        print("Searching for git repositories in " .. path)
-        local success, stdout = wezterm.run_child_process({"fd", "-t", "d", "-H", "^.git$", "--prune", path})
-
-        if success then
-                   -- Process each .git directory found
-          for git_dir in stdout:gmatch("[^\r\n]+") do
-            -- Extract just the project name (last directory before .git)
-            local project_name = git_dir:match(".*/([^/]+)/.git/?$")
-            print("Found project: " .. project_name)
-            if project_name then
-              -- Get the full path without the .git suffix
-              local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
-              table.insert(choices, {
-                label = project_name,
-                id = project_path
-              })
-            end
-          end
-        end
-      end
-
-      if #choices == 0 then
-        wezterm.log_info("No git repositories found")
-        return
-      end
-
-      -- Show the selector
-      win:perform_action(
-        act.InputSelector {
-          title = "Switch Project",
-          fuzzy_description = "Search Project: ",
-          fuzzy = true,
-          choices = choices,
-          action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
-            print(inner_window, inner_pane, id, label)
-            if id then
-              -- First switch to the workspace
-              inner_window:perform_action(
-                act.SwitchToWorkspace {
-                  name = label,
-                  spawn = {
-                    args = { 'zsh' },
-                    cwd = id,
-                  },
-                },
-                inner_pane
-              )
-
-              -- Wait a moment for the workspace to be ready
-              wezterm.sleep_ms(100)
-
-              -- Get the state file path for this workspace
-              local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
-              local exists = wezterm.run_child_process({"test", "-f", state_path})
-
-              if exists then
-                print("State exists")
-                local opts = {
-                  -- do in the current window
-                  -- window = win:mux_window(), -- THIS IS THE NEW PART
-                  relative = true,
-                  restore_text = true,
-                  on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-                }
-                local state = resurrect.load_state(label, "workspace")
-                resurrect.workspace_state.restore_workspace(state, opts)
-              else
-                print("State does not exist")
-                -- No existing state, save initial state
-                resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-              end
-            end
-          end),
-        },
-        pane
-      )
-    end),
   },
   {
     key = "s",
@@ -199,8 +157,9 @@ config.keys = {
 
       win:perform_action(
         act.InputSelector {
-          description = '⚠️  Select workspace to switch to',
+          fuzzy_description = '⚠️  Select workspace to switch to: ',
           title = '⚠️  Select workspace to switch to',
+          fuzzy = true,
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
@@ -355,8 +314,8 @@ config.keys = {
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       resurrect.fuzzy_load(win, pane, function(id)
-          resurrect.delete_state(id)
-        end,
+        resurrect.delete_state(id)
+      end,
         {
           title = "Delete State",
           description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
@@ -456,7 +415,7 @@ config.keys = {
         win:perform_action({ ActivatePaneDirection = "Down" }, pane)
       end
     end),
-   },
+  },
   -- {
   --   key = "LeftArrow",
   --   mods = "ALT",
@@ -515,49 +474,49 @@ config.keys = {
   -- }
 }
 
------------------------------
--- Load plugins
------------------------------
--- Must be the last line
--- workspace_switcher.apply_to_config(config)
-resurrect.periodic_save()
-bar.apply_to_config(
-  config,
-  {
-    colors = {
-      tab_bar = {
-        active_tab = {
-          bg_color = "#000000"
+  -----------------------------
+  -- Load plugins
+  -----------------------------
+  -- Must be the last line
+  -- workspace_switcher.apply_to_config(config)
+  resurrect.periodic_save()
+  bar.apply_to_config(
+    config,
+    {
+      colors = {
+        tab_bar = {
+          active_tab = {
+            bg_color = "#000000"
+          },
+          inactive_tab = {
+            bg_color = "#000000"
+          },
+        }
+      },
+      modules = {
+        workspaces = {
+          enabled = false,
         },
-        inactive_tab = {
-          bg_color = "#000000"
+        leader = {
+          enabled = false,
         },
-      }
-    },
-    modules = {
-      workspaces = {
-        enabled = false,
+        pane = {
+          enabled = false,
+        },
+        username = {
+          enabled = false,
+        },
+        hostname = {
+          enabled = false,
+        },
+        clock = {
+          enabled = false
+        },
+        cwd = {
+          enabled = false
+        },
       },
-      leader = {
-        enabled = false,
-      },
-      pane = {
-        enabled = false,
-      },
-      username = {
-        enabled = false,
-      },
-      hostname = {
-        enabled = false,
-      },
-      clock = {
-        enabled = false
-      },
-      cwd = {
-        enabled = false
-      },
-    },
-  }
-)
+    }
+  )
 
-return config
+  return config
