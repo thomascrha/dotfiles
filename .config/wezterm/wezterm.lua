@@ -60,7 +60,7 @@ end
 local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 
 -- Smart Workspace Switcher --------------
-local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
+-- local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 
 -- Resurrect ------------------------------
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
@@ -99,22 +99,18 @@ config.keys = {
       local choices = {}
       for _, path in ipairs(paths) do
         -- Find git repositories in the path using git rev-parse to find repository root
-        local success, stdout = wezterm.run_child_process({
-          "find",
-          path,
-          "-name", ".git",
-          "-type", "d",
-          "-prune"
-        })
+        print("Searching for git repositories in " .. path)
+        local success, stdout = wezterm.run_child_process({"fd", "-t", "d", "-H", "^.git$", "--prune", path})
 
         if success then
-          -- Process each .git directory found
+                   -- Process each .git directory found
           for git_dir in stdout:gmatch("[^\r\n]+") do
-            -- Get the parent directory of the .git folder (the repository root)
-            local project_path = git_dir:gsub("/.git$", "")
-            -- Get the project name from the path
-            local project_name = project_path:match(".*/(.+)$")
+            -- Extract just the project name (last directory before .git)
+            local project_name = git_dir:match(".*/([^/]+)/.git/?$")
+            print("Found project: " .. project_name)
             if project_name then
+              -- Get the full path without the .git suffix
+              local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
               table.insert(choices, {
                 label = project_name,
                 id = project_path
@@ -184,7 +180,42 @@ config.keys = {
   {
     key = "s",
     mods = "LEADER",
-    action = workspace_switcher.switch_workspace(),
+    -- action = workspace_switcher.switch_workspace(),
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = wezterm.mux.get_workspace_names()
+      if #workspaces == 0 then
+        return
+      end
+
+      local choices = {}
+      local active_workspace = wezterm.mux.get_active_workspace()
+
+      for _, workspace_name in ipairs(workspaces) do
+        table.insert(choices, {
+          label = workspace_name .. (workspace_name == active_workspace and ' (active)' or ''),
+          id = workspace_name,
+        })
+      end
+
+      win:perform_action(
+        act.InputSelector {
+          description = '⚠️  Select workspace to switch to',
+          title = '⚠️  Select workspace to switch to',
+          choices = choices,
+          action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+            if id then
+              inner_window:perform_action(
+                act.SwitchToWorkspace {
+                  name = label,
+                },
+                inner_pane
+              )
+            end
+          end),
+        },
+        pane
+      )
+    end),
   },
 
   -- This will create a new split and run your default program inside it
@@ -488,7 +519,7 @@ config.keys = {
 -- Load plugins
 -----------------------------
 -- Must be the last line
-workspace_switcher.apply_to_config(config)
+-- workspace_switcher.apply_to_config(config)
 resurrect.periodic_save()
 bar.apply_to_config(
   config,
