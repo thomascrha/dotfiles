@@ -349,6 +349,8 @@ config.keys = {
         if type == "workspace" then
           local state = resurrect.load_state(id, "workspace")
           resurrect.workspace_state.restore_workspace(state, opts)
+          -- set the name of the workspace to id (the name of the file)
+          win:active_tab():set_title(id)
           -- send notification
         elseif type == "window" then
           local state = resurrect.load_state(id, "window")
