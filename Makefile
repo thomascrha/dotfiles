@@ -9,6 +9,7 @@ help:
 stow: ## Stow dotfiles
 	stow --no-folding -t ${HOME} -v -R -d ${PWD} -S .
 	sudo find ${HOME} -xtype l -delete
+	./decrypt.sh
 
 unstow: ## Unstow dotfiles
 	stow -t ${HOME} -d ${PWD} -D .
