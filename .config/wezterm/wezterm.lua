@@ -105,6 +105,9 @@ resurrect.periodic_save({
   save_tabs = true,
 })
 
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+  resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
+end
 -----------------------------
 --- Keybindings
 -----------------------------
@@ -125,12 +128,120 @@ config.keys = {
     mods = "ALT",
     action = act.SendString("`")
   },
+  -- {
+  --   key = "/",
+  --   mods = "LEADER",
+  --   action = wezterm.action_callback(function(win, pane)
+  --
+  --     local choices = {}
+  --     for _, path in ipairs(paths) do
+  --       -- Find git repositories in the path using git rev-parse to find repository root
+  --       print("Searching for git repositories in " .. path)
+  --       local success, stdout = wezterm.run_child_process({"fd", "-t", "d", "-H", "^.git$", "--prune", path})
+  --
+  --       if success then
+  --         -- Process each .git directory found
+  --         for git_dir in stdout:gmatch("[^\r\n]+") do
+  --           -- Extract just the project name (last directory before .git)
+  --           local project_name = git_dir:match(".*/([^/]+)/.git/?$")
+  --           print("Found project: " .. project_name)
+  --           if project_name then
+  --             -- Get the full path without the .git suffix
+  --             local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
+  --             table.insert(choices, {
+  --               label = project_name,
+  --               id = project_path
+  --             })
+  --           end
+  --         end
+  --       end
+  --     end
+  --
+  --     if #choices == 0 then
+  --       wezterm.log_info("No git repositories found")
+  --       return
+  --     end
+  --
+  --     -- Show the selector
+  --     win:perform_action(
+  --       act.InputSelector {
+  --         title = "Switch Project",
+  --         fuzzy_description = "Search Project: ",
+  --         fuzzy = true,
+  --         choices = choices,
+  --         action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+  --           print(inner_window, inner_pane, id, label)
+  --           if id then
+  --             -- First switch to the workspace
+  --             inner_window:perform_action(
+  --               act.SwitchToWorkspace {
+  --                 name = label,
+  --                 spawn = {
+  --                   args = { 'zsh' },
+  --                   cwd = id,
+  --                 },
+  --               },
+  --               inner_pane
+  --             )
+  --
+  --             -- Wait a moment for the workspace to be ready
+  --             -- wezterm.slee_ms(100)
+  --
+  --             -- Get the state file path for this workspace
+  --             local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
+  --             local exists = wezterm.run_child_process({"test", "-f", state_path})
+  --
+  --             if exists then
+  --               print("State exists")
+  --               local opts = {
+  --                 -- do in the current window
+  --                 -- window = win:mux_window(), -- THIS IS THE NEW PART
+  --                 relative = true,
+  --                 restore_text = true,
+  --                 on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+  --               }
+  --               local state = resurrect.load_state(label, "workspace")
+  --               resurrect.workspace_state.restore_workspace(state, opts)
+  --             else
+  --               print("State does not exist")
+  --               -- No existing state, save initial state
+  --               resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+  --             end
+  --           end
+  --         end),
+  --       },
+  --       pane
+  --     )
+  --   end),
+  -- },
   {
     key = "/",
     mods = "LEADER",
+    -- action = workspace_switcher.switch_workspace(),
     action = wezterm.action_callback(function(win, pane)
+      local workspaces = wezterm.mux.get_workspace_names()
+      if #workspaces == 0 then
+        return
+      end
 
+      local projects = {}
       local choices = {}
+      local active_workspace = wezterm.mux.get_active_workspace()
+
+      for _, workspace_name in ipairs(workspaces) do
+        if workspace_name == active_workspace then
+          print("Active workspace: " .. workspace_name)
+        else
+          table.insert(choices, {
+            label = workspace_name .. ' (open)',
+            id = workspace_name,
+          })
+          -- open
+          projects[workspace_name] = true
+        end
+      end
+
+      -- get projects
       for _, path in ipairs(paths) do
         -- Find git repositories in the path using git rev-parse to find repository root
         print("Searching for git repositories in " .. path)
@@ -143,32 +254,34 @@ config.keys = {
             local project_name = git_dir:match(".*/([^/]+)/.git/?$")
             print("Found project: " .. project_name)
             if project_name then
-              -- Get the full path without the .git suffix
-              local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
-              table.insert(choices, {
-                label = project_name,
-                id = project_path
-              })
+                if projects[project_name] then
+                  print("Project already open")
+                else
+                  -- closed
+                  projects[project_name] = false
+                  -- Get the full path without the .git suffix
+                  local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
+                  table.insert(choices, {
+                    label = project_name .. ' (closed)',
+                    id = project_path,
+                  })
+              end
             end
           end
         end
       end
 
-      if #choices == 0 then
-        wezterm.log_info("No git repositories found")
-        return
-      end
-
-      -- Show the selector
       win:perform_action(
         act.InputSelector {
-          title = "Switch Project",
-          fuzzy_description = "Search Project: ",
+          fuzzy_description = '⚠️  Select workspace to switch to: ',
+          title = '⚠️  Select workspace to switch to: ',
           fuzzy = true,
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
-            print(inner_window, inner_pane, id, label)
             if id then
+              -- remove the '(open)' or '(closed)' from the label
+              label = string.match(label, "^(.+) %(.+%)$")
+
               -- First switch to the workspace
               inner_window:perform_action(
                 act.SwitchToWorkspace {
@@ -181,69 +294,43 @@ config.keys = {
                 inner_pane
               )
 
-              -- Wait a moment for the workspace to be ready
-              wezterm.sleep_ms(100)
+              -- closed
+              if projects[label] == false then
+                -- Wait a moment for the workspace to be ready
+                wezterm.sleep_ms(100)
 
-              -- Get the state file path for this workspace
-              local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
-              local exists = wezterm.run_child_process({"test", "-f", state_path})
+                -- Get the state file path for this workspace
+                local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
+                local exists = wezterm.run_child_process({"test", "-f", state_path})
 
-              if exists then
-                print("State exists")
-                local opts = {
-                  -- do in the current window
-                  -- window = win:mux_window(), -- THIS IS THE NEW PART
-                  relative = true,
-                  restore_text = true,
-                  on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-                }
-                local state = resurrect.load_state(label, "workspace")
-                resurrect.workspace_state.restore_workspace(state, opts)
-              else
-                print("State does not exist")
-                -- No existing state, save initial state
-                resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+                if exists then
+                  print("State exists")
+                  local opts = {
+                    -- do in the current window
+                    -- window = win:mux_window(), -- THIS IS THE NEW PART
+                    relative = true,
+                    restore_text = true,
+                    on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+                  }
+                  local state = resurrect.load_state(label, "workspace")
+                  resurrect.workspace_state.restore_workspace(state, opts)
+                else
+                  print("State does not exist")
+                  -- No existing state, save initial state
+                  resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+                end
               end
-            end
-          end),
-        },
-        pane
-      )
-    end),
-  },
-  {
-    key = "s",
-    mods = "LEADER",
-    -- action = workspace_switcher.switch_workspace(),
-    action = wezterm.action_callback(function(win, pane)
-      local workspaces = wezterm.mux.get_workspace_names()
-      if #workspaces == 0 then
-        return
-      end
+              -- if open then
+              --   inner_window:perform_action(
+              --     act.SwitchToWorkspace {
+              --       name = label,
+              --     },
+              --     inner_pane
+              --   )
+              -- else
+              --
+              -- end
 
-      local choices = {}
-      local active_workspace = wezterm.mux.get_active_workspace()
-
-      for _, workspace_name in ipairs(workspaces) do
-        table.insert(choices, {
-          label = workspace_name .. (workspace_name == active_workspace and ' (active)' or ''),
-          id = workspace_name,
-        })
-      end
-
-      win:perform_action(
-        act.InputSelector {
-          description = '⚠️  Select workspace to switch to',
-          title = '⚠️  Select workspace to switch to',
-          choices = choices,
-          action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
-            if id then
-              inner_window:perform_action(
-                act.SwitchToWorkspace {
-                  name = label,
-                },
-                inner_pane
-              )
             end
           end),
         },
@@ -258,7 +345,7 @@ config.keys = {
   { key = 'DownArrow', mods = 'SHIFT', action = act.ScrollByLine(1) },
   { key = 'PageUp', action = act.ScrollByPage(-0.8) },
   { key = 'PageDown', action = act.ScrollByPage(0.8) },
-
+  -- { key = 'u', mods = "LEADER", action = wezterm.plugin.update_all() },
   { key = "-", mods = "LEADER", action = act.SplitVertical { domain="CurrentPaneDomain" }},
   { key = "\\", mods = "LEADER", action = act.SplitHorizontal { domain="CurrentPaneDomain" }},
   { key = 'c', mods = "LEADER", action = act.SpawnTab "CurrentPaneDomain" },
@@ -490,7 +577,7 @@ config.keys = {
         win:perform_action({ ActivatePaneDirection = "Down" }, pane)
       end
     end),
-   },
+  },
   -- {
   --   key = "LeftArrow",
   --   mods = "ALT",
@@ -548,4 +635,5 @@ config.keys = {
   --   end),
   -- }
 }
+
 return config
