@@ -98,5 +98,10 @@ return {
       end,
       once = true,
     })
+
+    create_autocmd('ModeChanged', {callback = function()
+      require('lualine').refresh {scope = 'window',  place = {'statusline'}}
+    end})
+
   end
 }

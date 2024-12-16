@@ -53,6 +53,14 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-22.04'}
 end
 
+-- Show which key table is active in the status area
+wezterm.on('update-right-status', function(window, pane)
+  local name = window:active_key_table()
+  if name then
+    name = 'TABLE: ' .. name
+  end
+  window:set_right_status(name or '')
+end)
 -----------------------------
 --- Plugins
 -----------------------------
@@ -116,103 +124,51 @@ local function is_vim(pane)
   -- this is set by the plugin, and unset on ExitPre in Neovim
   return pane:get_user_vars().IS_NVIM == 'true'
 end
+
 local paths = {
   "/home/tcrha/Projects",
   "/home/tcrha/dotfiles"
 }
+
 config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
 config.keys = {
+  --
+  -- CTRL+SHIFT+Space, followed by 'r' will put us in resize-pane
+  -- mode until we cancel that mode.
   {
-    -- make ctrl+` open input the text ` (backtick)
-    key = "`",
-    mods = "ALT",
-    action = act.SendString("`")
+    key = 'R',
+    mods = 'LEADER',
+    action = act.ActivateKeyTable {
+      name = 'resize_pane',
+      one_shot = false,
+    },
   },
+
+  -- CTRL+SHIFT+Space, followed by 'a' will put us in activate-pane
+  -- mode until we press some other key or until 1 second (1000ms)
+  -- of time elapses
   -- {
-  --   key = "/",
-  --   mods = "LEADER",
-  --   action = wezterm.action_callback(function(win, pane)
-  --
-  --     local choices = {}
-  --     for _, path in ipairs(paths) do
-  --       -- Find git repositories in the path using git rev-parse to find repository root
-  --       print("Searching for git repositories in " .. path)
-  --       local success, stdout = wezterm.run_child_process({"fd", "-t", "d", "-H", "^.git$", "--prune", path})
-  --
-  --       if success then
-  --         -- Process each .git directory found
-  --         for git_dir in stdout:gmatch("[^\r\n]+") do
-  --           -- Extract just the project name (last directory before .git)
-  --           local project_name = git_dir:match(".*/([^/]+)/.git/?$")
-  --           print("Found project: " .. project_name)
-  --           if project_name then
-  --             -- Get the full path without the .git suffix
-  --             local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
-  --             table.insert(choices, {
-  --               label = project_name,
-  --               id = project_path
-  --             })
-  --           end
-  --         end
-  --       end
-  --     end
-  --
-  --     if #choices == 0 then
-  --       wezterm.log_info("No git repositories found")
-  --       return
-  --     end
-  --
-  --     -- Show the selector
-  --     win:perform_action(
-  --       act.InputSelector {
-  --         title = "Switch Project",
-  --         fuzzy_description = "Search Project: ",
-  --         fuzzy = true,
-  --         choices = choices,
-  --         action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
-  --           print(inner_window, inner_pane, id, label)
-  --           if id then
-  --             -- First switch to the workspace
-  --             inner_window:perform_action(
-  --               act.SwitchToWorkspace {
-  --                 name = label,
-  --                 spawn = {
-  --                   args = { 'zsh' },
-  --                   cwd = id,
-  --                 },
-  --               },
-  --               inner_pane
-  --             )
-  --
-  --             -- Wait a moment for the workspace to be ready
-  --             -- wezterm.slee_ms(100)
-  --
-  --             -- Get the state file path for this workspace
-  --             local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
-  --             local exists = wezterm.run_child_process({"test", "-f", state_path})
-  --
-  --             if exists then
-  --               print("State exists")
-  --               local opts = {
-  --                 -- do in the current window
-  --                 -- window = win:mux_window(), -- THIS IS THE NEW PART
-  --                 relative = true,
-  --                 restore_text = true,
-  --                 on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-  --               }
-  --               local state = resurrect.load_state(label, "workspace")
-  --               resurrect.workspace_state.restore_workspace(state, opts)
-  --             else
-  --               print("State does not exist")
-  --               -- No existing state, save initial state
-  --               resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-  --             end
-  --           end
-  --         end),
-  --       },
-  --       pane
-  --     )
-  --   end),
+  --   key = 'a',
+  --   mods = 'LEADER',
+  --   action = act.ActivateKeyTable {
+  --     name = 'activate_pane',
+  --     timeout_milliseconds = 1000,
+  --   },
+  -- },
+  -- Add the key to activate window mode
+  -- {
+  --   key = 'alt',
+  --   action = act.ActivateKeyTable {
+  --     name = 'window_mode',
+  --     one_shot = false,
+  --     timeout_milliseconds = 1000,
+  --   },
+  -- },
+  -- {
+  --   -- make ctrl+` open input the text ` (backtick)
+  --   key = "`",
+  --   mods = "CTRL+SHIFT",
+  --   action = act.SendString("`")
   -- },
   {
     key = "/",
@@ -578,62 +534,31 @@ config.keys = {
       end
     end),
   },
-  -- {
-  --   key = "LeftArrow",
-  --   mods = "ALT",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     if is_vim(pane) then
-  --       -- pass the keys through to vim/nvim
-  --       win:perform_action({
-  --         SendKey = { key = "LeftArrow", mods = 'ALT' },
-  --       }, pane)
-  --     else
-  --       win:perform_action({ AdjustPaneSize = { direction = "Left", amount = 10 } }, pane)
-  --     end
-  --   end),
-  -- },
-  -- {
-  --   key = "RightArrow",
-  --   mods = "ALT",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     if is_vim(pane) then
-  --       -- pass the keys through to vim/nvim
-  --       win:perform_action({
-  --         SendKey = { key = "RightArrow", mods = 'ALT' },
-  --       }, pane)
-  --     else
-  --       win:perform_action({ AdjustPaneSize = { direction = "Right", amount = 10 } }, pane)
-  --     end
-  --   end),
-  -- },
-  -- {
-  --   key = "UpArrow",
-  --   mods = "ALT",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     if is_vim(pane) then
-  --       -- pass the keys through to vim/nvim
-  --       win:perform_action({
-  --         SendKey = { key = "UpArrow", mods = 'ALT' },
-  --       }, pane)
-  --     else
-  --       win:perform_action({ AdjustPaneSize = { direction = "Up", amount = 10 } }, pane)
-  --     end
-  --   end),
-  -- },
-  -- {
-  --   key = "DownArrow",
-  --   mods = "ALT",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     if is_vim(pane) then
-  --       -- pass the keys through to vim/nvim
-  --       win:perform_action({
-  --         SendKey = { key = "DownArrow", mods = 'ALT' },
-  --       }, pane)
-  --     else
-  --       win:perform_action({ AdjustPaneSize = { direction = "Down", amount = 10 } }, pane)
-  --     end
-  --   end),
-  -- }
+}
+config.key_tables = {
+  -- Defines the keys that are active in our resize-pane mode.
+  -- Since we're likely to want to make multiple adjustments,
+  -- we made the activation one_shot=false. We therefore need
+  -- to define a key assignment for getting out of this mode.
+  -- 'resize_pane' here corresponds to the name="resize_pane" in
+  -- the key assignments above.
+  resize_pane = {
+    { key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 15 } },
+    { key = 'h', action = act.AdjustPaneSize { 'Left', 15 } },
+
+    { key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 15 } },
+    { key = 'l', action = act.AdjustPaneSize { 'Right', 15 } },
+
+    { key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 15 } },
+    { key = 'k', action = act.AdjustPaneSize { 'Up', 15 } },
+
+    { key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 15 } },
+    { key = 'j', action = act.AdjustPaneSize { 'Down', 15 } },
+
+    -- Cancel the mode by pressing escape
+    { key = 'Escape', action = 'PopKeyTable' },
+  },
 }
 
 return config
+

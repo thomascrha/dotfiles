@@ -14,7 +14,8 @@ return {
               on_click = function()
                 local filename = vim.fn.expand('%:.')  -- %:. gives relative path from current working directory
                 vim.fn.setreg('"', filename)
-                -- vim.notify('Copied relative path to clipboard: ' .. filename, vim.log.levels.INFO)
+                -- add to system clipvoard
+                vim.fn.system('echo ' .. filename .. ' | wl-copy -n')
               end,
             }
           }
