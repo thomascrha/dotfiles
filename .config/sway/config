@@ -265,9 +265,9 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]
 bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $WOBSOCK
 
 ### print screen function
-bindsym $mod+Shift+s exec grimshot --notify copy area
-bindsym $mod+Ctrl+Shift+s exec grimshot --notify save area
-bindsym $mod+Ctrl+s exec grim -g "$(slurp)" - | swappy -f -
+bindsym $mod+Shift+s exec grimshot --notify copy anything
+bindsym $mod+Ctrl+Shift+s exec grimshot --notify save anything
+bindsym $mod+Ctrl+s exec grimshot save anything - | swappy -f -
 
 bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
 bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
