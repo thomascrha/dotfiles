@@ -17,8 +17,8 @@ return {
         defaults = {
           mappings = {
             n = {
-              ["|"] = require("telescope.actions").select_vertical,
-              ["_"] = require("telescope.actions").select_horizontal,
+              ["\\"] = require("telescope.actions").select_vertical,
+              ["-"] = require("telescope.actions").select_horizontal,
             },
           },
         },
