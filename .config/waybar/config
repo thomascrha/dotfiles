@@ -74,11 +74,11 @@
         "screenshot-selection-file": "grimshot --notify save area",
         "screenshot-selection-clip": "grimshot --notify copy area",
         "screenshot-selection-edit": "grim -g \"$(slurp)\" - | swappy -f -",
-        "screenshot-fullscreen-file": "grimshot --notify save",
-        "screenshot-fullscreen-clip": "grimshot --notify copy",
+        "screenshot-fullscreen-file": "grimshot --notify save screen",
+        "screenshot-fullscrden-clip": "grimshot --notify copy screen",
+        "screenshot-fullscreen-edit": "grim - | swappy -f -",
         "videoshot-fullscreen-file": "wf-recorder -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
         "videoshot-selection-file": "wf-recorder -g \"$(slurp)\" -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
-        "screenshot-fullscreen-edit": "grim - | swappy -f -"
       }
     },
     "custom/screenrotation-lock": {
