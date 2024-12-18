@@ -57,5 +57,12 @@ return {
     -----------------------------------------------------------------------------------
     -- Toggle relative line numbers
     vim.keymap.set("n", "<leader>rl", ":set relativenumber!<CR>", { desc = '[r]elative [l]ine numbers' })
+
+    -----------------------------------------------------------------------------------
+    --- Window splits
+    -----------------------------------------------------------------------------------
+
+    vim.keymap.set("n", "<C-w>-", ":split<CR>", { desc = 'split [h]orizontally' })
+    vim.keymap.set("n", "<C-w>\\", ":vsplit<CR>", { desc = 'split [v]ertically' })
   end
 }

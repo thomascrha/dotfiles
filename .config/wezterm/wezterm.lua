@@ -543,17 +543,18 @@ config.key_tables = {
   -- 'resize_pane' here corresponds to the name="resize_pane" in
   -- the key assignments above.
   resize_pane = {
-    { key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 15 } },
-    { key = 'h', action = act.AdjustPaneSize { 'Left', 15 } },
+    { key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 10 } },
+    { key = 'LeftArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Left', 3 } },
 
-    { key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 15 } },
-    { key = 'l', action = act.AdjustPaneSize { 'Right', 15 } },
+    { key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 10 } },
+    { key = 'RightArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Right', 3 } },
 
-    { key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 15 } },
-    { key = 'k', action = act.AdjustPaneSize { 'Up', 15 } },
+    { key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 10 } },
+    { key = 'UpArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Up', 3 } },
 
-    { key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 15 } },
-    { key = 'j', action = act.AdjustPaneSize { 'Down', 15 } },
+    { key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 10 } },
+    { key = 'DownArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Down', 3 } },
+
 
     -- Cancel the mode by pressing escape
     { key = 'Escape', action = 'PopKeyTable' },
