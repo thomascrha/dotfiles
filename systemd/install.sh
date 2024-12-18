@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # loop through all the .service files (and if it exists there -start.sh file) in the current directory
+echo "Installing services"
 for file in *.service; do
     # get the name of the service
     service_name=$(basename $file .service)
@@ -21,4 +22,17 @@ for file in *.service; do
     echo "Starting $service_name"
     # start the service
     systemctl --user start $service_name
+done
+
+echo "Installing timers"
+for file in *.timer; do
+    timer_name=$(basename $file .timer)
+    echo "Installing $timer_name"
+    sudo install -m 644 $file /usr/lib/systemd/user/
+    echo "Reloading systemd daemon"
+    systemctl --user daemon-reload
+    echo "Enabling $timer_name"
+    systemctl --user enable $timer_name
+    echo "Starting $timer_name"
+    systemctl --user start $timer_name
 done

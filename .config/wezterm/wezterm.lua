@@ -12,13 +12,13 @@ local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.9
 end
-
------------------------------
---- General settings
------------------------------
+--
+-- -----------------------------
+-- --- General settings
+-- -----------------------------
 config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
-config.default_gui_startup_args = {'start', '--always-new-process'}
+-- config.default_gui_startup_args = {'start', '--always-new-process'}
 
 config.color_scheme = 'OneHalfDark'
 config.font_size = 11
@@ -116,6 +116,15 @@ resurrect.periodic_save({
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
 end
+
+wezterm.on("resurrect.workspace_state.restore_workspace.finished",
+  function(window, pane, state)
+    -- send notification
+    local msg = "Workspace " .. state.name .. " restored"
+    wezterm.gui.gui_windows()[1]:toast_notification("Wezterm - resurrect", msg, nil, 4000)
+  end
+)
+
 -----------------------------
 --- Keybindings
 -----------------------------
