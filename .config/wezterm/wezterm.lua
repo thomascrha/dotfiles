@@ -147,20 +147,17 @@ local paths = {
 
 config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
 config.keys = {
-  --
-  -- CTRL+SHIFT+Space, followed by 'r' will put us in resize-pane
-  -- mode until we cancel that mode.
+  -- resize_mode,
   {
     key = 'R',
     mods = 'LEADER',
     action = modal.activate_mode("resize")
   },
-  -- resize_mode,
-  -- {
-  --   key = "U",
-  --   mods = "LEADER",
-  --   action = modal.activate_mode("UI"),
-  -- },
+  {
+    key = "`",
+    mods = "ALT",
+    action = wezterm.action.SendString("`"),
+  },
   {
     key = "/",
     mods = "LEADER",
