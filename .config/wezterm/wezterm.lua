@@ -1,9 +1,11 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
+local act = wezterm.action
 
--- TODO remove this when the issue is fixed
--- config.enable_wayland = false
---
+-- Add config directory to package path
+local config_dir = wezterm.config_dir
+package.path = config_dir .. "/?.lua;" .. config_dir .. "/?/init.lua;" .. package.path
+
 -----------------------------
 --- Guake mode
 -----------------------------
@@ -12,10 +14,10 @@ local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.9
 end
---
--- -----------------------------
--- --- General settings
--- -----------------------------
+
+-----------------------------
+--- General settings
+-----------------------------
 config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
 -- config.default_gui_startup_args = {'start', '--always-new-process'}
@@ -117,18 +119,22 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
 end
 
-wezterm.on("resurrect.workspace_state.restore_workspace.finished",
-  function(window, pane, state)
-    -- send notification
-    local msg = "Workspace " .. state.name .. " restored"
-    wezterm.gui.gui_windows()[1]:toast_notification("Wezterm - resurrect", msg, nil, 4000)
-  end
-)
+--- Modal (custom modes with modal plugin)
+local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
+wezterm.on("update-right-status", function(window, _)
+  modal.set_right_status(window)
+end)
+
+
+-----------------------------
+--- Custom modes
+-----------------------------
+local resize_mode = require('modes.resize')
+resize_mode.setup(modal)
 
 -----------------------------
 --- Keybindings
 -----------------------------
-local act = wezterm.action
 local function is_vim(pane)
   -- this is set by the plugin, and unset on ExitPre in Neovim
   return pane:get_user_vars().IS_NVIM == 'true'
@@ -147,37 +153,13 @@ config.keys = {
   {
     key = 'R',
     mods = 'LEADER',
-    action = act.ActivateKeyTable {
-      name = 'resize_pane',
-      one_shot = false,
-    },
+    action = modal.activate_mode("resize")
   },
-
-  -- CTRL+SHIFT+Space, followed by 'a' will put us in activate-pane
-  -- mode until we press some other key or until 1 second (1000ms)
-  -- of time elapses
+  -- resize_mode,
   -- {
-  --   key = 'a',
-  --   mods = 'LEADER',
-  --   action = act.ActivateKeyTable {
-  --     name = 'activate_pane',
-  --     timeout_milliseconds = 1000,
-  --   },
-  -- },
-  -- Add the key to activate window mode
-  -- {
-  --   key = 'alt',
-  --   action = act.ActivateKeyTable {
-  --     name = 'window_mode',
-  --     one_shot = false,
-  --     timeout_milliseconds = 1000,
-  --   },
-  -- },
-  -- {
-  --   -- make ctrl+` open input the text ` (backtick)
-  --   key = "`",
-  --   mods = "CTRL+SHIFT",
-  --   action = act.SendString("`")
+  --   key = "U",
+  --   mods = "LEADER",
+  --   action = modal.activate_mode("UI"),
   -- },
   {
     key = "/",
@@ -310,6 +292,7 @@ config.keys = {
   { key = 'DownArrow', mods = 'SHIFT', action = act.ScrollByLine(1) },
   { key = 'PageUp', action = act.ScrollByPage(-0.8) },
   { key = 'PageDown', action = act.ScrollByPage(0.8) },
+  { key = 'z', mods = "LEADER", action = act.TogglePaneZoomState },
   -- { key = 'u', mods = "LEADER", action = wezterm.plugin.update_all() },
   { key = "-", mods = "LEADER", action = act.SplitVertical { domain="CurrentPaneDomain" }},
   { key = "\\", mods = "LEADER", action = act.SplitHorizontal { domain="CurrentPaneDomain" }},
@@ -544,31 +527,7 @@ config.keys = {
     end),
   },
 }
-config.key_tables = {
-  -- Defines the keys that are active in our resize-pane mode.
-  -- Since we're likely to want to make multiple adjustments,
-  -- we made the activation one_shot=false. We therefore need
-  -- to define a key assignment for getting out of this mode.
-  -- 'resize_pane' here corresponds to the name="resize_pane" in
-  -- the key assignments above.
-  resize_pane = {
-    { key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 10 } },
-    { key = 'LeftArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Left', 3 } },
 
-    { key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 10 } },
-    { key = 'RightArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Right', 3 } },
-
-    { key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 10 } },
-    { key = 'UpArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Up', 3 } },
-
-    { key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 10 } },
-    { key = 'DownArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Down', 3 } },
-
-
-    -- Cancel the mode by pressing escape
-    { key = 'Escape', action = 'PopKeyTable' },
-  },
-}
-
+config.key_tables = modal.key_tables
 return config
 
