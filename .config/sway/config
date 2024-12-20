@@ -17,6 +17,8 @@ for_window [class=".*"] border pixel 3, titlebar none
 # default border pixel size
 default_border pixel 3
 
+smart_borders on
+
 bar {
     swaybar_command waybar
     position top

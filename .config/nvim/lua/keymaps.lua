@@ -5,6 +5,13 @@ return {
     -----------------------------------------------------------------------------------
     vim.keymap.set('n', '<leader>ii', 'gg=G``', { desc = 'Automatically [i]ndent file' })
 
+    -- Source file lua
+    vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>")
+    vim.keymap.set("n", "<leader>x", ":.lua<CR>")
+    vim.keymap.set("v", "<leader>x", ":lua<CR>")
+
+    -- vim.keymap.set('n', '<leader><leader>x', ':luafile %<CR>', { desc = 'Source file' })
+
     -----------------------------------------------------------------------------------
     -- Indent files with space instead of tabs
     -----------------------------------------------------------------------------------
@@ -56,7 +63,7 @@ return {
     -- Line numbers
     -----------------------------------------------------------------------------------
     -- Toggle relative line numbers
-    vim.keymap.set("n", "<leader>rl", ":set relativenumber!<CR>", { desc = '[r]elative [l]ine numbers' })
+    vim.keymap.set("n", "<leader>ll", ":set relativenumber!<CR>", { desc = '[r]elative [l]ine numbers' })
 
     -----------------------------------------------------------------------------------
     --- Window splits
