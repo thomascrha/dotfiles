@@ -103,5 +103,15 @@ return {
       require('lualine').refresh {scope = 'window',  place = {'statusline'}}
     end})
 
+    -- Disable line numbers in oil buffers
+    create_autocmd("BufEnter", {
+      group = augroup("oil_settings"),
+      pattern = "oil://*",
+      callback = function()
+        opt_local.number = false
+        opt_local.relativenumber = false
+      end,
+      desc = "Disable line numbers in oil file explorer",
+    })
   end
 }
