@@ -15,7 +15,7 @@ return {
       "j-hui/fidget.nvim"
   },
   config = function ()
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]ename' })
+    -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]ename' })
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode Action' })
 
     vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, { desc = 'Goto [D]efinition' })
