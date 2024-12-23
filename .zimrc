@@ -28,8 +28,6 @@ zmodule pacman
 zmodule duration-info
 # Exposes git repository status information to prompts, used by asciiship.
 zmodule git-info
-# A heavily reduced, ASCII-only version of the Spaceship and Starship prompts.
-zmodule asciiship
 
 #
 # Completion
@@ -55,6 +53,8 @@ zmodule zsh-users/zsh-history-substring-search
 zmodule zsh-users/zsh-autosuggestions
 # }}} End configuration added by Zim install
 
+zmodule zimfw/prompt-pwd
+# zmodule zimfw/eriner
 zmodule romkatv/powerlevel10k --use degit
 zmodule joke/zim-kubectl
 # zmodule joke/zim-starship
