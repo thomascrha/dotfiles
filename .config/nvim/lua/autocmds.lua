@@ -86,18 +86,18 @@ return {
     })
 
     -- Auto select virtualenv on Nvim open
-    create_autocmd('VimEnter', {
-      desc = 'Auto select virtualenv on Nvim open',
-      pattern = '*',
-      callback = function()
-        local venv = vim.fn.findfile('pyproject.toml', vim.fn.getcwd() .. ';')
-        local venvFolder = vim.fn.finddir('.venv', vim.fn.getcwd() .. ';')
-        if venv ~= '' or venvFolder ~= '' then
-          require('venv-selector').venv()
-        end
-      end,
-      once = true,
-    })
+    -- create_autocmd('VimEnter', {
+    --   desc = 'Auto select virtualenv on Nvim open',
+    --   pattern = '*',
+    --   callback = function()
+    --     local venv = vim.fn.findfile('pyproject.toml', vim.fn.getcwd() .. ';')
+    --     local venvFolder = vim.fn.finddir('.venv', vim.fn.getcwd() .. ';')
+    --     if venv ~= '' or venvFolder ~= '' then
+    --       require('venv-selector').venv()
+    --     end
+    --   end,
+    --   once = true,
+    -- })
 
     create_autocmd('ModeChanged', {callback = function()
       require('lualine').refresh {scope = 'window',  place = {'statusline'}}
