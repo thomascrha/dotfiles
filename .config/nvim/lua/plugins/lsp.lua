@@ -12,7 +12,6 @@ return {
       "hrsh7th/cmp-cmdline",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
-      "j-hui/fidget.nvim"
   },
   config = function ()
     -- LSP settings.
