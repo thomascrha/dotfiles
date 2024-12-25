@@ -106,6 +106,13 @@ bar.apply_to_config(
     },
   }
 )
+-- local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+-- tabline.setup({
+--   options = {
+--     theme = 'OneHalfDark',
+--     tabs_enabled = false,
+--   }
+-- })
 -- Resurrect ------------------------------
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 resurrect.periodic_save({
@@ -526,5 +533,6 @@ config.keys = {
 }
 
 config.key_tables = modal.key_tables
+-- tabline.apply_to_config(config)
 return config
 

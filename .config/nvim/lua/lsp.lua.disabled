@@ -1,19 +1,67 @@
 return {
   setup = function()
-    local servers = { }
-    local lua_lsp = require('langs.lua').setup()
-    table.insert(servers, lua_lsp)
+    -- local servers = { }
+    -- local lua_lsp = require('langs.lua').setup()
+    -- table.insert(servers, lua_lsp)
+    --
+    -- local python_lsp = require('langs.python').setup()
+    -- table.insert(servers, python_lsp)
+    --
+    -- local bash_lsp = require('langs.bash').setup()
+    -- table.insert(servers, bash_lsp)
 
-    local python_lsp = require('langs.python').setup()
-    table.insert(servers, python_lsp)
+    local servers = {
+      basedpyright = {},
+      bashls = {},
+      dockerls = {},
+      html = {},
+      jsonls = {},
+      gopls = {},
+      clangd = {},
+      lua_ls = {
+        Lua = {
+          workspace = { checkThirdParty = false },
+          telemetry = { enable = false },
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = {'vim'},
+          },
+        },
+      },
+    }
+    -- Setup neovim lua configuration
+    -- require('neodev').setup()
+    --
+    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    local bash_lsp = require('langs.bash').setup()
-    table.insert(servers, bash_lsp)
+    -- Setup mason so it can manage external tooling
+    require('mason').setup()
 
-    -- make sure all configured servers are installed
-    require('mason-lspconfig').setup({
-      ensure_installed = servers,
-    })
+    -- Ensure the servers above are installed
+    local mason_lspconfig = require 'mason-lspconfig'
+
+    mason_lspconfig.setup {
+      ensure_installed = vim.tbl_keys(servers),
+    }
+
+    mason_lspconfig.setup_handlers {
+      function(server_name)
+        vim.lsp.config[server_name] = {
+          capabilities = capabilities,
+          settings = servers[server_name],
+        }
+        vim.lsp.enable(server_name)
+      end,
+    }
+
+    -- Turn on lsp status information
+    require('fidget').setup()
+    -- -- make sure all configured servers are installed
+    -- require('mason-lspconfig').setup({
+    --   ensure_installed = servers,
+    -- })
 
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics,
