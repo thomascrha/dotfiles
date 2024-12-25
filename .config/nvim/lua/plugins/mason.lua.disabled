@@ -4,8 +4,8 @@ return {
       "j-hui/fidget.nvim",
       "williamboman/mason-lspconfig.nvim",
   },
-  config = function ()
-    require('mason').setup()
-    require('fidget').setup()
-  end
+  -- config = function ()
+  --   require('mason').setup()
+  --   require('fidget').setup()
+  -- end
 }

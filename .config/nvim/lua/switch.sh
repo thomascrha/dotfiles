@@ -8,6 +8,8 @@ if [ -f ./lsp.lua.disabled ]; then
     mv ./plugins/mason.lua.disabled ./plugins/mason.lua
     mv ./plugins/lsp.lua ./plugins/lsp.lua.disabled
     sed -i 's/-- require("lsp").setup()/require("lsp").setup()/' ./normal-init.lua
+    cd ../../../
+    make stow
 else
     echo "Turning OFF"
     mv ./lsp.lua ./lsp.lua.disabled
@@ -15,4 +17,6 @@ else
     mv ./plugins/mason.lua ./plugins/mason.lua.disabled
     mv ./plugins/lsp.lua.disabled ./plugins/lsp.lua
     sed -i 's/require("lsp").setup/-- require("lsp").setup/' ./normal-init.lua
+    cd ../../../
+    make stow
 fi
