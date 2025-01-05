@@ -90,19 +90,20 @@ set $teams teams-for-linux
 bindsym $mod+Return exec $exec_or_move $terminal
 bindsym $mod+b exec $exec_or_move $browser
 bindsym $mod+n exec $exec_or_move obsidian
-bindsym $mod+f exec $exec_or_move $filemanager
+bindsym $mod+g exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
 bindsym $mod+m exec $exec_or_move $teams
 
 bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Shift+b exec $browser
-bindsym $mod+Shift+f exec $filemanager
+bindsym $mod+Shift+g exec $filemanager
 bindsym $mod+Shift+e exec $email
 bindsym $mod+Shift+n exec $notes
 bindsym $mod+Shift+m exec $teams
 
 # Kill focused window
 bindsym $mod+q kill
+bindsym $mod+f fullscreen
 
 # Start your launcher
 bindsym $mod+Space exec $menu
@@ -277,6 +278,7 @@ bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
 
 bindsym $mod+Ctrl+Space exec playerctl play-pause
 
+# toggle fullscreen
 #########################################################################################
 #GUAKE MODE##############################################################################
 #########################################################################################

@@ -52,7 +52,7 @@ config.tab_bar_at_bottom = true
 --- Windows
 -----------------------------
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-  config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-22.04'}
+  config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-24.04'}
 end
 
 -- Show which key table is active in the status area
@@ -136,8 +136,10 @@ end)
 -----------------------------
 --- Custom modes
 -----------------------------
-local resize_mode = require('modes.resize')
-resize_mode.setup(modal)
+if not wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+  local resize_mode = require('modes.resize')
+  resize_mode.setup(modal)
+end
 
 -----------------------------
 --- Keybindings
