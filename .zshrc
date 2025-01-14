@@ -94,6 +94,16 @@ rir() {
     fi;
 }
 
+# run script ~/scripts/pass.sh to generate a password and if a argument is passed provide it to the script
+pass() {
+    if [ -z "$1" ]; then
+        $HOME/dotfiles/scripts/pass.sh
+    else;
+        $HOME/dotfiles/scripts/pass.sh $1
+    fi;
+}
+
+
 # upgrade system using dnf or apt determined by the system-files
 upgrade() {
     # check if flatpak is installed
