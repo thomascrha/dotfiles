@@ -25,6 +25,11 @@ return {
     vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true, desc = 'Disable space key' })
 
     -----------------------------------------------------------------------------------
+    vim.keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { desc = '[G]oto [D]efinition' })
+    vim.keymap.set('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', { desc = '[G]oto [R]eferences' })
+
+    vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', { desc = '[R]eplace [N]ame' })
+    -----------------------------------------------------------------------------------
     -- Use leader and yank to copy to the clipboard
     -----------------------------------------------------------------------------------
     vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = '[y]ank into system clipboard' })
