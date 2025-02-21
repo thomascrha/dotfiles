@@ -33,6 +33,11 @@ output "Dell Inc. DELL U3023E 40G15H3" {
     bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
 
+# eDP-1 "Japan Display Inc. 0x0000 (eDP-1)"
+bindsym $mod+Shift+d output "Japan Display Inc. 0x0000 (eDP-1)" toggle
+bindsym $mod+Shift+l output "Dell Inc. DELL U3023E 66YJ4H3" toggle
+bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
+
 #########################################################################################
 # Rotation ##############################################################################
 #########################################################################################

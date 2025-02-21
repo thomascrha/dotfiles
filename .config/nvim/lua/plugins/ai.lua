@@ -16,6 +16,11 @@ return {
       vim.keymap.set('n', '<leader>cd', '<cmd>Copilot disable<cr><cmd>Copilot status<cr>', { desc = '[C]opilot [d]isable' })
       vim.keymap.set('n', '<leader>cs', '<cmd>Copilot status<cr>', { desc = '[C]opilot [s]tatus' })
 
+      -- toggle auto trigger with status message
+      vim.keymap.set('n', '<leader>ct', function()
+        suggestion.toggle_auto_trigger()
+      end, { desc = '[C]opilot [t]oggle auto trigger [s]tatus' })
+
       -- Setup configuration
       copilot.setup({
         auto_refresh = true,
