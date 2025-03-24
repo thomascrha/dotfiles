@@ -156,6 +156,9 @@ bindsym --release $mod+8 exec "echo 0 > $SOV_SOCK"
 bindsym --release $mod+9 exec "echo 0 > $SOV_SOCK"
 bindsym --release $mod+0 exec "echo 0 > $SOV_SOCK"
 
+bindsym --no-repeat $mod+Ctrl+Left workspace prev
+bindsym --no-repeat $mod+Ctrl+Right workspace next
+
 # Move focused container to workspace
 bindsym $mod+Ctrl+Shift+1 move container to workspace number 1, workspace number 1
 bindsym $mod+Ctrl+Shift+2 move container to workspace number 2, workspace number 2

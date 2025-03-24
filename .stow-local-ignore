@@ -4,6 +4,7 @@ ssh
 udev
 systemd
 Makefile
+thinkfan
 
 flake.nix
 flake.lock
