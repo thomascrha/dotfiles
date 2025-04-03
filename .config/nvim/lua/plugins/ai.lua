@@ -6,26 +6,15 @@ return {
     config = function()
       -- Cache frequently used modules
       local copilot = require('copilot')
-      local suggestion = require('copilot.suggestion')
 
-      -- Define keymaps in a table for better organization
-      vim.keymap.set('i', '<C-u>', function() suggestion.accept() end, {})
-      vim.keymap.set('i', '<C-.>', function() suggestion.next() end, {})
-      vim.keymap.set('i', '<C-,>', function() suggestion.prev() end, {})
-      vim.keymap.set('n', '<leader>ce', '<cmd>Copilot enable<cr><cmd>Copilot status<cr>', { desc = '[C]opilot [e]nable'})
-      vim.keymap.set('n', '<leader>cd', '<cmd>Copilot disable<cr><cmd>Copilot status<cr>', { desc = '[C]opilot [d]isable' })
-      vim.keymap.set('n', '<leader>cs', '<cmd>Copilot status<cr>', { desc = '[C]opilot [s]tatus' })
-
-      -- toggle auto trigger with status message
-      vim.keymap.set('n', '<leader>ct', function()
-        suggestion.toggle_auto_trigger()
-      end, { desc = '[C]opilot [t]oggle auto trigger [s]tatus' })
+      -- Create a global table to store buffer-specific auto_trigger states
+      _G.copilot_buffer_states = {}
 
       -- Setup configuration
       copilot.setup({
         auto_refresh = true,
         suggestion = {
-          auto_trigger = true,
+          auto_trigger = false,
           keymap = {
             accept = false, -- Disable default keymaps
             next = false,
@@ -36,34 +25,94 @@ return {
           ["*"] = true,
         }
       })
+
+      local suggestion = require('copilot.suggestion')
+
+      -- Set up autocmd to initialize buffer state when a new buffer is opened
+      vim.api.nvim_create_autocmd({"BufEnter", "BufNew"}, {
+        callback = function(ev)
+          local bufnr = ev.buf
+          -- Initialize buffer state to false (disabled) if not already set
+          if _G.copilot_buffer_states[bufnr] == nil then
+            _G.copilot_buffer_states[bufnr] = false
+          end
+        end,
+      })
+
+      -- Clean up buffer state when buffer is deleted
+      vim.api.nvim_create_autocmd("BufDelete", {
+        callback = function(ev)
+          local bufnr = ev.buf
+          _G.copilot_buffer_states[bufnr] = nil
+        end,
+      })
+
+      -- Define keymaps in a table for better organization
+      vim.keymap.set('i', '<C-u>', function() suggestion.accept() end, {})
+      vim.keymap.set('i', '<C-.>', function() suggestion.next() end, {})
+      vim.keymap.set('i', '<C-,>', function() suggestion.prev() end, {})
+      vim.keymap.set('n', '<leader>ce', function()
+        vim.cmd('Copilot enable')
+        vim.cmd('Copilot status')
+      end, { desc = '[C]opilot [e]nable'})
+
+      vim.keymap.set('n', '<leader>cd', function()
+        vim.cmd('Copilot disable')
+        vim.cmd('Copilot status')
+      end, { desc = '[C]opilot [d]isable' })
+
+      vim.keymap.set('n', '<leader>cs', function()
+        vim.cmd('Copilot status')
+      end, { desc = '[C]opilot [s]tatus' })
+
+      -- toggle auto trigger with status message
+      vim.keymap.set('n', '<leader>ct', function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        suggestion.toggle_auto_trigger()
+        -- Update the buffer state to the opposite of what it was
+        _G.copilot_buffer_states[bufnr] = not _G.copilot_buffer_states[bufnr]
+        -- Display current buffer's auto-trigger status
+        vim.notify("Copilot auto-trigger " ..
+          (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled") ..
+          " for current buffer", vim.log.levels.INFO)
+      end, { desc = '[C]opilot [t]oggle auto trigger' })
+
+      -- show current buffer's auto-trigger status
+      vim.keymap.set('n', '<leader>cc', function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        vim.notify("Copilot auto-trigger " ..
+          (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled") ..
+          " for current buffer", vim.log.levels.INFO)
+      end, { desc = '[C]opilot [c]urrent auto trigger status' })
+
     end
   },
-  --
-  -- {
-  --   "CopilotC-Nvim/CopilotChat.nvim",
-  --   branch = "main",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   build = function()
-  --     -- Only build tiktoken on Unix systems
-  --     if vim.fn.has('unix') == 1 then
-  --       vim.fn.system('make tiktoken')
-  --     end
-  --   end,
-  --   opts = {
-  --     -- Add some default configuration
-  --     model = "claude-3.7-sonnet-thought",
-  --     debug = false, -- Enable debugging
-  --     show_help = true, -- Show help message in command line
-  --     prompts = {
-  --       -- Add custom prompts
-  --       Explain = "Explain how this code works:",
-  --       Review = "Review this code and suggest improvements:",
-  --       Tests = "Generate unit tests for this code:",
-  --     },
-  --   },
-  -- },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "main",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    build = function()
+      -- Only build tiktoken on Unix systems
+      if vim.fn.has('unix') == 1 then
+        vim.fn.system('make tiktoken')
+      end
+    end,
+    opts = {
+      -- Add some default configuration
+      model = "claude-3.7-sonnet-thought",
+      debug = false, -- Enable debugging
+      show_help = true, -- Show help message in command line
+      prompts = {
+        -- Add custom prompts
+        Explain = "Explain how this code works:",
+        Review = "Review this code and suggest improvements:",
+        Tests = "Generate unit tests for this code:",
+      },
+    },
+  },
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
@@ -96,17 +145,55 @@ return {
   },
   {
     "yetone/avante.nvim",
+    -- dir = "/home/tcrha/Projects/avante.nvim",
     event = "VeryLazy",
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
+      debug = false,
       -- add any opts here
       -- for example
       provider = "copilot",
       copilot = {
-        model = "claude-3.7-sonnet", -- Updated model name
+        -- model = "o1",
+        -- model = "gemini-2.0-flash-001",
+        model = "claude-3.7-sonnet",
+        -- model = "claude-3.7-sonnet-thought",
         disable_tools = true
         -- max_tokens = 4096,
       },
+      file_selector = {
+        -- show_hidden = true
+        provider = "telescope",
+        provider_opts = {
+          find_command = { "rg", "--files", "--hidden", "-g", "!.git" }
+        }
+      },
+      vendors = {
+        copilot_claude = {
+          __inherited_from = "copilot",
+          model = "claude-3.7-sonnet",
+        },
+        copilot_claude_thinking = {
+          __inherited_from = "copilot",
+          model = "claude-3.7-sonnet-thought",
+        },
+        copilot_o1 = {
+          __inherited_from = "copilot",
+          model = "o1",
+        },
+        copilot_o3_mini = {
+          __inherited_from = "copilot",
+          model = "o3-mini",
+        },
+        copilot_gemini = {
+          __inherited_from = "copilot",
+          model = "gemini-2.0-flash-100",
+        },
+        copilot_4openai = {
+          __inherited_from = "copilot",
+          model = "gpt-4o-2024-08-06"
+        },
+      }
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -117,7 +204,6 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
       "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
       "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
       "ibhagwan/fzf-lua", -- for file_selector provider fzf
