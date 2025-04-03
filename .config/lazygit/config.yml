@@ -12,10 +12,10 @@ customCommands:
 
         1. **Format:** Each commit message must follow the conventional commits format,
         which is \`<type>(<fileishpath>/<scope>): <description>\`.
-          NOTE: The fileishpath is not the complete file path more like the parent directory
+          NOTE: The fileishpath is not the complete file path more like the parent directory.
+          NOTE: Please don't include the number at the begining of the line.
         2. **Relevance:** Avoid mentioning a module name unless it's directly relevant
         to the change.
-        3. **Enumeration:** List the commit messages from 1 to 10.
         4. **Clarity and Conciseness:** Each message should clearly and concisely convey
         the change made.
 
@@ -60,13 +60,15 @@ customCommands:
         - If multiple changes are present, make sure you capture them all in each commit
         message.
 
-        Keep in mind you will suggest 10 commit messages. Only 1 will be used. It's
-        better to push yourself (esp to synthesize to a higher level) and maybe wrong
-        about some of the 10 commits because only one needs to be good. I'm looking
-        for your best commit, not the best average commit. It's better to cover more
-        scenarios than include a lot of overlap.
+        Keep in mind you will suggest a finite number of commit messages.  It's better to push yourself
+        (esp to synthesize to a higher level) and maybe wrong about some of the several commits
+        because only one needs to be good. I'm looking for your best commit, not the best
+        average commit. It's better to cover more scenarios than include a lot of overlap.
 
-        Write your 10 commit messages below in the format shown in Output Template section above." \
+        Make sure each commit message is about one feature and one feature only, in an ideal world if there
+        is one feature you should only produce 1 maybe 2 meesages, if there are 10 changes write 10 commit messages.
+
+        Write your commit messages below in the format shown in Output Template section above." \
           | fzf -m --height 40% --border --ansi --highlight-line \
           | xargs -0 -I{} bash -c '
               COMMIT_MSG_FILE=$(mktemp)

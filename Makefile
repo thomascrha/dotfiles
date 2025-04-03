@@ -8,7 +8,7 @@ help:
 
 stow: ## Stow dotfiles
 	stow --no-folding -t ${HOME} -v -R -d ${PWD} -S .
-	sudo fd -t l . ${HOME} | xargs -I{} sh -c 'test ! -e "$(readlink -f "{}")" && rm "{}"'
+	sudo find ${HOME} -xtype l -delete
 	./decrypt.sh
 
 unstow: ## Unstow dotfiles

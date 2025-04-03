@@ -4,6 +4,7 @@ return {
     config = function ()
       local smart_spilts = require('smart-splits')
       smart_spilts.setup({
+        default_amount = 10,
         resize_mode = {
           -- key to exit persistent resize mode
           -- quit_key = '<ESC>',

@@ -136,10 +136,10 @@ end)
 -----------------------------
 --- Custom modes
 -----------------------------
-if not wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-  local resize_mode = require('modes.resize')
-  resize_mode.setup(modal)
-end
+-- if not wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+local resize_mode = require('modes.resize')
+resize_mode.setup(modal)
+-- end
 
 -----------------------------
 --- Keybindings
@@ -158,7 +158,7 @@ config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
 config.keys = {
   -- resize_mode,
   {
-    key = 'R',
+    key = 'r',
     mods = 'LEADER',
     action = modal.activate_mode("resize")
   },
@@ -447,35 +447,35 @@ config.keys = {
       resurrect.save_state(resurrect.workspace_state.get_workspace_state())
     end),
   },
-  {
-    key = "r",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-      resurrect.fuzzy_load(win, pane, function(id, label)
-        local type = string.match(id, "^([^/]+)") -- match before '/'
-        id = string.match(id, "([^/]+)$") -- match after '/'
-        id = string.match(id, "(.+)%..+$") -- remove file extention
-        local opts = {
-          -- do in the current window
-          -- window = win:mux_window(), -- THIS IS THE NEW PART
-          relative = true,
-          restore_text = true,
-          on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-        }
-        if type == "workspace" then
-          local state = resurrect.load_state(id, "workspace")
-          resurrect.workspace_state.restore_workspace(state, opts)
-          -- send notification
-        elseif type == "window" then
-          local state = resurrect.load_state(id, "window")
-          resurrect.window_state.restore_window(pane:window(), state, opts)
-        elseif type == "tab" then
-          local state = resurrect.load_state(id, "tab")
-          resurrect.tab_state.restore_tab(pane:tab(), state, opts)
-        end
-      end)
-    end),
-  },
+  -- {
+  --   key = "r",
+  --   mods = "LEADER",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     resurrect.fuzzy_load(win, pane, function(id, label)
+  --       local type = string.match(id, "^([^/]+)") -- match before '/'
+  --       id = string.match(id, "([^/]+)$") -- match after '/'
+  --       id = string.match(id, "(.+)%..+$") -- remove file extention
+  --       local opts = {
+  --         -- do in the current window
+  --         -- window = win:mux_window(), -- THIS IS THE NEW PART
+  --         relative = true,
+  --         restore_text = true,
+  --         on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+  --       }
+  --       if type == "workspace" then
+  --         local state = resurrect.load_state(id, "workspace")
+  --         resurrect.workspace_state.restore_workspace(state, opts)
+  --         -- send notification
+  --       elseif type == "window" then
+  --         local state = resurrect.load_state(id, "window")
+  --         resurrect.window_state.restore_window(pane:window(), state, opts)
+  --       elseif type == "tab" then
+  --         local state = resurrect.load_state(id, "tab")
+  --         resurrect.tab_state.restore_tab(pane:tab(), state, opts)
+  --       end
+  --     end)
+  --   end),
+  -- },
   {
     key = "LeftArrow",
     mods = "ALT",
