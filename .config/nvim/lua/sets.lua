@@ -78,46 +78,12 @@ return {
 
     vim.g.copilot_assume_mapped = true
 
-    -- disable built-in plugins
-    -- local disabled_built_ins = {
-    -- 	"2html_plugin",
-    -- 	"getscript",
-    -- 	"getscriptPlugin",
-    -- 	"gzip",
-    -- 	"logipat",
-    -- 	"netrw",
-    -- 	"netrwPlugin",
-    -- 	"netrwSettings",
-    -- 	"netrwFileHandlers",
-    -- 	"matchit",
-    -- 	"tar",
-    -- 	"tarPlugin",
-    -- 	"rrhelper",
-    -- 	"spellfile_plugin",
-    -- 	"vimball",
-    -- 	"vimballPlugin",
-    -- 	"zip",
-    -- 	"zipPlugin",
-    -- }
-    --
-    -- for _, plugin in pairs(disabled_built_ins) do
-    -- 	vim.g["loaded_" .. plugin] = 1
-    -- end
-    --
     -- Nice looking file diff
     vim.o.fillchars = 'diff:/'
 
-    -- setup clipbard WSL
-    -- if vim.fn.has("wsl") then
-    --     vim.g.clipboard = {
-    --         name = "clip.exe (Copy Only)",
-    --         copy = {
-    --             ["+"] = "clip.exe",
-    --             ["*"] = "clip.exe"
-    --         },
-    --         cache_enabled = true
-    --     }
-    -- end
+    -- Show hidden characters like tabs, trailing spaces, etc.
+    vim.o.list = true
+    vim.o.listchars = 'tab:→ ,trail:·,extends:▶,precedes:◀,nbsp:␣'
 
     vim.o.mousemodel = "extend"
   end
