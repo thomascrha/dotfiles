@@ -1,7 +1,8 @@
 [Unit]
 Description=autotiling
-After=sway-xdg-autostart.target
-; After=systemd-user-sessions.service
+PartOf=graphical-session.target
+After=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
@@ -11,5 +12,5 @@ StandardOutput=journal
 ExecStart=/usr/bin/autotiling --limit 2
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
 
