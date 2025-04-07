@@ -50,10 +50,10 @@ input type:touchpad {
 }
 
 
-input type:keyboard {
-  xkb_layout us
-  xkb_options caps:swapescape
-}
+# input type:keyboard {
+#   xkb_layout us
+#   xkb_options caps:swapescape
+# }
 
 ### fonts
 font pango:"RobotoMono Nerd Font" Regular 8
