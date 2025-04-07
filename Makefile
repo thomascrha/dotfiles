@@ -7,7 +7,7 @@ help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 stow: ## Stow dotfiles
-	stow --no-folding -t ${HOME} -v -R -d ${PWD} -S .
+	stow --no-folding --adopt -t ${HOME} -v -R -d ${PWD} -S .
 	sudo find ${HOME} -xtype l -delete
 	./decrypt.sh
 
