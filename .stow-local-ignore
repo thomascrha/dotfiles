@@ -1,10 +1,12 @@
 wsl-vpnkit.service
 scripts
+keys
 ssh
 udev
 systemd
 Makefile
 thinkfan
+decrypt.sh
 
 flake.nix
 flake.lock

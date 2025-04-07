@@ -58,9 +58,9 @@ for ENC_FILE in $ENCRYPTED_FILES; do
         mkdir -p "$TARGET_DIR"
     fi
     
-    # Extract the tar file
+# Extract the tar file
     echo "Extracting to $TARGET_DIR..."
-    tar -xzf "$TEMP_TAR" -C "$TARGET_DIR" --strip-components=1
+    tar -xzpf "$TEMP_TAR" -C "$TARGET_DIR" --strip-components=1
     
     # Clean up
     rm "$TEMP_TAR"

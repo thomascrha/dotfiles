@@ -37,7 +37,7 @@ TAR_FILE="/tmp/${FOLDER_BASENAME}.tar.gz"
 ENCRYPTED_FILE="${TARGET_DIR}/${FOLDER_BASENAME}.tar.gz.age"
 
 echo "Creating tar archive of '$INPUT_FOLDER'..."
-tar -czf "$TAR_FILE" -C "$(dirname "$INPUT_FOLDER")" "$(basename "$INPUT_FOLDER")"
+tar -czpf "$TAR_FILE" -C "$(dirname "$INPUT_FOLDER")" "$(basename "$INPUT_FOLDER")"
 
 echo "Enter password for encryption: "
 age --encrypt --passphrase -o "$ENCRYPTED_FILE" "$TAR_FILE"
