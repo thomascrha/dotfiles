@@ -42,7 +42,7 @@ bindkey "$terminfo[kcud1]" down-line-or-beginning-search
 # if [ -f "$XDG_RUNTIME_DIR/ssh-agent.env" ]; then
 #     source "$XDG_RUNTIME_DIR/ssh-agent.env" > /dev/null
 # fir
-export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+# export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
 
 ###########################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
