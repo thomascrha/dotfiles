@@ -7,6 +7,16 @@ for file in *.service; do
     service_name=$(basename $file .service)
     if systemctl --user list-unit-files | grep -q $service_name; then
         echo "Service $(basename $file) is already installed"
+        # Check if there are differences between local and installed version
+        if [ -f "/usr/lib/systemd/user/$file" ] && ! diff -q "$file" "/usr/lib/systemd/user/$file" > /dev/null; then
+            echo "Differences detected in $file, updating installed version"
+            sudo install -m 644 $file /usr/lib/systemd/user/
+            echo "Reloading systemd daemon"
+            systemctl --user daemon-reload
+            echo "Restarting $service_name"
+            systemctl --user restart $service_name
+            continue
+        fi
         # check if service is running
         if systemctl --user status $service_name | grep -q "active (running)"; then
             echo "Service $service_name is already running - restarting"
@@ -42,6 +52,16 @@ for file in *.timer; do
     timer_name=$(basename $file .timer)
     if systemctl --user list-unit-files | grep -q $timer_name; then
         echo "Timer $(basename $file) is already installed"
+        # Check if there are differences between local and installed version
+        if [ -f "/usr/lib/systemd/user/$file" ] && ! diff -q "$file" "/usr/lib/systemd/user/$file" > /dev/null; then
+            echo "Differences detected in $file, updating installed version"
+            sudo install -m 644 $file /usr/lib/systemd/user/
+            echo "Reloading systemd daemon"
+            systemctl --user daemon-reload
+            echo "Restarting $timer_name"
+            systemctl --user restart $timer_name
+            continue
+        fi
         if systemctl --user status $timer_name | grep -q "active (running)"; then
             echo "Timer $timer_name is already running - restarting"
             systemctl --user restart $timer_name

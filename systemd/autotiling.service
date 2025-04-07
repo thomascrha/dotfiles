@@ -1,7 +1,7 @@
 [Unit]
 Description=autotiling
-After=sway-session.target
-After=systemd-user-sessions.service
+After=sway-xdg-autostart.target
+; After=systemd-user-sessions.service
 
 [Service]
 Type=simple
