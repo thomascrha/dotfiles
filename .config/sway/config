@@ -69,6 +69,13 @@ bindsym $mod+c exec "clipman pick -t rofi --err-on-no-selection && wtype -M ctrl
 exec /usr/bin/swww img /home/tcrha/.config/sway/images/wallpaper.gif
 
 ########################################################################################
+# SSH agent ############################################################################
+########################################################################################
+# Initialize ssh-agent
+exec --no-startup-id "eval $(ssh-agent -s)"
+exec --no-startup-id ~/.config/sway/scripts/ssh-agent-setup.sh
+
+########################################################################################
 # Applications and Bindings ############################################################
 ########################################################################################
 set $menu rofi -modi drun -show drun -show-icons
