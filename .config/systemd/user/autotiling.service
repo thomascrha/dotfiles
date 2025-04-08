@@ -2,7 +2,7 @@
 Description=autotiling
 PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
+; ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
@@ -12,5 +12,5 @@ StandardOutput=journal
 ExecStart=/usr/bin/autotiling --limit 2
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
 
