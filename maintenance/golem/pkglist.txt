@@ -60,6 +60,7 @@ imv
 inetutils
 intel-ucode
 kdeconnect
+keychain
 lazygit
 less
 libosinfo
