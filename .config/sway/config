@@ -73,7 +73,6 @@ exec /usr/bin/swww img /home/tcrha/.config/sway/images/wallpaper.gif
 ########################################################################################
 # Initialize ssh-agent
 exec --no-startup-id "eval $(ssh-agent -s)"
-exec --no-startup-id ~/.config/sway/scripts/ssh-agent-setup.sh
 
 ########################################################################################
 # Applications and Bindings ############################################################
