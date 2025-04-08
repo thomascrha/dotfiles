@@ -39,7 +39,8 @@ bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
 bindkey "$terminfo[kcud1]" down-line-or-beginning-search
 
 # SSH Agent
-${HOME}/scripts/ssh-agent-setup.sh
+eval $(keychain --eval --quiet id_ed25519)
+# ${HOME}/scripts/ssh-agent-setup.sh
 
 ###########################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
