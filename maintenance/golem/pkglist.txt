@@ -45,6 +45,7 @@ google-chrome
 gparted
 greetd-tuigreet
 grimshot-bin-sway
+gthumb
 gtk4
 guestfs-tools
 gvfs

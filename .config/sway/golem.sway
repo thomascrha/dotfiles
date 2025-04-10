@@ -41,13 +41,14 @@ bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
 ## Pipelam testing
 ## create the fifo
 
-set $PIPELAM_SOCK /tmp/pipelam.fifo
-# bindsym XF86AudioRaiseVolume exec mkfifo /tmp/pipelam.fifo || home/tcrha/Projects/bow/examples/volume-image.sh up > $BOWSOCK
-bindsym --no-warn XF86AudioRaiseVolume exec mkfifo /tmp/pipelam.fifo || wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
-bindsym --no-warn XF86AudioLowerVolume exec mkfifo /tmp/pipelam.fifo || wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
-# bindsym XF86AudioLowerVolume exec /home/tcrha/Projects/bow/examples/volume-image.sh down > $BOWSOCK
-# bindsym XF86AudioRaiseVolume exec /home/tcrha/Projects/bow/examples/volume-bar-expression.sh up > $BOWSOCK
-# bindsym XF86AudioLowerVolume exec /home/tcrha/Projects/bow/examples/volume-bar-expression.sh down > $BOWSOCK
+# set $PIPELAM_SOCK /tmp/pipelam.fifo
+set $PIPELAM_SOCK /run/user/1000/pipelam.fifo
+bindsym --no-warn XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
+bindsym --no-warn XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
+bindsym --no-warn XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $WOBSOCK) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
+
+bindsym --no-warn XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $PIPELAM_SOCK
+bindsym --no-warn XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $PIPELAM_SOCK
 #########################################################################################
 # Rotation ##############################################################################
 #########################################################################################
