@@ -65,15 +65,6 @@ font pango:"RobotoMono Nerd Font" Regular 8
 ## Check wl-paste service for more details
 bindsym $mod+c exec "clipman pick -t rofi --err-on-no-selection && wtype -M ctrl -M shift v"
 
-### swww img set ################################################################
-exec /usr/bin/swww img /home/tcrha/.config/sway/images/wallpaper.gif
-
-########################################################################################
-# SSH agent ############################################################################
-########################################################################################
-# Initialize ssh-agent
-# exec --no-startup-id "eval $(ssh-agent -s)"
-
 ########################################################################################
 # Applications and Bindings ############################################################
 ########################################################################################

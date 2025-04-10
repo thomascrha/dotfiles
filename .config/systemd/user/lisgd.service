@@ -1,15 +1,13 @@
 [Unit]
 Description=Lisgd (libinput synthetic gesture daemon) lets you bind gestures based on libinput touch events to run specific commands to execute
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
 StandardOutput=journal
 StandardError=journal
-Restart=on-failure
+Restart=always
+RestartSec=5s
 ExecStart=/bin/sh -c /home/tcrha/.config/systemd/user/lisgd-start.sh
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target

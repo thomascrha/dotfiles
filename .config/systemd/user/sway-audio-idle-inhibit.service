@@ -1,16 +1,15 @@
 [Unit]
 Description=sway-audio-idle-inhibit
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
 Restart=always
+RestartSec=5s
+Type=simple
 StandardError=journal
 StandardOutput=journal
 ExecStart=/usr/bin/sway-audio-idle-inhibit
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
 

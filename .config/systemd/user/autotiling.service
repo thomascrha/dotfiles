@@ -1,12 +1,10 @@
 [Unit]
 Description=autotiling
-PartOf=graphical-session.target
 After=graphical-session.target
-; ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
-Restart=on-failure
+Restart=always
+RestartSec=5s
 StandardError=journal
 StandardOutput=journal
 ExecStart=/usr/bin/autotiling --limit 2

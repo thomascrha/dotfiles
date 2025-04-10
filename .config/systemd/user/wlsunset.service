@@ -1,8 +1,6 @@
 [Unit]
 Description=wlsunset dim screen at sunset
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
@@ -12,8 +10,9 @@ Type=simple
 ; work out how to get it working with journalctl
 StandardOutput=append:/tmp/wlsunset.log
 StandardError=append:/tmp/wlsunset.log
-Restart=on-failure
+Restart=always
+RestartSec=5s
 ExecStart=/usr/bin/wlsunset -l -33.7 -L 150.3
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target

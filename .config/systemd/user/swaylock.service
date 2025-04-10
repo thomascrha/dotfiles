@@ -1,15 +1,13 @@
 [Unit]
 Description=swaylock effects service
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
-Restart=on-failure
+Restart=always
+RestartSec=5s
 StandardOutput=journal
 StandardError=journal
 ExecStart=/home/tcrha/.config/systemd/user/swaylock-start.sh
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target

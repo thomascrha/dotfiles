@@ -1,19 +1,15 @@
 [Unit]
 Description=rot8 rotation using accelarometer
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
 StandardOutput=journal
 StandardError=journal
-; StandardOutput=append:/tmp/rot8.log
-; StandardError=append:/tmp/rot8.log
-Restart=on-failure
+Restart=always
+RestartSec=5s
 ; ExecStart=/bin/sh -c /usr/lib/systemd/user/rot8-start.sh
 ExecStart=/usr/bin/rot8 --hooks 'systemctl --user restart lisgd.service'
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
 

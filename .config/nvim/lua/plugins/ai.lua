@@ -161,13 +161,13 @@ return {
         disable_tools = true
         -- max_tokens = 4096,
       },
-      file_selector = {
-        -- show_hidden = true
-        provider = "telescope",
-        provider_opts = {
-          find_command = { "rg", "--files", "--hidden", "-g", "!.git" }
-        }
-      },
+      -- file_selector = {
+      --   -- show_hidden = true
+      --   provider = "telescope",
+      --   provider_opts = {
+      --     find_command = { "rg", "--files", "--hidden", "-g", "!.git" }
+      --   }
+      -- },
       vendors = {
         copilot_claude = {
           __inherited_from = "copilot",

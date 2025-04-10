@@ -1,27 +1,13 @@
-; [Unit]
-; Description=An overlay that shows schemas for all workspaces to make navigation in sway easier
-; PartOf=graphical-session.target
-; After=graphical-session.target
-; ConditionEnvironment=WAYLAND_DISPLAY
-;
-; [Service]
-; StandardInput=socket
-; ExecStart=/usr/bin/sov
-;
-; [Install]
-; WantedBy=graphical-session.target
 [Unit]
 Description=nm-applet docklet
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
 StandardOutput=journal
 StandardError=journal
-Restart=on-failure
+Restart=always
+RestartSec=5s
 ExecStart=/usr/bin/nm-applet
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target

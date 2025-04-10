@@ -38,9 +38,13 @@ bindsym $mod+Shift+d output "Japan Display Inc. 0x0000 (eDP-1)" toggle
 bindsym $mod+Shift+l output "Dell Inc. DELL U3023E 66YJ4H3" toggle
 bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
 
-## Bow testing
-# set $BOWSOCK /tmp/bow.fifo
-# bindsym XF86AudioRaiseVolume exec /home/tcrha/Projects/bow/examples/volume-image.sh up > $BOWSOCK
+## Pipelam testing
+## create the fifo
+
+set $PIPELAM_SOCK /tmp/pipelam.fifo
+# bindsym XF86AudioRaiseVolume exec mkfifo /tmp/pipelam.fifo || home/tcrha/Projects/bow/examples/volume-image.sh up > $BOWSOCK
+bindsym --no-warn XF86AudioRaiseVolume exec mkfifo /tmp/pipelam.fifo || wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
+bindsym --no-warn XF86AudioLowerVolume exec mkfifo /tmp/pipelam.fifo || wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
 # bindsym XF86AudioLowerVolume exec /home/tcrha/Projects/bow/examples/volume-image.sh down > $BOWSOCK
 # bindsym XF86AudioRaiseVolume exec /home/tcrha/Projects/bow/examples/volume-bar-expression.sh up > $BOWSOCK
 # bindsym XF86AudioLowerVolume exec /home/tcrha/Projects/bow/examples/volume-bar-expression.sh down > $BOWSOCK

@@ -1,15 +1,13 @@
 [Unit]
 Description=Watch clipboard and store in clipman
-PartOf=graphical-session.target
 After=graphical-session.target
-ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-Type=simple
-restart=on-failure
+Restart=on-failure
+RestartSec=5s
 StandardOutput=journal
 StandardError=journal
 ExecStart=/usr/bin/wl-paste -t text --watch clipman store
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
