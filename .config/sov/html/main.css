@@ -56,8 +56,7 @@
     margin-right: 4px;
     margin-bottom: 2px;
     color: #FFFFFFFF;
-    font-size: 16px;
-    font-family: "Ubuntu Mono:style=Bold:size=14";
+    font-family: "JetBrains Mono:size=12";
 }
 
 .content {
@@ -67,10 +66,9 @@
     margin-right: 4px;
     color: #999999FF;
     vertical-align: top;
-    font-size: 14px;
-    font-family: "Ubuntu Mono:style=Bold:size=12";
+    font-family: "JetBrains Mono:size=10";
     word-wrap: break-word;
-    line-height: 12px;
+    line-height: 30px;
 }
 
 .number {
@@ -79,7 +77,6 @@
     right: -14px;
     top: -9px;
     color: #FFFFFFFF;
-    font-size: 18px;
-    font-family: "Ubuntu Mono:style=Bold:size=16";
+    font-family: "JetBrains Mono:size=12";
 }
 

@@ -2,6 +2,7 @@
 acpi_call
 age
 aichat
+autoconf-archive
 autotiling
 base
 base-devel
@@ -15,12 +16,14 @@ brightnessctl
 btop
 btrfs-progs
 calibre
+ccache
 chromedriver
 clipman
 cryptsetup
 cups
 deluge
 deluge-gtk
+distrobox
 dmidecode
 dnsmasq
 door-knocker
@@ -79,6 +82,7 @@ mkosi
 mpv
 multimc-bin
 mupdf
+nasm
 neovim
 net-tools
 network-manager-applet
@@ -113,6 +117,7 @@ python-tenacity
 python-validity
 qemu-full
 qemu-img
+qt6-tools
 qwbfs
 refind
 ripgrep-all
@@ -125,7 +130,7 @@ seahorse
 shim
 shim-signed
 slurp
-sov
+sov-git
 squeekboard
 sshfs
 starship

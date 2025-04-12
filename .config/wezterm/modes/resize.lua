@@ -22,11 +22,12 @@ function M.setup(modal)
     { key = "Escape", action = modal.exit_mode("resize") },
     { key = "c", mods = "CTRL", action = modal.exit_mode("resize") },
   }
-
+  local theme = wezterm.color.get_default_colors()
+  local accent_color = theme.ansi[4]
   -- Define the status text for resize mode
   local status_text = wezterm.format({
     { Attribute = { Intensity = "Bold" } },
-    { Foreground = { Color = "Yellow" } },
+    { Foreground = { Color = accent_color } },
     { Text = wezterm.nerdfonts.ple_left_half_circle_thick },
     { Foreground = { Color = "Black" } },
     { Background = { Color = "Yellow" } },

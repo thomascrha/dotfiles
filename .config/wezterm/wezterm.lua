@@ -1,5 +1,7 @@
 local wezterm = require 'wezterm'
+
 local config = wezterm.config_builder()
+
 local act = wezterm.action
 
 -- Add config directory to package path
@@ -32,8 +34,8 @@ config.audible_bell = 'Disabled'
 config.font = wezterm.font('JetBrains Mono')
 
 config.window_padding = {
-  left = 2,
-  right = 2,
+  left = 0,
+  right = 0,
   top = 0,
   bottom = 0,
 }
@@ -42,11 +44,85 @@ config.window_padding = {
 --
 -- Note that dot (.) & slash (/) are allowed though for
 -- easy selection of (partial) paths.
--- config.selection_word_boundary = " \t\n{}[]()\''`,;:@│*"
+config.selection_word_boundary = " \t\n{}[]()\''`,;:@│*"
 
+
+-----------------------------
+--- Tabline
+-----------------------------
 config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
+-- Custom tab bar with workspace name on the left side
+wezterm.on('update-status', function(window, pane)
+  -- Get the current workspace name
+  local workspace = window:active_workspace()
 
+  -- Get colors from the current theme
+  local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
+  local bg_color = theme.background
+  local accent_color = theme.ansi[3]
 
+  -- Format the workspace name with theme-based styling
+  local workspace_text = wezterm.format({
+    { Attribute = { Intensity = "Bold" } },
+    { Background = { Color = accent_color }},
+    { Foreground = { Color = bg_color }},
+    { Text = ' ' .. workspace .. ' ' },
+    { Background = { Color = bg_color }},
+    { Foreground = { Color = "Grey" }},
+    { Text = ' ┃ ' },
+
+  })
+
+  -- Set the left status with the workspace name
+  window:set_left_status(workspace_text)
+end)
+
+config.tab_max_width = 26
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
+  -- local theme = wezterm.color.get_default_colors()
+  local fg_color = theme.foreground
+  local bg_color = theme.background
+  local accent_color = theme.ansi[4]
+  local dim_color = "Grey"
+
+  local title = tab.active_pane.title
+  -- Truncate the title if it's too long
+  if #title > 15 then
+    title = wezterm.truncate_right(title, 15) .. '…'
+  end
+
+  -- Format for active vs inactive tabs
+  if tab.is_active then
+    return wezterm.format({
+      { Background = { Color = accent_color }},
+      { Foreground = { Color = bg_color }},
+      { Text = ' ' .. tab.tab_index + 1 .. ' ' },
+      { Background = { Color = bg_color }},
+      { Foreground = { Color = fg_color }},
+      { Text = ' ' .. title .. ' ' },
+      { Background = { Color = bg_color }},
+      { Foreground = { Color = "Grey" }},
+      { Text = '┃ ' },
+    })
+  else
+    return wezterm.format({
+      { Background = { Color = dim_color }},
+      { Foreground = { Color = bg_color }},
+      { Text = ' ' .. tab.tab_index + 1 .. ' ' },
+      {Attribute={Italic=true}},
+      { Background = { Color = bg_color }},
+      { Foreground = { Color = fg_color }},
+      { Text = ' ' .. title .. ' ' },
+      { Background = { Color = bg_color }},
+      { Foreground = { Color = "Grey" }},
+      { Text = '┃ ' },
+    })
+  end
+end)
+
+-- config.tab_max_width = 20
 -----------------------------
 --- Windows
 -----------------------------
@@ -57,46 +133,6 @@ end
 -----------------------------
 --- Plugins
 -----------------------------
--- Tab Bar Theme-----------------------------------
--- local bar = wezterm.plugin.require('https://github.com/adriankarlen/bar.wezterm')
--- bar.apply_to_config(
---   config,
---   {
---     colors = {
---       tab_bar = {
---         active_tab = {
---           bg_color = '#000000'
---         },
---         inactive_tab = {
---           bg_color = '#000000'
---         },
---       }
---     },
---     modules = {
---       workspaces = {
---         enabled = false,
---       },
---       leader = {
---         enabled = true,
---       },
---       pane = {
---         enabled = false,
---       },
---       username = {
---         enabled = false,
---       },
---       hostname = {
---         enabled = false,
---       },
---       clock = {
---         enabled = false
---       },
---       cwd = {
---         enabled = false
---       },
---     },
---   }
--- )
 -- Resurrect ------------------------------
 local resurrect = wezterm.plugin.require('https://github.com/MLFlexer/resurrect.wezterm')
 resurrect.state_manager.periodic_save({
