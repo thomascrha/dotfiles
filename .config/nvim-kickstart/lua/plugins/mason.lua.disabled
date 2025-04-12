@@ -1,0 +1,12 @@
+return {
+  "williamboman/mason.nvim",
+  dependencies = {
+      "j-hui/fidget.nvim",
+      "williamboman/mason-lspconfig.nvim",
+  },
+  -- config = function ()
+  --   require('mason').setup()
+  --   require('fidget').setup()
+  -- end
+}
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:

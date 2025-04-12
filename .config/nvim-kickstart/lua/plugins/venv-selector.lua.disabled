@@ -1,0 +1,15 @@
+return {
+  'linux-cultist/venv-selector.nvim',
+  dependencies = { 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+  opts = {
+    name = {"venv", ".venv"}
+  },
+  branch = 'regexp',
+  keys = {
+    -- Keymap to open VenvSelector to pick a venv.
+    { '<leader>vs', '<cmd>VenvSelect<cr>' },
+    -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+    -- { '<leader>vc', '<cmd>VenvSelectCached<cr>' },
+  },
+}
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:
