@@ -1,4 +1,4 @@
-local wezterm = require 'wezterm'
+local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
@@ -12,8 +12,8 @@ local act = wezterm.action
 --- Guake mode
 -----------------------------
 -- makes the window transparent when in guake mode is detected
-local mode = os.getenv('WEZTERM_GUAKE')
-if mode == 'on' then
+local mode = os.getenv("WEZTERM_GUAKE")
+if mode == "on" then
   config.window_background_opacity = 0.9
 end
 
@@ -24,14 +24,14 @@ config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
 -- config.default_gui_startup_args = {'start', '--always-new-process'}
 
-config.color_scheme = 'OneHalfDark'
+config.color_scheme = "OneHalfDark"
 config.font_size = 12
 config.enable_tab_bar = true
 config.enable_scroll_bar = false
-config.window_close_confirmation = 'NeverPrompt'
+config.window_close_confirmation = "NeverPrompt"
 
-config.audible_bell = 'Disabled'
-config.font = wezterm.font('JetBrains Mono')
+config.audible_bell = "Disabled"
+config.font = wezterm.font("JetBrains Mono")
 
 config.window_padding = {
   left = 0,
@@ -44,34 +44,32 @@ config.window_padding = {
 --
 -- Note that dot (.) & slash (/) are allowed though for
 -- easy selection of (partial) paths.
-config.selection_word_boundary = " \t\n{}[]()\''`,;:@│*"
-
+config.selection_word_boundary = " \t\n{}[]()''`,;:@│*"
 
 -----------------------------
 --- Tabline
 -----------------------------
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
+local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
 -- Custom tab bar with workspace name on the left side
-wezterm.on('update-status', function(window, pane)
+wezterm.on("update-status", function(window, pane)
   -- Get the current workspace name
   local workspace = window:active_workspace()
 
   -- Get colors from the current theme
-  local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
   local bg_color = theme.background
   local accent_color = theme.ansi[3]
 
   -- Format the workspace name with theme-based styling
   local workspace_text = wezterm.format({
     { Attribute = { Intensity = "Bold" } },
-    { Background = { Color = accent_color }},
-    { Foreground = { Color = bg_color }},
-    { Text = ' ' .. workspace .. ' ' },
-    { Background = { Color = bg_color }},
-    { Foreground = { Color = "Grey" }},
-    { Text = ' ┃ ' },
-
+    { Background = { Color = accent_color } },
+    { Foreground = { Color = bg_color } },
+    { Text = " " .. workspace .. " " },
+    { Background = { Color = bg_color } },
+    { Foreground = { Color = "Grey" } },
+    { Text = " ┃ " },
   })
 
   -- Set the left status with the workspace name
@@ -79,8 +77,7 @@ wezterm.on('update-status', function(window, pane)
 end)
 
 config.tab_max_width = 26
-wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
-  local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
   -- local theme = wezterm.color.get_default_colors()
   local fg_color = theme.foreground
   local bg_color = theme.background
@@ -90,34 +87,34 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   local title = tab.active_pane.title
   -- Truncate the title if it's too long
   if #title > 15 then
-    title = wezterm.truncate_right(title, 15) .. '…'
+    title = wezterm.truncate_right(title, 15) .. "…"
   end
 
   -- Format for active vs inactive tabs
   if tab.is_active then
     return wezterm.format({
-      { Background = { Color = accent_color }},
-      { Foreground = { Color = bg_color }},
-      { Text = ' ' .. tab.tab_index + 1 .. ' ' },
-      { Background = { Color = bg_color }},
-      { Foreground = { Color = fg_color }},
-      { Text = ' ' .. title .. ' ' },
-      { Background = { Color = bg_color }},
-      { Foreground = { Color = "Grey" }},
-      { Text = '┃ ' },
+      { Background = { Color = accent_color } },
+      { Foreground = { Color = bg_color } },
+      { Text = " " .. tab.tab_index + 1 .. " " },
+      { Background = { Color = bg_color } },
+      { Foreground = { Color = fg_color } },
+      { Text = " " .. title .. " " },
+      { Background = { Color = bg_color } },
+      { Foreground = { Color = "Grey" } },
+      { Text = "┃ " },
     })
   else
     return wezterm.format({
-      { Background = { Color = dim_color }},
-      { Foreground = { Color = bg_color }},
-      { Text = ' ' .. tab.tab_index + 1 .. ' ' },
-      {Attribute={Italic=true}},
-      { Background = { Color = bg_color }},
-      { Foreground = { Color = fg_color }},
-      { Text = ' ' .. title .. ' ' },
-      { Background = { Color = bg_color }},
-      { Foreground = { Color = "Grey" }},
-      { Text = '┃ ' },
+      { Background = { Color = dim_color } },
+      { Foreground = { Color = bg_color } },
+      { Text = " " .. tab.tab_index + 1 .. " " },
+      { Attribute = { Italic = true } },
+      { Background = { Color = bg_color } },
+      { Foreground = { Color = fg_color } },
+      { Text = " " .. title .. " " },
+      { Background = { Color = bg_color } },
+      { Foreground = { Color = "Grey" } },
+      { Text = "┃ " },
     })
   end
 end)
@@ -126,15 +123,15 @@ end)
 -----------------------------
 --- Windows
 -----------------------------
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-  config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-24.04'}
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+  config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04" }
 end
 
 -----------------------------
 --- Plugins
 -----------------------------
 -- Resurrect ------------------------------
-local resurrect = wezterm.plugin.require('https://github.com/MLFlexer/resurrect.wezterm')
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 resurrect.state_manager.periodic_save({
   interval_seconds = 60,
   save_workspaces = true,
@@ -142,36 +139,36 @@ resurrect.state_manager.periodic_save({
   save_tabs = true,
 })
 
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-  resurrect.save_state_dir = 'C:\\Users\\226960\\wezterm\\states\\'
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+  resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
 end
 
 -- Modal (custom modes with modal plugin)
-local modal = wezterm.plugin.require('https://github.com/MLFlexer/modal.wezterm')
+local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 -- modal.apply_to_config(config)
 
-wezterm.on('modal.enter', function(name, window, pane)
+wezterm.on("modal.enter", function(name, window, pane)
   modal.set_right_status(window, name)
   modal.set_window_title(pane, name)
 end)
 
-wezterm.on('modal.exit', function(name, window, pane)
-  window:set_right_status('')
+wezterm.on("modal.exit", function(name, window, pane)
+  window:set_right_status("")
   modal.reset_window_title(pane)
 end)
 
 local key_table = {
-  { key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 10 } },
-  { key = 'LeftArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Left', 3 } },
+  { key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 10 }) },
+  { key = "LeftArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Left", 3 }) },
 
-  { key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 10 } },
-  { key = 'RightArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Right', 3 } },
+  { key = "RightArrow", action = act.AdjustPaneSize({ "Right", 10 }) },
+  { key = "RightArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Right", 3 }) },
 
-  { key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 10 } },
-  { key = 'UpArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Up', 3 } },
+  { key = "UpArrow", action = act.AdjustPaneSize({ "Up", 10 }) },
+  { key = "UpArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Up", 3 }) },
 
-  { key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 10 } },
-  { key = 'DownArrow', mods = 'SHIFT', action = act.AdjustPaneSize { 'Down', 3 } },
+  { key = "DownArrow", action = act.AdjustPaneSize({ "Down", 10 }) },
+  { key = "DownArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Down", 3 }) },
 
   -- Cancel the mode by pressing escape
   { key = "Escape", action = modal.exit_mode("resize") },
@@ -196,30 +193,30 @@ modal.add_mode("resize", key_table, status_text)
 -----------------------------
 local function is_vim(pane)
   -- this is set by the plugin, and unset on ExitPre in Neovim
-  return pane:get_user_vars().IS_NVIM == 'true'
+  return pane:get_user_vars().IS_NVIM == "true"
 end
 
 local paths = {
-  '/home/tcrha/Projects',
-  '/home/tcrha/dotfiles'
+  "/home/tcrha/Projects",
+  "/home/tcrha/dotfiles",
 }
 
-config.leader = { key = '`', mods = 'NONE', timeout_milliseconds = 1500 }
+config.leader = { key = "`", mods = "NONE", timeout_milliseconds = 1500 }
 config.keys = {
   -- resize_mode,
   {
-    key = 'r',
-    mods = 'LEADER',
-    action = modal.activate_mode('resize')
+    key = "r",
+    mods = "LEADER",
+    action = modal.activate_mode("resize"),
   },
   {
-    key = '`',
-    mods = 'ALT',
-    action = wezterm.action.SendString('`'),
+    key = "`",
+    mods = "ALT",
+    action = wezterm.action.SendString("`"),
   },
   {
-    key = '/',
-    mods = 'LEADER',
+    key = "/",
+    mods = "LEADER",
     -- action = workspace_switcher.switch_workspace(),
     action = wezterm.action_callback(function(win, pane)
       local workspaces = wezterm.mux.get_workspace_names()
@@ -233,10 +230,10 @@ config.keys = {
 
       for _, workspace_name in ipairs(workspaces) do
         if workspace_name == active_workspace then
-          print('Active workspace: ' .. workspace_name)
+          print("Active workspace: " .. workspace_name)
         else
           table.insert(choices, {
-            label = workspace_name .. ' (open)',
+            label = workspace_name .. " (open)",
             id = workspace_name,
           })
           -- open
@@ -247,21 +244,21 @@ config.keys = {
       -- get projects
       for _, path in ipairs(paths) do
         -- Find git repositories in the path using git rev-parse to find repository root
-        local success, stdout = wezterm.run_child_process({'fd', '-t', 'd', '-H', '^.git$', '--prune', path})
+        local success, stdout = wezterm.run_child_process({ "fd", "-t", "d", "-H", "^.git$", "--prune", path })
 
         if success then
           -- Process each .git directory found
-          for git_dir in stdout:gmatch('[^\r\n]+') do
+          for git_dir in stdout:gmatch("[^\r\n]+") do
             -- Extract just the project name (last directory before .git)
-            local project_name = git_dir:match('.*/([^/]+)/.git/?$')
+            local project_name = git_dir:match(".*/([^/]+)/.git/?$")
             if project_name then
               if not projects[project_name] then
                 -- closed
                 projects[project_name] = false
                 -- Get the full path without the .git suffix
-                local project_path = git_dir:sub(1, -6)  -- remove '/.git' from the end
+                local project_path = git_dir:sub(1, -6) -- remove '/.git' from the end
                 table.insert(choices, {
-                  label = project_name .. ' (closed)',
+                  label = project_name .. " (closed)",
                   id = project_path,
                 })
               end
@@ -271,25 +268,25 @@ config.keys = {
       end
 
       win:perform_action(
-        act.InputSelector {
-          fuzzy_description = '⚠️  Select workspace to switch to: ',
-          title = '⚠️  Select workspace to switch to: ',
+        act.InputSelector({
+          fuzzy_description = "⚠️  Select workspace to switch to: ",
+          title = "⚠️  Select workspace to switch to: ",
           fuzzy = true,
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
               -- remove the '(open)' or '(closed)' from the label
-              label = string.match(label, '^(.+) %(.+%)$')
+              label = string.match(label, "^(.+) %(.+%)$")
 
               -- First switch to the workspace
               inner_window:perform_action(
-                act.SwitchToWorkspace {
+                act.SwitchToWorkspace({
                   name = label,
                   spawn = {
-                    args = { 'zsh' },
+                    args = { "zsh" },
                     cwd = id,
                   },
-                },
+                }),
                 inner_pane
               )
 
@@ -299,11 +296,11 @@ config.keys = {
                 wezterm.sleep_ms(100)
 
                 -- Get the state file path for this workspace
-                local state_path = resurrect.save_state_dir .. 'workspace/' .. label .. '.json'
-                local exists = wezterm.run_child_process({'test', '-f', state_path})
+                local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
+                local exists = wezterm.run_child_process({ "test", "-f", state_path })
 
                 if exists then
-                  print('State exists')
+                  print("State exists")
                   local opts = {
                     -- do in the current window
                     -- window = win:mux_window(), -- THIS IS THE NEW PART
@@ -311,10 +308,10 @@ config.keys = {
                     restore_text = true,
                     on_pane_restore = resurrect.tab_state.default_on_pane_restore,
                   }
-                  local state = resurrect.load_state(label, 'workspace')
+                  local state = resurrect.load_state(label, "workspace")
                   resurrect.workspace_state.restore_workspace(state, opts)
                 else
-                  print('State does not exist')
+                  print("State does not exist")
                   -- No existing state, save initial state
                   resurrect.save_state(resurrect.workspace_state.get_workspace_state())
                 end
@@ -329,42 +326,41 @@ config.keys = {
               -- else
               --
               -- end
-
             end
           end),
-        },
+        }),
         pane
       )
     end),
   },
 
   -- This will create a new split and run your default program inside it
-  { key = 'X', mods = 'LEADER', action = wezterm.action.CloseCurrentPane { confirm = false }},
-  { key = 'UpArrow', mods = 'SHIFT', action = act.ScrollByLine(-1) },
-  { key = 'DownArrow', mods = 'SHIFT', action = act.ScrollByLine(1) },
-  { key = 'PageUp', action = act.ScrollByPage(-0.8) },
-  { key = 'PageDown', action = act.ScrollByPage(0.8) },
-  { key = 'z', mods = 'LEADER', action = act.TogglePaneZoomState },
+  { key = "X", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
+  { key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-1) },
+  { key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(1) },
+  { key = "PageUp", action = act.ScrollByPage(-0.8) },
+  { key = "PageDown", action = act.ScrollByPage(0.8) },
+  { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
   -- { key = 'u', mods = 'LEADER', action = wezterm.plugin.update_all() },
-  { key = '-', mods = 'LEADER', action = act.SplitVertical { domain='CurrentPaneDomain' }},
-  { key = '\\', mods = 'LEADER', action = act.SplitHorizontal { domain='CurrentPaneDomain' }},
-  { key = 'c', mods = 'LEADER', action = act.SpawnTab 'CurrentPaneDomain' },
-  { key = 'Q', mods = 'LEADER', action = act.CloseCurrentTab { confirm = false }},
+  { key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+  { key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+  { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+  { key = "Q", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) },
   -- goto tabs via index
-  { key = '1', mods = 'LEADER', action = act.ActivateTab(0) },
-  { key = '2', mods = 'LEADER', action = act.ActivateTab(1) },
-  { key = '3', mods = 'LEADER', action = act.ActivateTab(2) },
-  { key = '4', mods = 'LEADER', action = act.ActivateTab(3) },
-  { key = '5', mods = 'LEADER', action = act.ActivateTab(4) },
-  { key = '6', mods = 'LEADER', action = act.ActivateTab(5) },
-  { key = '7', mods = 'LEADER', action = act.ActivateTab(6) },
-  { key = '8', mods = 'LEADER', action = act.ActivateTab(7) },
-  { key = '9', mods = 'LEADER', action = act.ActivateTab(8) },
+  { key = "1", mods = "LEADER", action = act.ActivateTab(0) },
+  { key = "2", mods = "LEADER", action = act.ActivateTab(1) },
+  { key = "3", mods = "LEADER", action = act.ActivateTab(2) },
+  { key = "4", mods = "LEADER", action = act.ActivateTab(3) },
+  { key = "5", mods = "LEADER", action = act.ActivateTab(4) },
+  { key = "6", mods = "LEADER", action = act.ActivateTab(5) },
+  { key = "7", mods = "LEADER", action = act.ActivateTab(6) },
+  { key = "8", mods = "LEADER", action = act.ActivateTab(7) },
+  { key = "9", mods = "LEADER", action = act.ActivateTab(8) },
   {
-    key = ',',
-    mods = 'LEADER',
-    action = act.PromptInputLine {
-      description = 'Enter new name for tab',
+    key = ",",
+    mods = "LEADER",
+    action = act.PromptInputLine({
+      description = "Enter new name for tab",
       -- initial_value = 'My Tab Name',
       action = wezterm.action_callback(function(window, pane, line)
         -- line will be `nil` if they hit escape without entering anything
@@ -374,13 +370,13 @@ config.keys = {
           window:active_tab():set_title(line)
         end
       end),
-    },
+    }),
   },
   {
-    key = '.',
-    mods = 'LEADER',
+    key = ".",
+    mods = "LEADER",
     action = wezterm.action.PromptInputLine({
-      description = 'Enter new name for workspace',
+      description = "Enter new name for workspace",
       action = wezterm.action_callback(function(window, pane, line)
         if line then
           wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
@@ -389,8 +385,8 @@ config.keys = {
     }),
   },
   {
-    key = 'D',
-    mods = 'LEADER',
+    key = "D",
+    mods = "LEADER",
     action = wezterm.action_callback(function(window, pane)
       local workspaces = wezterm.mux.get_workspace_names()
       if #workspaces == 0 then
@@ -402,22 +398,22 @@ config.keys = {
 
       for _, workspace_name in ipairs(workspaces) do
         table.insert(choices, {
-          label = workspace_name .. (workspace_name == active_workspace and ' (active)' or ''),
+          label = workspace_name .. (workspace_name == active_workspace and " (active)" or ""),
           id = workspace_name,
         })
       end
 
       window:perform_action(
-        act.InputSelector {
-          description = '⚠️  Select workspace to delete',
-          title = '⚠️  Select workspace to delete',
+        act.InputSelector({
+          description = "⚠️  Select workspace to delete",
+          title = "⚠️  Select workspace to delete",
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
               if id == active_workspace then
                 return
               end
-              local success, stdout = wezterm.run_child_process({ 'wezterm', 'cli', 'list', '--format=json' })
+              local success, stdout = wezterm.run_child_process({ "wezterm", "cli", "list", "--format=json" })
 
               if success then
                 local json = wezterm.json_parse(stdout)
@@ -433,146 +429,145 @@ config.keys = {
                 end
 
                 for _, p in ipairs(workspace_panes) do
-                  wezterm.run_child_process({ 'wezterm', 'cli', 'kill-pane', '--pane-id=' .. p.pane_id })
+                  wezterm.run_child_process({ "wezterm", "cli", "kill-pane", "--pane-id=" .. p.pane_id })
                 end
               else
               end
             end
           end),
-        },
+        }),
         pane
       )
     end),
   },
 
   {
-    key = 'n',
-    mods = 'LEADER',
-    action = act.PromptInputLine {
-      description = wezterm.format {
-        { Attribute = { Intensity = 'Bold' } },
-        { Foreground = { AnsiColor = 'Fuchsia' } },
-        { Text = 'Enter name for new workspace' },
-      },
+    key = "n",
+    mods = "LEADER",
+    action = act.PromptInputLine({
+      description = wezterm.format({
+        { Attribute = { Intensity = "Bold" } },
+        { Foreground = { AnsiColor = "Fuchsia" } },
+        { Text = "Enter name for new workspace" },
+      }),
       action = wezterm.action_callback(function(window, pane, line)
         -- line will be `nil` if they hit escape without entering anything
         -- An empty string if they just hit enter
         -- Or the actual line of text they wrote
         if line then
           window:perform_action(
-            act.SwitchToWorkspace {
+            act.SwitchToWorkspace({
               name = line,
-            },
+            }),
             pane
           )
         end
       end),
-    },
+    }),
   },
 
   -- Resurrect
   {
-    key = 'd',
-    mods = 'LEADER',
+    key = "d",
+    mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
         resurrect.state_manager.delete_state(id)
-      end,
-        {
-          title = 'Delete State',
-          description = 'Select State to Delete and press Enter = accept, Esc = cancel, / = filter',
-          fuzzy_description = 'Search State to Delete: ',
-          is_fuzzy = true,
-        })
+      end, {
+        title = "Delete State",
+        description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
+        fuzzy_description = "Search State to Delete: ",
+        is_fuzzy = true,
+      })
     end),
   },
   {
-    key = 's',
-    mods = 'LEADER',
+    key = "s",
+    mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
       resurrect.window_state.save_window_action()
     end),
   },
   {
-    key = 'R',
-    mods = 'LEADER',
+    key = "R",
+    mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, label)
-        local type = string.match(id, '^([^/]+)') -- match before '/'
-        id = string.match(id, '([^/]+)$') -- match after '/'
-        id = string.match(id, '(.+)%..+$') -- remove file extention
+        local type = string.match(id, "^([^/]+)") -- match before '/'
+        id = string.match(id, "([^/]+)$") -- match after '/'
+        id = string.match(id, "(.+)%..+$") -- remove file extention
         local opts = {
           relative = true,
           restore_text = true,
           on_pane_restore = resurrect.tab_state.default_on_pane_restore,
         }
-        if type == 'workspace' then
-          local state = resurrect.state_manager.load_state(id, 'workspace')
+        if type == "workspace" then
+          local state = resurrect.state_manager.load_state(id, "workspace")
           resurrect.workspace_state.restore_workspace(state, opts)
-        elseif type == 'window' then
-          local state = resurrect.state_manager.load_state(id, 'window')
+        elseif type == "window" then
+          local state = resurrect.state_manager.load_state(id, "window")
           resurrect.window_state.restore_window(pane:window(), state, opts)
-        elseif type == 'tab' then
-          local state = resurrect.state_manager.load_state(id, 'tab')
+        elseif type == "tab" then
+          local state = resurrect.state_manager.load_state(id, "tab")
           resurrect.tab_state.restore_tab(pane:tab(), state, opts)
         end
       end)
     end),
   },
   {
-    key = 'LeftArrow',
-    mods = 'ALT',
+    key = "LeftArrow",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       if is_vim(pane) then
         -- pass the keys through to vim/nvim
         win:perform_action({
-          SendKey = { key = 'LeftArrow', mods = 'ALT' },
+          SendKey = { key = "LeftArrow", mods = "ALT" },
         }, pane)
       else
-        win:perform_action({ ActivatePaneDirection = 'Left' }, pane)
+        win:perform_action({ ActivatePaneDirection = "Left" }, pane)
       end
     end),
   },
   {
-    key = 'RightArrow',
-    mods = 'ALT',
+    key = "RightArrow",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       if is_vim(pane) then
         -- pass the keys through to vim/nvim
         win:perform_action({
-          SendKey = { key = 'RightArrow', mods = 'ALT' },
+          SendKey = { key = "RightArrow", mods = "ALT" },
         }, pane)
       else
-        win:perform_action({ ActivatePaneDirection = 'Right' }, pane)
+        win:perform_action({ ActivatePaneDirection = "Right" }, pane)
       end
     end),
   },
   {
-    key = 'UpArrow',
-    mods = 'ALT',
+    key = "UpArrow",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       if is_vim(pane) then
         -- pass the keys through to vim/nvim
         win:perform_action({
-          SendKey = { key = 'UpArrow', mods = 'ALT' },
+          SendKey = { key = "UpArrow", mods = "ALT" },
         }, pane)
       else
-        win:perform_action({ ActivatePaneDirection = 'Up' }, pane)
+        win:perform_action({ ActivatePaneDirection = "Up" }, pane)
       end
     end),
   },
   {
-    key = 'DownArrow',
-    mods = 'ALT',
+    key = "DownArrow",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       if is_vim(pane) then
         -- pass the keys through to vim/nvim
         win:perform_action({
-          SendKey = { key = 'DownArrow', mods = 'ALT' },
+          SendKey = { key = "DownArrow", mods = "ALT" },
         }, pane)
       else
-        win:perform_action({ ActivatePaneDirection = 'Down' }, pane)
+        win:perform_action({ ActivatePaneDirection = "Down" }, pane)
       end
     end),
   },
@@ -580,4 +575,3 @@ config.keys = {
 
 config.key_tables = modal.key_tables
 return config
-

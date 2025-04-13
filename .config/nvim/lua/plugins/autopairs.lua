@@ -1,9 +1,11 @@
+-- autopairs
+-- https://github.com/windwp/nvim-autopairs
+
 return {
   {
-    'windwp/nvim-autopairs',
-    config = function() require("nvim-autopairs").setup({}) end
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
   },
-  {
-    "windwp/nvim-ts-autotag",
-  }
 }
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:

@@ -1,11 +1,11 @@
 return {
   {
-    'zbirenbaum/copilot.lua',
+    "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
       -- Cache frequently used modules
-      local copilot = require('copilot')
+      local copilot = require("copilot")
 
       -- Create a global table to store buffer-specific auto_trigger states
       _G.copilot_buffer_states = {}
@@ -19,17 +19,17 @@ return {
             accept = false, -- Disable default keymaps
             next = false,
             prev = false,
-          }
+          },
         },
         filetypes = {
           ["*"] = true,
-        }
+        },
       })
 
-      local suggestion = require('copilot.suggestion')
+      local suggestion = require("copilot.suggestion")
 
       -- Set up autocmd to initialize buffer state when a new buffer is opened
-      vim.api.nvim_create_autocmd({"BufEnter", "BufNew"}, {
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
         callback = function(ev)
           local bufnr = ev.buf
           -- Initialize buffer state to false (disabled) if not already set
@@ -48,44 +48,55 @@ return {
       })
 
       -- Define keymaps in a table for better organization
-      vim.keymap.set('i', '<C-u>', function() suggestion.accept() end, {})
-      vim.keymap.set('i', '<C-.>', function() suggestion.next() end, {})
-      vim.keymap.set('i', '<C-,>', function() suggestion.prev() end, {})
-      vim.keymap.set('n', '<leader>ce', function()
-        vim.cmd('Copilot enable')
-        vim.cmd('Copilot status')
-      end, { desc = '[C]opilot [e]nable'})
+      vim.keymap.set("i", "<C-u>", function()
+        suggestion.accept()
+      end, {})
+      vim.keymap.set("i", "<C-.>", function()
+        suggestion.next()
+      end, {})
+      vim.keymap.set("i", "<C-,>", function()
+        suggestion.prev()
+      end, {})
+      vim.keymap.set("n", "<leader>ce", function()
+        vim.cmd("Copilot enable")
+        vim.cmd("Copilot status")
+      end, { desc = "[C]opilot [e]nable" })
 
-      vim.keymap.set('n', '<leader>cd', function()
-        vim.cmd('Copilot disable')
-        vim.cmd('Copilot status')
-      end, { desc = '[C]opilot [d]isable' })
+      vim.keymap.set("n", "<leader>cd", function()
+        vim.cmd("Copilot disable")
+        vim.cmd("Copilot status")
+      end, { desc = "[C]opilot [d]isable" })
 
-      vim.keymap.set('n', '<leader>cs', function()
-        vim.cmd('Copilot status')
-      end, { desc = '[C]opilot [s]tatus' })
+      vim.keymap.set("n", "<leader>cs", function()
+        vim.cmd("Copilot status")
+      end, { desc = "[C]opilot [s]tatus" })
 
       -- toggle auto trigger with status message
-      vim.keymap.set('n', '<leader>ct', function()
+      vim.keymap.set("n", "<leader>ct", function()
         local bufnr = vim.api.nvim_get_current_buf()
         suggestion.toggle_auto_trigger()
         -- Update the buffer state to the opposite of what it was
         _G.copilot_buffer_states[bufnr] = not _G.copilot_buffer_states[bufnr]
         -- Display current buffer's auto-trigger status
-        vim.notify("Copilot auto-trigger " ..
-          (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled") ..
-          " for current buffer", vim.log.levels.INFO)
-      end, { desc = '[C]opilot [t]oggle auto trigger' })
+        vim.notify(
+          "Copilot auto-trigger "
+            .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
+            .. " for current buffer",
+          vim.log.levels.INFO
+        )
+      end, { desc = "[C]opilot [t]oggle auto trigger" })
 
       -- show current buffer's auto-trigger status
-      vim.keymap.set('n', '<leader>cc', function()
+      vim.keymap.set("n", "<leader>cc", function()
         local bufnr = vim.api.nvim_get_current_buf()
-        vim.notify("Copilot auto-trigger " ..
-          (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled") ..
-          " for current buffer", vim.log.levels.INFO)
-      end, { desc = '[C]opilot [c]urrent auto trigger status' })
-
-    end
+        vim.notify(
+          "Copilot auto-trigger "
+            .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
+            .. " for current buffer",
+          vim.log.levels.INFO
+        )
+      end, { desc = "[C]opilot [c]urrent auto trigger status" })
+    end,
   },
 
   {
@@ -96,8 +107,8 @@ return {
     },
     build = function()
       -- Only build tiktoken on Unix systems
-      if vim.fn.has('unix') == 1 then
-        vim.fn.system('make tiktoken')
+      if vim.fn.has("unix") == 1 then
+        vim.fn.system("make tiktoken")
       end
     end,
     opts = {
@@ -113,36 +124,36 @@ return {
       },
     },
   },
-  {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("codecompanion").setup({
-        strategies = {
-          chat = {
-            adapter = "copilot",
-          },
-          inline = {
-            adapter = "copilot",
-          },
-        },
-        adapters = {
-          openai = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  default = "claude-3.7-sonnet",
-                },
-              },
-            })
-          end,
-        },
-      })
-    end
-  },
+  -- {
+  --   "olimorris/codecompanion.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   config = function()
+  --     require("codecompanion").setup({
+  --       strategies = {
+  --         chat = {
+  --           adapter = "copilot",
+  --         },
+  --         inline = {
+  --           adapter = "copilot",
+  --         },
+  --       },
+  --       adapters = {
+  --         openai = function()
+  --           return require("codecompanion.adapters").extend("copilot", {
+  --             schema = {
+  --               model = {
+  --                 default = "claude-3.7-sonnet",
+  --               },
+  --             },
+  --           })
+  --         end,
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     "yetone/avante.nvim",
     -- dir = "/home/tcrha/Projects/avante.nvim",
@@ -158,7 +169,7 @@ return {
         -- model = "gemini-2.0-flash-001",
         model = "claude-3.7-sonnet",
         -- model = "claude-3.7-sonnet-thought",
-        disable_tools = true
+        disable_tools = true,
         -- max_tokens = 4096,
       },
       -- file_selector = {
@@ -191,9 +202,9 @@ return {
         },
         copilot_4openai = {
           __inherited_from = "copilot",
-          model = "gpt-4o-2024-08-06"
+          model = "gpt-4o-2024-08-06",
         },
-      }
+      },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -203,39 +214,16 @@ return {
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
+      -- {
+      --   -- Make sure to set this up properly if you have lazy=true
+      --   "MeanderingProgrammer/render-markdown.nvim",
+      --   opts = {
+      --     file_types = { "markdown", "Avante" },
+      --   },
+      --   ft = { "markdown", "Avante" },
+      -- },
     },
-  }
+  },
   -- {
   --   "yetone/avante.nvim",
   --   event = "VeryLazy",
@@ -310,3 +298,4 @@ return {
   --   },
   -- }
 }
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:
