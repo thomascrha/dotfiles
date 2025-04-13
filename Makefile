@@ -8,7 +8,10 @@ help:
 
 stow: ## Stow dotfiles
 	stow --no-folding -t ${HOME} -v -d ${PWD} -S .
-	sudo find ${HOME} -xtype l -delete
+	@if [ ! -z "$(CLEAR)" ]; then \
+		echo "clearing"; \
+		sudo find ${HOME} -xtype l -delete; \
+	fi
 	./decrypt.sh
 
 unstow: ## Unstow dotfiles

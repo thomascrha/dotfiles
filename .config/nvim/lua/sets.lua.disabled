@@ -1,92 +1,181 @@
 return {
   setup = function()
-    -- Nerd font support
-    vim.g.have_nerd_fonts = true
+    -----------------
+    -- Basic Settings
+    -----------------
 
-    -- Make line numbers default
-    vim.wo.number = true
+    -- Leader Key
+    -- `:help mapleader` - Defines the key used as the "leader" for key mapping
+    vim.g.mapleader = " "
+    vim.g.maplocalleader = " "
 
-    -- set mouse mode (all modes)
-    vim.o.mouse = "a"
+    -- Nerd Font Support
+    -- `:help nerd-font` - For plugins that use special glyphs from nerd fonts
+    vim.g.have_nerd_font = false
 
-    -- Search
-    -- ignorecase during search
-    vim.o.ignorecase = true
-    -- if search has capital match case
-    vim.o.smartcase = true
-    -- don"t highlight search
-    vim.o.hlsearch = false
-    vim.o.incsearch = true
+    -----------------
+    -- Display Settings
+    -----------------
 
-    -- wrap lines
-    vim.o.wrap = true
+    -- Line Numbers
+    -- `:help relativenumber` - Show the line number relative to the cursor
+    vim.opt.relativenumber = true
 
-    -- Tabs
-    -- tab size options
-    vim.o.tabstop = 4
-    vim.o.shiftwidth = 4
-    vim.o.softtabstop = 4
+    -- `:help cursorline` - Highlight the line where the cursor is
+    vim.opt.cursorline = true
 
-    -- convert tabs to spaces
-    vim.o.expandtab = true
-    vim.o.smartindent = true
+    -- `:help cmdheight` - Height of the command line
+    vim.opt.cmdheight = 1
 
-    -- numbers
-    vim.o.relativenumber = true
+    -- `:help colorcolumn` - Highlight the specified column
+    vim.opt.colorcolumn = "120"
 
-    -- for god sake stop the rining
-    vim.o.errorbells = false
+    -- `:help termguicolors` - Use GUI colors in terminal
+    vim.opt.termguicolors = true
 
-    -- turn off the backup rubbish
-    vim.o.swapfile = false
-    vim.o.backup = false
+    -- `:help showmode` - Shows the current mode in the status line
+    vim.opt.showmode = false
 
-    -- set termguicolors to enable highlight groups
-    vim.o.termguicolors = true
+    -- `:help fillchars` - Characters to fill statusline/statuscolumn
+    vim.opt.fillchars = "diff:/"
 
-    -- Give more space for displaying messages.
-    vim.o.cmdheight = 1
+    -----------------
+    -- Mouse & Input
+    -----------------
 
-    -- colun width
-    vim.o.colorcolumn = "120"
+    -- `:help mouse` - Enables mouse support for all modes
+    vim.opt.mouse = "a"
 
-    -- Decrease update time
-    vim.o.updatetime = 200
-    vim.wo.signcolumn = 'yes'
+    -- `:help mousemodel` - Behavior of mouse clicks
+    vim.opt.mousemodel = "extend"
 
-    -- Set completeopt to have a better completion experience
-    vim.o.completeopt = 'menuone,noselect'
+    -- `:help timeoutlen` - Time in ms to wait for a mapped sequence to complete
+    vim.opt.timeoutlen = 300
 
-    -- Save undo history
-    vim.o.undofile = true
-    vim.o.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+    -- `:help errorbells` - Disable error bells/beeps
+    vim.opt.errorbells = false
 
-    -- scrolling padding
-    vim.o.scrolloff = 8
+    -----------------
+    -- Clipboard
+    -----------------
 
-    --  spelling
-    -- vim.o.spell = true
-    vim.o.spelllang = 'en_au,programming'
-    vim.o.spelloptions = "camel"
+    -- `:help clipboard` - Sync with system clipboard
+    -- Sync clipboard between OS and Neovim.
+    -- Schedule the setting after `UiEnter` because it can increase startup-time.
+    -- Remove this option if you want your OS clipboard to remain independent.
+    vim.schedule(function()
+      vim.opt.clipboard = "unnamedplus"
+    end)
 
-    -- enable current line highlighting
-    vim.o.cursorline = true
+    -----------------
+    -- Search Settings
+    -----------------
 
-    -- make splits open to down and right
-    vim.o.splitbelow = true
-    vim.o.splitright = true
+    -- `:help ignorecase` - Ignore case in search patterns
+    vim.opt.ignorecase = true
 
+    -- `:help smartcase` - Override ignorecase if search contains uppercase
+    vim.opt.smartcase = true
+
+    -- `:help hlsearch` - Don't highlight all matches for search pattern
+    vim.opt.hlsearch = false
+
+    -- `:help incsearch` - Show matches as you type the search pattern
+    vim.opt.incsearch = true
+
+    -- `:help inccommand` - Preview substitutions as you type
+    vim.opt.inccommand = "split"
+
+    -----------------
+    -- Editor Behavior
+    -----------------
+
+    -- `:help wrap` - Lines longer than the window width wrap
+    vim.opt.wrap = true
+
+    -- `:help breakindent` - Wrapped lines will maintain their indentation
+    vim.opt.breakindent = true
+
+    -- `:help scrolloff` - Minimum lines to keep above/below cursor when scrolling
+    vim.opt.scrolloff = 10
+
+    -- `:help list` - Show invisible characters
+    -- `:help listchars` - Configure which invisible characters to show
+    vim.opt.list = true
+    vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+    -- `:help signcolumn` - Column for displaying signs (like diagnostics)
+    vim.opt.signcolumn = "yes"
+
+    -- `:help updatetime` - Time in ms before various operations trigger
+    vim.opt.updatetime = 250
+
+    -- `:help completeopt` - Options for insert mode completion
+    vim.opt.completeopt = "menuone,noselect"
+
+    -- `:help confirm` - Ask for confirmation instead of failing
+    vim.opt.confirm = true
+
+    -----------------
+    -- Split Windows
+    -----------------
+
+    -- `:help splitright` and `:help splitbelow` - Where new splits appear
+    vim.opt.splitright = true
+    vim.opt.splitbelow = true
+
+    -----------------
+    -- Tab & Indentation
+    -----------------
+
+    -- `:help tabstop` - Number of spaces a <Tab> counts for
+    vim.opt.tabstop = 4
+
+    -- `:help shiftwidth` - Number of spaces to use for auto-indent
+    vim.opt.shiftwidth = 4
+
+    -- `:help softtabstop` - Number of spaces a <Tab> counts for in editing operations
+    vim.opt.softtabstop = 4
+
+    -- `:help expandtab` - Convert tabs to spaces
+    vim.opt.expandtab = true
+
+    -- `:help smartindent` - Smart auto-indenting for programs
+    vim.opt.smartindent = true
+
+    -----------------
+    -- File Handling
+    -----------------
+
+    -- `:help undofile` - Save undo history between sessions
+    vim.opt.undofile = true
+
+    -- `:help undodir` - Directory for storing undo files
+    vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+
+    -- `:help swapfile` and `:help backup` - Disable swap and backup files
+    vim.opt.swapfile = false
+    vim.opt.backup = false
+
+    -----------------
+    -- Spelling
+    -----------------
+
+    -- `:help spell` - Enable spell checking
+    -- vim.opt.spell = true
+
+    -- `:help spelllang` - Language(s) for spell checking
+    vim.opt.spelllang = "en_au,programming"
+
+    -- `:help spelloptions` - Options for spell checking
+    vim.opt.spelloptions = "camel"
+
+    -----------------
+    -- Plugin Settings
+    -----------------
+
+    -- GitHub Copilot setting to override mappings
     vim.g.copilot_assume_mapped = true
-
-    -- Nice looking file diff
-    vim.o.fillchars = 'diff:/'
-
-    -- Show hidden characters like tabs, trailing spaces, etc.
-    vim.o.list = true
-    vim.o.listchars = 'tab:→ ,trail:·,extends:▶,precedes:◀,nbsp:␣'
-
-    vim.o.mousemodel = "extend"
-  end
+  end,
 }
-
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:
