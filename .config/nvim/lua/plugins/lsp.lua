@@ -97,7 +97,7 @@ return {
           -- map("grt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
 
           vim.keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { desc = '[G]oto [D]efinition', buffer = event.buf })
-          vim.keymap.set('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', { desc = '[G]oto [R]eferences', buffer = event.buf })
+          vim.keymap.set('n', '<leader>gr', require("telescope.builtin").lsp_references, { desc = '[G]oto [R]eferences', buffer = event.buf })
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
@@ -202,7 +202,53 @@ return {
       local servers = {
         clangd = {},
         -- gopls = {},
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                extraPaths = {},
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+              },
+            },
+          },
+          on_init = function(client)
+            -- Try to find .venv in the project root
+            local root_dir = client.config.root_dir
+            if root_dir then
+              local venv_path = root_dir .. "/.venv"
+              local site_packages = ""
+
+              -- Check if .venv directory exists
+              local f = io.open(venv_path, "r")
+              if f then
+                f:close()
+
+                -- Look for site-packages directory in the virtual environment
+                local python_version_cmd = "find " .. venv_path .. "/lib -type d -name 'python*' | sort | tail -1"
+                local handle = io.popen(python_version_cmd)
+                if handle then
+                  local python_lib_path = handle:read("*a"):gsub("%s+$", "")
+                  handle:close()
+
+                  if python_lib_path ~= "" then
+                    site_packages = python_lib_path .. "/site-packages"
+
+                    -- Add site-packages to extraPaths
+                    client.config.settings.python.analysis.extraPaths = {
+                      site_packages
+                    }
+
+                    vim.notify("Python virtual environment found at: " .. venv_path, vim.log.levels.INFO)
+                    vim.notify("Added to PYTHONPATH: " .. site_packages, vim.log.levels.INFO)
+                  end
+                end
+              end
+            end
+            return true
+          end,
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
