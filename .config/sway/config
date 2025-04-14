@@ -91,7 +91,7 @@ bindsym $mod+g exec $exec_or_move $filemanager
 bindsym $mod+e exec $exec_or_move $email
 bindsym $mod+m exec $exec_or_move $teams
 
-bindsym $mod+Shift+Return exec $terminal start --always-new-process
+bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Shift+b exec $browser
 bindsym $mod+Shift+g exec $filemanager
 bindsym $mod+Shift+e exec $email

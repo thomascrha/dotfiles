@@ -16,6 +16,17 @@ local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.9
 end
+config.unix_domains = {
+  {
+    name = 'unix',
+  },
+}
+
+-- This causes `wezterm` to act as though it was started as
+-- `wezterm connect unix` by default, connecting to the unix
+-- domain on startup.
+-- If you prefer to connect manually, leave out this line.
+config.default_gui_startup_args = { 'connect', 'unix' }
 
 -----------------------------
 --- General settings
@@ -219,27 +230,36 @@ config.keys = {
     mods = "LEADER",
     -- action = workspace_switcher.switch_workspace(),
     action = wezterm.action_callback(function(win, pane)
+      -- Get list of workspaces in current wezterm instance
       local workspaces = wezterm.mux.get_workspace_names()
       if #workspaces == 0 then
         return
       end
 
       local projects = {}
-      local choices = {}
+      local open_choices = {}
+      local closed_choices = {}
       local active_workspace = wezterm.mux.get_active_workspace()
 
+          -- We no longer need to check for workspaces in other processes
+          -- as we're using the unix socket connection
+
+      -- Process current instance workspaces first
       for _, workspace_name in ipairs(workspaces) do
         if workspace_name == active_workspace then
           print("Active workspace: " .. workspace_name)
         else
-          table.insert(choices, {
-            label = workspace_name .. " (open)",
+          table.insert(open_choices, {
+            label = "🟢 " .. workspace_name .. " (open in current instance)",
             id = workspace_name,
           })
-          -- open
+          -- mark as open
           projects[workspace_name] = true
         end
       end
+
+      -- Since we're using the unix socket connection, we don't need to track workspaces in "other instances"
+      -- as all WezTerm windows share the same session now
 
       -- get projects
       for _, path in ipairs(paths) do
@@ -257,7 +277,7 @@ config.keys = {
                 projects[project_name] = false
                 -- Get the full path without the .git suffix
                 local project_path = git_dir:sub(1, -6) -- remove '/.git' from the end
-                table.insert(choices, {
+                table.insert(closed_choices, {
                   label = project_name .. " (closed)",
                   id = project_path,
                 })
@@ -265,6 +285,15 @@ config.keys = {
             end
           end
         end
+      end
+
+      -- Combine choices with open workspaces at the top
+      local choices = {}
+      for _, choice in ipairs(open_choices) do
+        table.insert(choices, choice)
+      end
+      for _, choice in ipairs(closed_choices) do
+        table.insert(choices, choice)
       end
 
       win:perform_action(
@@ -275,46 +304,78 @@ config.keys = {
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
-              -- remove the '(open)' or '(closed)' from the label
-              label = string.match(label, "^(.+) %(.+%)$")
+              -- Find the original choice to get metadata
+              local choice = nil
+              for _, c in ipairs(choices) do
+                if c.id == id then
+                  choice = c
+                  break
+                end
+              end
 
-              -- First switch to the workspace
-              inner_window:perform_action(
-                act.SwitchToWorkspace({
-                  name = label,
-                  spawn = {
-                    args = { "zsh" },
-                    cwd = id,
-                  },
-                }),
-                inner_pane
-              )
+              if not choice then
+                return
+              end
 
-              -- closed
-              if projects[label] == false then
+              -- Remove emoji prefix if present
+              local workspace_name = string.match(choice.label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$") or
+                                     string.match(choice.label, "^(.+)%s+%(closed%)$")
+
+              if not workspace_name then
+                -- Fallback to the old pattern just in case
+                workspace_name = string.match(choice.label, "^(.+)%s+%(.+%)$")
+              end
+
+              if not workspace_name then
+                workspace_name = choice.label
+              end
+
+              -- We no longer need to check for workspaces in other instances
+              -- as we're using the unix socket connection
+
+              -- If it's a closed workspace
+              if projects[workspace_name] == false then
+                -- Switch to the workspace first
+                inner_window:perform_action(
+                  act.SwitchToWorkspace({
+                    name = workspace_name,
+                    spawn = {
+                      args = { "zsh" },
+                      cwd = id,
+                    },
+                  }),
+                  inner_pane
+                )
+
                 -- Wait a moment for the workspace to be ready
                 wezterm.sleep_ms(100)
 
                 -- Get the state file path for this workspace
-                local state_path = resurrect.save_state_dir .. "workspace/" .. label .. ".json"
+                local state_path = resurrect.save_state_dir .. "workspace/" .. workspace_name .. ".json"
                 local exists = wezterm.run_child_process({ "test", "-f", state_path })
 
                 if exists then
-                  print("State exists")
+                  print("State exists for " .. workspace_name)
                   local opts = {
-                    -- do in the current window
-                    -- window = win:mux_window(), -- THIS IS THE NEW PART
                     relative = true,
                     restore_text = true,
                     on_pane_restore = resurrect.tab_state.default_on_pane_restore,
                   }
-                  local state = resurrect.load_state(label, "workspace")
+                  local state = resurrect.load_state(workspace_name, "workspace")
                   resurrect.workspace_state.restore_workspace(state, opts)
                 else
-                  print("State does not exist")
+                  print("State does not exist for " .. workspace_name)
                   -- No existing state, save initial state
                   resurrect.save_state(resurrect.workspace_state.get_workspace_state())
                 end
+              else
+                -- For workspaces open in the current instance, just switch to them
+                inner_window:perform_action(
+                  act.SwitchToWorkspace({
+                    name = workspace_name,
+                  }),
+                  inner_pane
+                )
               end
               -- if open then
               --   inner_window:perform_action(

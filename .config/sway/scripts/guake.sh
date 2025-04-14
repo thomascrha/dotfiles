@@ -42,7 +42,7 @@ fi
 
 # wezterm is not running inside the dropdown-terminal scratchpad
 if [[ $(echo $?) -ne 0 ]]; then
-    WEZTERM_GUAKE=on /usr/bin/wezterm start --class dropdown-terminal & 
+    WEZTERM_GUAKE=on /usr/bin/wezterm connect unix --class dropdown-terminal --workspace guake &
     sleep 0.4
 fi
 

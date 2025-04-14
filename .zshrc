@@ -177,7 +177,6 @@ alias neovim='tmux new -s neovim || tmux attach -t neovim || tmux switch-client 
 
 alias fuck='sudo !-1'
 alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\" root"
-alias vim='nvim'
 
 
 if [[ DEBUG_LOGGER -eq 1 ]]; then
