@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 ## Bash Script to clear cached memory on (Ubuntu/Debian) Linux
 ## By Philipp Klaus
 ## see <http://blog.philippklaus.de/2011/02/clear-cached-memory-on-ubuntu/>

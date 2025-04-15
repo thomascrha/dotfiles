@@ -1,21 +1,9 @@
 local wezterm = require("wezterm")
 
+local act = wezterm.action
 local config = wezterm.config_builder()
 
-local act = wezterm.action
-
--- Add config directory to package path
--- local config_dir = wezterm.config_dir
--- package.path = config_dir .. '/?.lua;' .. config_dir .. '/?/init.lua;' .. package.path
-
------------------------------
---- Guake mode
------------------------------
--- makes the window transparent when in guake mode is detected
-local mode = os.getenv("WEZTERM_GUAKE")
-if mode == "on" then
-  config.window_background_opacity = 0.9
-end
+-- Enable the unix domain socket server for multiplexing
 config.unix_domains = {
   {
     name = 'unix',
@@ -35,11 +23,9 @@ config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
 -- config.default_gui_startup_args = {'start', '--always-new-process'}
 
+config.font_size = 13
 config.color_scheme = "OneHalfDark"
 
-local mode = os.getenv("WEZTERM_CONFIG_FILE_FONT_SIZE")
-
-config.font_size = 16
 config.enable_tab_bar = true
 config.enable_scroll_bar = false
 config.window_close_confirmation = "NeverPrompt"
@@ -164,6 +150,7 @@ end
 -- Modal (custom modes with modal plugin)
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 -- modal.apply_to_config(config)
+-- require("lua.golem")
 
 wezterm.on("modal.enter", function(name, window, pane)
   modal.set_right_status(window, name)
@@ -642,4 +629,39 @@ config.keys = {
 }
 
 config.key_tables = modal.key_tables
+
+local get_hostname = function()
+  local f = io.popen ("/bin/hostname")
+  local hostname = f:read("*a") or ""
+  f:close()
+  hostname =string.gsub(hostname, "\n$", "")
+  return hostname
+end
+
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
+
+-- check if file exists $HOSTNAME.lua in wezterm config dir and apply the config
+hostname_path = wezterm.config_dir .. "/" .. get_hostname() .. ".lua"
+if file_exists(hostname_path) then
+  local host_config = require(get_hostname())
+  if host_config then
+    host_config.apply_to_config(config)
+  end
+end
+
+
+-----------------------------
+--- Guake mode
+-----------------------------
+-- makes the window transparent when in guake mode is detected
+local mode = os.getenv("WEZTERM_GUAKE")
+if mode == "on" then
+  config.window_background_opacity = 0.9
+  config.font_size = config.font_size - 1
+end
+
 return config

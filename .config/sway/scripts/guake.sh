@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/zsh
 ## This script is used to show/hide the dropdown terminal
 ## in sway window manager. It uses swaymsg to communicate
 ## with the sway IPC.
 ## Requires: sway, swaymsg, jq, wezterm, bc
 
-DEFAULT_HEIGHT=70
+DEFAULT_HEIGHT=${GUAKE_DEFAULT_HEIGHT:-70}
 if [[ ! -f /tmp/guake_size ]]; then
     echo $DEFAULT_HEIGHT > /tmp/guake_size
 fi

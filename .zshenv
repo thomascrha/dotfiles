@@ -1,3 +1,6 @@
 skip_global_compinit=1
-export WEZTERM_CONFIG_FONT_SIZE=18
+# check if doesnt .zshenv.$(hostname) exists
+if [[ -f $HOME/.zshenv.$(hostname) ]]; then
+    source $HOME/.zshenv.$(hostname)
+fi
 source $HOME/.zshenv.secrets
