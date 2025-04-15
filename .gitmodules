@@ -1,0 +1,3 @@
+[submodule ".config/wezterm/zombie.wezterm"]
+	path = .config/wezterm/zombie.wezterm
+	url = https://github.com/thomascrha/zombie.wezterm
