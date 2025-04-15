@@ -78,6 +78,7 @@ end
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 
 wezterm.on("modal.enter", function(name, window, pane)
+  window:set_right_status("")
   modal.set_right_status(window, name)
   modal.set_window_title(pane, name)
 end)
