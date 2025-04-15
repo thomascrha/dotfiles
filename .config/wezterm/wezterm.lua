@@ -532,6 +532,13 @@ local function file_exists(name)
   end
 end
 
+-- Current overflows
+-- oni.lua
+--  config.font_size
+--
+-- golem.lua
+--  config.font_size
+--
 -- check if file exists $HOSTNAME.lua in wezterm config dir and apply the config
 hostname_path = wezterm.config_dir .. "/" .. get_hostname() .. ".lua"
 if file_exists(hostname_path) then
