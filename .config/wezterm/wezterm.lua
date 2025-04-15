@@ -6,7 +6,7 @@ local config = wezterm.config_builder()
 -- Enable the unix domain socket server for multiplexing
 config.unix_domains = {
   {
-    name = 'unix',
+    name = "unix",
   },
 }
 
@@ -14,7 +14,7 @@ config.unix_domains = {
 -- `wezterm connect unix` by default, connecting to the unix
 -- domain on startup.
 -- If you prefer to connect manually, leave out this line.
-config.default_gui_startup_args = { 'connect', 'unix' }
+config.default_gui_startup_args = { "connect", "unix" }
 
 -----------------------------
 --- General settings
@@ -132,8 +132,8 @@ config.keys = {
       local closed_choices = {}
       local active_workspace = wezterm.mux.get_active_workspace()
 
-          -- We no longer need to check for workspaces in other processes
-          -- as we're using the unix socket connection
+      -- We no longer need to check for workspaces in other processes
+      -- as we're using the unix socket connection
 
       -- Process current instance workspaces first
       for _, workspace_name in ipairs(workspaces) do
@@ -206,8 +206,8 @@ config.keys = {
               end
 
               -- Remove emoji prefix if present
-              local workspace_name = string.match(choice.label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$") or
-                                     string.match(choice.label, "^(.+)%s+%(closed%)$")
+              local workspace_name = string.match(choice.label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
+                or string.match(choice.label, "^(.+)%s+%(closed%)$")
 
               if not workspace_name then
                 -- Fallback to the old pattern just in case
@@ -523,23 +523,119 @@ config.keys = {
       end
     end),
   },
+
+  -- Workspace switching with Alt+number keys
+  {
+    key = "1",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 1 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[1] }), pane)
+      end
+    end),
+  },
+  {
+    key = "2",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 2 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[2] }), pane)
+      end
+    end),
+  },
+  {
+    key = "3",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 3 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[3] }), pane)
+      end
+    end),
+  },
+  {
+    key = "4",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 4 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[4] }), pane)
+      end
+    end),
+  },
+  {
+    key = "5",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 5 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[5] }), pane)
+      end
+    end),
+  },
+  {
+    key = "6",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 6 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[6] }), pane)
+      end
+    end),
+  },
+  {
+    key = "7",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 7 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[7] }), pane)
+      end
+    end),
+  },
+  {
+    key = "8",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 8 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[8] }), pane)
+      end
+    end),
+  },
+  {
+    key = "9",
+    mods = "CTRL",
+    action = wezterm.action_callback(function(win, pane)
+      local workspaces = _G.workspace_order
+      if #workspaces >= 9 then
+        win:perform_action(act.SwitchToWorkspace({ name = workspaces[9] }), pane)
+      end
+    end),
+  },
 }
 
 config.key_tables = modal.key_tables
 
 local get_hostname = function()
-  local f = io.popen ("/bin/hostname")
+  local f = io.popen("/bin/hostname")
   local hostname = f:read("*a") or ""
   f:close()
-  hostname =string.gsub(hostname, "\n$", "")
+  hostname = string.gsub(hostname, "\n$", "")
   return hostname
 end
 
 local function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
+  local f = io.open(name, "r")
+  if f ~= nil then
+    io.close(f)
+    return true
+  else
+    return false
+  end
 end
-
 
 -- check if file exists $HOSTNAME.lua in wezterm config dir and apply the config
 hostname_path = wezterm.config_dir .. "/" .. get_hostname() .. ".lua"
@@ -549,7 +645,6 @@ if file_exists(hostname_path) then
     host_config.apply_to_config(config)
   end
 end
-
 
 -----------------------------
 --- Guake mode

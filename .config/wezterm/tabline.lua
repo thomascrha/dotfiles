@@ -3,6 +3,27 @@
 -----------------------------
 local wezterm = require("wezterm")
 
+-- Store workspaces in order of creation
+local workspace_order = {}
+-- Make workspace_order accessible globally
+_G.workspace_order = workspace_order
+
+-- Track workspace creation to maintain order
+wezterm.on("window-config-reloaded", function(window, pane)
+  local current_workspace = window:active_workspace()
+  -- Add to order list if not already there
+  local found = false
+  for _, name in ipairs(workspace_order) do
+    if name == current_workspace then
+      found = true
+      break
+    end
+  end
+  if not found then
+    table.insert(workspace_order, current_workspace)
+  end
+end)
+
 local M = {}
 
 M.apply_to_config = function(config)
@@ -14,8 +35,28 @@ M.apply_to_config = function(config)
     -- Get the current workspace name
     local workspace = window:active_workspace()
 
-    -- Get all available workspaces
-    local all_workspaces = wezterm.mux.get_workspace_names()
+    -- Get all available workspaces (alphabetically sorted by default)
+    local all_workspaces_set = {}
+    for _, name in ipairs(wezterm.mux.get_workspace_names()) do
+      all_workspaces_set[name] = true
+    end
+
+    -- Create ordered list that preserves creation order
+    local all_workspaces = {}
+
+    -- First add workspaces we've seen before in their original order
+    for _, name in ipairs(workspace_order) do
+      if all_workspaces_set[name] then
+        table.insert(all_workspaces, name)
+        all_workspaces_set[name] = nil -- Mark as processed
+      end
+    end
+
+    -- Then add any new workspaces we haven't tracked yet
+    for name, _ in pairs(all_workspaces_set) do
+      table.insert(all_workspaces, name)
+      table.insert(workspace_order, name) -- Add to our tracking list
+    end
 
     -- Get colors from the current theme
     local bg_color = theme.background
