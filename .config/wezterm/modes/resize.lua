@@ -30,7 +30,7 @@ function M.setup(modal)
     { Text = wezterm.nerdfonts.ple_left_half_circle_thick },
     { Foreground = { Color = "Black" } },
     { Background = { Color = "Yellow" } },
-    { Text = "RESIZE  " },
+    { Text = "RESIZEAS  " },
   })
 
   -- Register the resize mode

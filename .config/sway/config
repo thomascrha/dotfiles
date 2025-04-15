@@ -72,7 +72,7 @@ set $menu rofi -modi drun -show drun -show-icons
 
 #
 set $exec_or_move /home/tcrha/.config/sway/scripts/exec_or_move.py
-set $terminal wezterm
+set $terminal /home/tcrha/.config/sway/scripts/wezterm.sh
 set $browser firefox
 set $filemanager thunar
 set $email thunderbird
