@@ -46,80 +46,7 @@ config.window_padding = {
 -- easy selection of (partial) paths.
 config.selection_word_boundary = " \t\n{}[]()''`,;:@│*"
 
------------------------------
---- Tabline
------------------------------
-config.tab_bar_at_bottom = true
-config.use_fancy_tab_bar = false
-local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
--- Custom tab bar with workspace name on the left side
-wezterm.on("update-status", function(window, pane)
-  -- Get the current workspace name
-  local workspace = window:active_workspace()
-
-  -- Get colors from the current theme
-  local bg_color = theme.background
-  local accent_color = theme.ansi[3]
-
-  -- Format the workspace name with theme-based styling
-  local workspace_text = wezterm.format({
-    { Attribute = { Intensity = "Bold" } },
-    { Background = { Color = accent_color } },
-    { Foreground = { Color = bg_color } },
-    { Text = " " .. workspace .. " " },
-    { Background = { Color = bg_color } },
-    { Foreground = { Color = "Grey" } },
-    { Text = " ┃ " },
-  })
-
-  -- Set the left status with the workspace name
-  window:set_left_status(workspace_text)
-end)
-
-config.tab_max_width = 26
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  -- local theme = wezterm.color.get_default_colors()
-  local fg_color = theme.foreground
-  local bg_color = theme.background
-  local accent_color = theme.ansi[4]
-  local dim_color = "Grey"
-
-  local title = tab.active_pane.title
-  -- Truncate the title if it's too long
-  if #title > 15 then
-    title = wezterm.truncate_right(title, 15) .. "…"
-  end
-
-  -- Format for active vs inactive tabs
-  if tab.is_active then
-    return wezterm.format({
-      { Background = { Color = accent_color } },
-      { Foreground = { Color = bg_color } },
-      { Text = " " .. tab.tab_index + 1 .. " " },
-      { Background = { Color = bg_color } },
-      { Foreground = { Color = fg_color } },
-      { Text = " " .. title .. " " },
-      { Background = { Color = bg_color } },
-      { Foreground = { Color = "Grey" } },
-      { Text = "┃ " },
-    })
-  else
-    return wezterm.format({
-      { Background = { Color = dim_color } },
-      { Foreground = { Color = bg_color } },
-      { Text = " " .. tab.tab_index + 1 .. " " },
-      { Attribute = { Italic = true } },
-      { Background = { Color = bg_color } },
-      { Foreground = { Color = fg_color } },
-      { Text = " " .. title .. " " },
-      { Background = { Color = bg_color } },
-      { Foreground = { Color = "Grey" } },
-      { Text = "┃ " },
-    })
-  end
-end)
-
--- config.tab_max_width = 20
+require("tabline").apply_to_config(config)
 -----------------------------
 --- Windows
 -----------------------------
@@ -149,8 +76,6 @@ end
 
 -- Modal (custom modes with modal plugin)
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
--- modal.apply_to_config(config)
--- require("lua.golem")
 
 wezterm.on("modal.enter", function(name, window, pane)
   modal.set_right_status(window, name)
@@ -162,36 +87,7 @@ wezterm.on("modal.exit", function(name, window, pane)
   modal.reset_window_title(pane)
 end)
 
-local key_table = {
-  { key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 10 }) },
-  { key = "LeftArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Left", 3 }) },
-
-  { key = "RightArrow", action = act.AdjustPaneSize({ "Right", 10 }) },
-  { key = "RightArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Right", 3 }) },
-
-  { key = "UpArrow", action = act.AdjustPaneSize({ "Up", 10 }) },
-  { key = "UpArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Up", 3 }) },
-
-  { key = "DownArrow", action = act.AdjustPaneSize({ "Down", 10 }) },
-  { key = "DownArrow", mods = "SHIFT", action = act.AdjustPaneSize({ "Down", 3 }) },
-
-  -- Cancel the mode by pressing escape
-  { key = "Escape", action = modal.exit_mode("resize") },
-  { key = "c", mods = "CTRL", action = modal.exit_mode("resize") },
-}
-
--- Define the status text for resize mode
-local status_text = wezterm.format({
-  { Attribute = { Intensity = "Bold" } },
-  { Foreground = { Color = "Yellow" } },
-  { Text = wezterm.nerdfonts.ple_left_half_circle_thick },
-  { Foreground = { Color = "Black" } },
-  { Background = { Color = "Yellow" } },
-  { Text = "RESIZE  " },
-})
-
--- Register the resize mode
-modal.add_mode("resize", key_table, status_text)
+require("modes.resize").setup(modal)
 
 -----------------------------
 --- Keybindings

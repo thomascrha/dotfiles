@@ -35,6 +35,7 @@ function M.setup(modal)
 
   -- Register the resize mode
   modal.add_mode("resize", key_table, status_text)
+  -- modal.add_mode("ui", key_table, status_text)
 end
 
 return M
