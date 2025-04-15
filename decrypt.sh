@@ -7,5 +7,13 @@ for FILE in $AGE_FILES; do
     if ! [ -f $FILENAME ]; then
         echo "Decrypting $FILE as $FILENAME does not exist"
         age -d $FILE > $FILENAME
+        if [ $? -ne 0 ]; then
+            echo "Decryption failed"
+            rm $FILENAME
+            continue
+        fi
+        echo "Decryption successful"
+    else
+        echo "$FILENAME already exists"
     fi
 done

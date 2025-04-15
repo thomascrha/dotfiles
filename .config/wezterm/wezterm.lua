@@ -36,7 +36,10 @@ config.enable_wayland = true
 -- config.default_gui_startup_args = {'start', '--always-new-process'}
 
 config.color_scheme = "OneHalfDark"
-config.font_size = 12
+
+local mode = os.getenv("WEZTERM_CONFIG_FILE_FONT_SIZE")
+
+config.font_size = 16
 config.enable_tab_bar = true
 config.enable_scroll_bar = false
 config.window_close_confirmation = "NeverPrompt"
