@@ -142,17 +142,21 @@ end
 --- Plugins
 -----------------------------
 -- Resurrect ------------------------------
-local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
-resurrect.state_manager.periodic_save({
-  interval_seconds = 60,
-  save_workspaces = true,
-  save_windows = true,
-  save_tabs = true,
-})
+-- local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+-- resurrect.state_manager.periodic_save({
+--   interval_seconds = 60,
+--   save_workspaces = true,
+--   save_windows = true,
+--   save_tabs = true,
+-- })
 
-if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-  resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
-end
+-- wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
+-- print("here")
+-- print("Save state dir " .. resurrect.state_manager.save_state_dir)
+
+-- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+--   resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
+-- end
 
 -- Modal (custom modes with modal plugin)
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
@@ -258,9 +262,6 @@ config.keys = {
         end
       end
 
-      -- Since we're using the unix socket connection, we don't need to track workspaces in "other instances"
-      -- as all WezTerm windows share the same session now
-
       -- get projects
       for _, path in ipairs(paths) do
         -- Find git repositories in the path using git rev-parse to find repository root
@@ -347,27 +348,30 @@ config.keys = {
                   inner_pane
                 )
 
-                -- Wait a moment for the workspace to be ready
-                wezterm.sleep_ms(100)
-
-                -- Get the state file path for this workspace
-                local state_path = resurrect.save_state_dir .. "workspace/" .. workspace_name .. ".json"
-                local exists = wezterm.run_child_process({ "test", "-f", state_path })
-
-                if exists then
-                  print("State exists for " .. workspace_name)
-                  local opts = {
-                    relative = true,
-                    restore_text = true,
-                    on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-                  }
-                  local state = resurrect.load_state(workspace_name, "workspace")
-                  resurrect.workspace_state.restore_workspace(state, opts)
-                else
-                  print("State does not exist for " .. workspace_name)
-                  -- No existing state, save initial state
-                  resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-                end
+                -- -- Wait a moment for the workspace to be ready
+                -- wezterm.sleep_ms(100)
+                --
+                -- -- Get the state file path for this workspace
+                -- local state_path = resurrect.state_manager.save_state_dir .. "workspace/" .. workspace_name .. ".json"
+                -- local exists = wezterm.run_child_process({ "test", "-f", state_path })
+                --
+                -- if exists then
+                --   print("State exists for " .. workspace_name)
+                --   local opts = {
+                --     relative = true,
+                --     restore_text = true,
+                --     on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+                --   }
+                --   local state = resurrect.state_manager.load_state(workspace_name, "workspace")
+                --   resurrect.workspace_state.restore_workspace(state, opts)
+                --   -- resurrect.workspace_state.restore_workspace(state, opts)
+                --   -- local state = resurrect.load_state(workspace_name, "workspace")
+                --   -- resurrect.workspace_state.restore_workspace(state, opts)
+                -- else
+                --   print("State does not exist for " .. workspace_name)
+                --   -- No existing state, save initial state
+                --   resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+                -- end
               else
                 -- For workspaces open in the current instance, just switch to them
                 inner_window:perform_action(
@@ -528,54 +532,54 @@ config.keys = {
   },
 
   -- Resurrect
-  {
-    key = "d",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-      resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
-        resurrect.state_manager.delete_state(id)
-      end, {
-        title = "Delete State",
-        description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
-        fuzzy_description = "Search State to Delete: ",
-        is_fuzzy = true,
-      })
-    end),
-  },
-  {
-    key = "s",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-      resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
-      resurrect.window_state.save_window_action()
-    end),
-  },
-  {
-    key = "R",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-      resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, label)
-        local type = string.match(id, "^([^/]+)") -- match before '/'
-        id = string.match(id, "([^/]+)$") -- match after '/'
-        id = string.match(id, "(.+)%..+$") -- remove file extention
-        local opts = {
-          relative = true,
-          restore_text = true,
-          on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-        }
-        if type == "workspace" then
-          local state = resurrect.state_manager.load_state(id, "workspace")
-          resurrect.workspace_state.restore_workspace(state, opts)
-        elseif type == "window" then
-          local state = resurrect.state_manager.load_state(id, "window")
-          resurrect.window_state.restore_window(pane:window(), state, opts)
-        elseif type == "tab" then
-          local state = resurrect.state_manager.load_state(id, "tab")
-          resurrect.tab_state.restore_tab(pane:tab(), state, opts)
-        end
-      end)
-    end),
-  },
+  -- {
+  --   key = "d",
+  --   mods = "LEADER",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
+  --       resurrect.state_manager.delete_state(id)
+  --     end, {
+  --       title = "Delete State",
+  --       description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
+  --       fuzzy_description = "Search State to Delete: ",
+  --       is_fuzzy = true,
+  --     })
+  --   end),
+  -- },
+  -- {
+  --   key = "s",
+  --   mods = "LEADER",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
+  --     resurrect.window_state.save_window_action()
+  --   end),
+  -- },
+  -- {
+  --   key = "R",
+  --   mods = "LEADER",
+  --   action = wezterm.action_callback(function(win, pane)
+  --     resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, label)
+  --       local type = string.match(id, "^([^/]+)") -- match before '/'
+  --       id = string.match(id, "([^/]+)$") -- match after '/'
+  --       id = string.match(id, "(.+)%..+$") -- remove file extention
+  --       local opts = {
+  --         relative = true,
+  --         restore_text = true,
+  --         on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+  --       }
+  --       if type == "workspace" then
+  --         local state = resurrect.state_manager.load_state(id, "workspace")
+  --         resurrect.workspace_state.restore_workspace(state, opts)
+  --       elseif type == "window" then
+  --         local state = resurrect.state_manager.load_state(id, "window")
+  --         resurrect.window_state.restore_window(pane:window(), state, opts)
+  --       elseif type == "tab" then
+  --         local state = resurrect.state_manager.load_state(id, "tab")
+  --         resurrect.tab_state.restore_tab(pane:tab(), state, opts)
+  --       end
+  --     end)
+  --   end),
+  -- },
   {
     key = "LeftArrow",
     mods = "ALT",

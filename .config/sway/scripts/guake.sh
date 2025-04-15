@@ -42,8 +42,8 @@ fi
 
 # wezterm is not running inside the dropdown-terminal scratchpad
 if [[ $(echo $?) -ne 0 ]]; then
-    WEZTERM_GUAKE=on /usr/bin/wezterm connect unix --class dropdown-terminal --workspace guake &
-    sleep 0.4
+    WEZTERM_GUAKE=on /usr/bin/wezterm start --no-auto-connect --class dropdown-terminal --workspace guake &
+    sleep 1
 fi
 
 /usr/bin/swaymsg "[app_id=\"dropdown-terminal\"] resize set 100ppt ${HEIGHT_PPT}ppt, move position 0 0"

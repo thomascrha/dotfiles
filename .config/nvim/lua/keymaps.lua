@@ -14,6 +14,11 @@ return {
 
     -- Diagnostic keymaps
     vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+    -----------------------------------------------------------------------------------
+    -- Use leader and yank to copy to the clipboard
+    -----------------------------------------------------------------------------------
+    vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = '[y]ank into system clipboard' })
+    vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
   end,
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:
