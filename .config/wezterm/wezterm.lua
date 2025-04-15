@@ -31,7 +31,9 @@ config.enable_scroll_bar = false
 config.window_close_confirmation = "NeverPrompt"
 
 config.audible_bell = "Disabled"
-config.font = wezterm.font("JetBrains Mono")
+config.font = wezterm.font({
+  family = "JetBrains Mono",
+})
 
 config.window_padding = {
   left = 0,
@@ -57,22 +59,9 @@ end
 -----------------------------
 --- Plugins
 -----------------------------
--- Resurrect ------------------------------
--- local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
--- resurrect.state_manager.periodic_save({
---   interval_seconds = 60,
---   save_workspaces = true,
---   save_windows = true,
---   save_tabs = true,
--- })
-
--- wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
--- print("here")
--- print("Save state dir " .. resurrect.state_manager.save_state_dir)
-
--- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
---   resurrect.save_state_dir = "C:\\Users\\226960\\wezterm\\states\\"
--- end
+-- Zombie
+local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm")
+zombie.save_workspace()
 
 -- Modal (custom modes with modal plugin)
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
@@ -102,7 +91,6 @@ local paths = {
   "/home/tcrha/Projects",
   "/home/tcrha/dotfiles",
 }
-
 config.leader = { key = "`", mods = "NONE", timeout_milliseconds = 1500 }
 config.keys = {
   -- resize_mode,
@@ -144,26 +132,25 @@ config.keys = {
             label = "🟢 " .. workspace_name .. " (open in current instance)",
             id = workspace_name,
           })
+          -- check if the default workspace ixists and if it does remove it
+          if workspace_name ~= "default" then
+            projects[workspace_name] = true
+          end
           -- mark as open
-          projects[workspace_name] = true
         end
       end
 
       -- get projects
       for _, path in ipairs(paths) do
-        -- Find git repositories in the path using git rev-parse to find repository root
         local success, stdout = wezterm.run_child_process({ "fd", "-t", "d", "-H", "^.git$", "--prune", path })
 
         if success then
           -- Process each .git directory found
           for git_dir in stdout:gmatch("[^\r\n]+") do
-            -- Extract just the project name (last directory before .git)
             local project_name = git_dir:match(".*/([^/]+)/.git/?$")
             if project_name then
               if not projects[project_name] then
-                -- closed
                 projects[project_name] = false
-                -- Get the full path without the .git suffix
                 local project_path = git_dir:sub(1, -6) -- remove '/.git' from the end
                 table.insert(closed_choices, {
                   label = project_name .. " (closed)",
@@ -208,22 +195,15 @@ config.keys = {
               -- Remove emoji prefix if present
               local workspace_name = string.match(choice.label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
                 or string.match(choice.label, "^(.+)%s+%(closed%)$")
-
-              if not workspace_name then
-                -- Fallback to the old pattern just in case
-                workspace_name = string.match(choice.label, "^(.+)%s+%(.+%)$")
-              end
+                or string.match(choice.label, "^(.+)%s+%(.+%)$")
 
               if not workspace_name then
                 workspace_name = choice.label
               end
 
-              -- We no longer need to check for workspaces in other instances
-              -- as we're using the unix socket connection
-
               -- If it's a closed workspace
+              -- Switch to the workspace first
               if projects[workspace_name] == false then
-                -- Switch to the workspace first
                 inner_window:perform_action(
                   act.SwitchToWorkspace({
                     name = workspace_name,
@@ -234,31 +214,6 @@ config.keys = {
                   }),
                   inner_pane
                 )
-
-                -- -- Wait a moment for the workspace to be ready
-                -- wezterm.sleep_ms(100)
-                --
-                -- -- Get the state file path for this workspace
-                -- local state_path = resurrect.state_manager.save_state_dir .. "workspace/" .. workspace_name .. ".json"
-                -- local exists = wezterm.run_child_process({ "test", "-f", state_path })
-                --
-                -- if exists then
-                --   print("State exists for " .. workspace_name)
-                --   local opts = {
-                --     relative = true,
-                --     restore_text = true,
-                --     on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-                --   }
-                --   local state = resurrect.state_manager.load_state(workspace_name, "workspace")
-                --   resurrect.workspace_state.restore_workspace(state, opts)
-                --   -- resurrect.workspace_state.restore_workspace(state, opts)
-                --   -- local state = resurrect.load_state(workspace_name, "workspace")
-                --   -- resurrect.workspace_state.restore_workspace(state, opts)
-                -- else
-                --   print("State does not exist for " .. workspace_name)
-                --   -- No existing state, save initial state
-                --   resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-                -- end
               else
                 -- For workspaces open in the current instance, just switch to them
                 inner_window:perform_action(
@@ -268,16 +223,6 @@ config.keys = {
                   inner_pane
                 )
               end
-              -- if open then
-              --   inner_window:perform_action(
-              --     act.SwitchToWorkspace {
-              --       name = label,
-              --     },
-              --     inner_pane
-              --   )
-              -- else
-              --
-              -- end
             end
           end),
         }),
@@ -417,56 +362,6 @@ config.keys = {
       end),
     }),
   },
-
-  -- Resurrect
-  -- {
-  --   key = "d",
-  --   mods = "LEADER",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
-  --       resurrect.state_manager.delete_state(id)
-  --     end, {
-  --       title = "Delete State",
-  --       description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
-  --       fuzzy_description = "Search State to Delete: ",
-  --       is_fuzzy = true,
-  --     })
-  --   end),
-  -- },
-  -- {
-  --   key = "s",
-  --   mods = "LEADER",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
-  --     resurrect.window_state.save_window_action()
-  --   end),
-  -- },
-  -- {
-  --   key = "R",
-  --   mods = "LEADER",
-  --   action = wezterm.action_callback(function(win, pane)
-  --     resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, label)
-  --       local type = string.match(id, "^([^/]+)") -- match before '/'
-  --       id = string.match(id, "([^/]+)$") -- match after '/'
-  --       id = string.match(id, "(.+)%..+$") -- remove file extention
-  --       local opts = {
-  --         relative = true,
-  --         restore_text = true,
-  --         on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-  --       }
-  --       if type == "workspace" then
-  --         local state = resurrect.state_manager.load_state(id, "workspace")
-  --         resurrect.workspace_state.restore_workspace(state, opts)
-  --       elseif type == "window" then
-  --         local state = resurrect.state_manager.load_state(id, "window")
-  --         resurrect.window_state.restore_window(pane:window(), state, opts)
-  --       elseif type == "tab" then
-  --         local state = resurrect.state_manager.load_state(id, "tab")
-  --         resurrect.tab_state.restore_tab(pane:tab(), state, opts)
-  --       end
-  --     end)
-  --   end),
-  -- },
   {
     key = "LeftArrow",
     mods = "ALT",
@@ -654,6 +549,11 @@ local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.9
   config.font_size = config.font_size - 1
+
+  config.font = wezterm.font({
+    family = "JetBrains Mono",
+    harfbuzz_features = { "calt=0" },
+  })
 end
 
 return config
