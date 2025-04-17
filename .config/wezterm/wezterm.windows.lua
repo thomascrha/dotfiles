@@ -578,7 +578,7 @@ config.keys = {
     key = "1",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 1 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[1] }), pane)
       end
@@ -588,7 +588,7 @@ config.keys = {
     key = "2",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 2 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[2] }), pane)
       end
@@ -598,7 +598,7 @@ config.keys = {
     key = "3",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 3 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[3] }), pane)
       end
@@ -608,7 +608,7 @@ config.keys = {
     key = "4",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 4 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[4] }), pane)
       end
@@ -618,7 +618,7 @@ config.keys = {
     key = "5",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 5 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[5] }), pane)
       end
@@ -628,7 +628,7 @@ config.keys = {
     key = "6",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 6 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[6] }), pane)
       end
@@ -638,7 +638,7 @@ config.keys = {
     key = "7",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 7 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[7] }), pane)
       end
@@ -648,7 +648,7 @@ config.keys = {
     key = "8",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 8 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[8] }), pane)
       end
@@ -658,7 +658,7 @@ config.keys = {
     key = "9",
     mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = _G.workspace_order
+      local workspaces = workspace_order
       if #workspaces >= 9 then
         win:perform_action(act.SwitchToWorkspace({ name = workspaces[9] }), pane)
       end
