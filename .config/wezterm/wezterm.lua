@@ -60,9 +60,24 @@ end
 --- Plugins
 -----------------------------
 -- Zombie
-local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm")
-zombie.save_workspace()
+-- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm")
 
+local function searcher(module_name)
+    -- Use "/" instead of "." as directory separator
+    local path, err = package.searchpath(module_name, package.path, "/")
+    if path then
+        return assert(loadfile(path))
+    end
+    return err
+end
+table.insert(package.searchers, searcher)
+
+
+local zombie = require("zombie.wezterm")
+print(zombie)
+-- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm.git")
+-- local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
+-- zombie.restore_workspaces()
 -- Modal (custom modes with modal plugin)
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 
@@ -93,12 +108,33 @@ local paths = {
 }
 config.leader = { key = "`", mods = "NONE", timeout_milliseconds = 1500 }
 config.keys = {
+  {
+    key = "i",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      zombie.save_current_workspace()
+    end),
+  },
+  {
+    key = "o",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      zombie.restore_current_workspace()
+    end),
+    -- action = zombie.restore_current_workspace()
+  },
   -- resize_mode,
   {
     key = "r",
     mods = "LEADER",
     action = modal.activate_mode("resize"),
   },
+    {
+    key = 'R',
+    mods = 'LEADER',
+    action = wezterm.action.ReloadConfiguration,
+  },
+
   {
     key = "`",
     mods = "ALT",
