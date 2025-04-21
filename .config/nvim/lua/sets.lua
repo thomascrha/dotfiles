@@ -70,7 +70,6 @@ return {
 
     --  spelling
     -- vim.o.spell = true
-    vim.o.spelllang = 'en_au,programming'
     vim.o.spelloptions = "camel"
 
     -- enable current line highlighting

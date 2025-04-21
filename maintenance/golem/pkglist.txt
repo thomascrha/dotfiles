@@ -169,6 +169,7 @@ tuned
 unzip
 usbutils
 util-linux
+uv
 vim
 virt-install
 virt-manager

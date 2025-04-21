@@ -62,19 +62,19 @@ end
 -- Zombie
 -- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm")
 
-local function searcher(module_name)
-    -- Use "/" instead of "." as directory separator
-    local path, err = package.searchpath(module_name, package.path, "/")
-    if path then
-        return assert(loadfile(path))
-    end
-    return err
-end
-table.insert(package.searchers, searcher)
-
-
-local zombie = require("zombie.wezterm")
-print(zombie)
+-- local function searcher(module_name)
+--     -- Use "/" instead of "." as directory separator
+--     local path, err = package.searchpath(module_name, package.path, "/")
+--     if path then
+--         return assert(loadfile(path))
+--     end
+--     return err
+-- end
+-- table.insert(package.searchers, searcher)
+--
+--
+-- local zombie = require("zombie.wezterm")
+-- print(zombie)
 -- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm.git")
 -- local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
 -- zombie.restore_workspaces()
