@@ -61,7 +61,23 @@ end
 -----------------------------
 -- Zombie
 -- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm")
-
+-- <<<<<<< HEAD
+--
+-- -- local function searcher(module_name)
+-- --     -- Use "/" instead of "." as directory separator
+-- --     local path, err = package.searchpath(module_name, package.path, "/")
+-- --     if path then
+-- --         return assert(loadfile(path))
+-- --     end
+-- --     return err
+-- -- end
+-- -- table.insert(package.searchers, searcher)
+-- --
+-- --
+-- -- local zombie = require("zombie.wezterm")
+-- -- print(zombie)
+-- ||||||| parent of 8ae29f3 (asdasdn)
+--
 -- local function searcher(module_name)
 --     -- Use "/" instead of "." as directory separator
 --     local path, err = package.searchpath(module_name, package.path, "/")
@@ -75,9 +91,25 @@ end
 --
 -- local zombie = require("zombie.wezterm")
 -- print(zombie)
+-- =======
+-- -- local function searcher(module_name)
+-- --     -- Use "/" instead of "." as directory separator
+-- --     local path, err = package.searchpath(module_name, package.path, "/")
+-- --     if path then
+-- --         return assert(loadfile(path))
+-- --     end
+-- --     return err
+-- -- end
+-- -- table.insert(package.searchers, searcher)
+-- --
+-- --
+-- -- local zombie = require("zombie.wezterm")
+-- >>>>>>> 8ae29f3 (asdasdn)
 -- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm.git")
--- local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
+local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
+print(zombie)
 -- zombie.restore_workspaces()
+
 -- Modal (custom modes with modal plugin)
 local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 
@@ -591,7 +623,7 @@ end
 local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.9
-  config.font_size = config.font_size - 1
+  config.font_size = config.font_size - 2
 
   config.font = wezterm.font({
     family = "JetBrains Mono",

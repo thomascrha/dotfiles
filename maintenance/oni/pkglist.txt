@@ -32,6 +32,7 @@ flatseal
 foot
 fzf
 gamescope
+gcc-fortran
 git
 git-delta
 gnome-keyring
@@ -72,6 +73,7 @@ noto-fonts-emoji
 noto-fonts-extra
 nvtop
 obsidian
+openblas
 openssh
 pamixer
 paru
@@ -133,6 +135,7 @@ unrar
 unzip
 usbutils
 util-linux
+uv
 vim
 virt-install
 virt-manager
