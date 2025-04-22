@@ -19,41 +19,29 @@ return {
     keys = function()
       local dap, dapui = require('dap'), require('dapui')
 
-      -- Define debug commands in a table for better organization
-      local debug_commands = {
-        start_or_continue = { dap.continue, 'Debug: Start/Continue' },
-        step_into = { dap.step_into, 'Debug: Step Into' },
-        step_over = { dap.step_over, 'Debug: Step Over' },
-        step_out = { dap.step_out, 'Debug: Step Out' },
-        toggle_breakpoint = { dap.toggle_breakpoint, 'Debug: Toggle Breakpoint' },
-        conditional_breakpoint = {
+      local keymaps = {
+        { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
+        { '<F1>', dap.step_into, desc = 'Debug: Step Into' },
+        { '<F2>', dap.step_over, desc = 'Debug: Step Over' },
+        { '<F3>', dap.step_out, desc = 'Debug: Step Out' },
+        { '<leader>b', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
+        {
+          '<leader>B',
           function()
             dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
           end,
-          'Debug: Set Conditional Breakpoint'
+          desc = 'Debug: Set Conditional Breakpoint'
         },
-        toggle_ui = { dapui.toggle, 'Debug: Toggle UI' },
-        terminate = { dap.terminate, 'Debug: Terminate Session' },
-        clear_breakpoints = {
+        { '<F7>', dapui.toggle, desc = 'Debug: Toggle UI' },
+        { '<F8>', dap.terminate, desc = 'Debug: Terminate Session' },
+        {
+          '<leader>dc',
           function()
             dap.clear_breakpoints()
             vim.notify('Breakpoints cleared', vim.log.levels.INFO)
           end,
-          'Debug: Clear all breakpoints'
+          desc = 'Debug: Clear all breakpoints'
         },
-      }
-
-      -- Convert commands to keymaps
-      local keymaps = {
-        { '<F5>', debug_commands.start_or_continue[1], desc = debug_commands.start_or_continue[2] },
-        { '<F1>', debug_commands.step_into[1], desc = debug_commands.step_into[2] },
-        { '<F2>', debug_commands.step_over[1], desc = debug_commands.step_over[2] },
-        { '<F3>', debug_commands.step_out[1], desc = debug_commands.step_out[2] },
-        { '<leader>b', debug_commands.toggle_breakpoint[1], desc = debug_commands.toggle_breakpoint[2] },
-        { '<leader>B', debug_commands.conditional_breakpoint[1], desc = debug_commands.conditional_breakpoint[2] },
-        { '<F7>', debug_commands.toggle_ui[1], desc = debug_commands.toggle_ui[2] },
-        { '<F8>', debug_commands.terminate[1], desc = debug_commands.terminate[2] },
-        { '<leader>dc', debug_commands.clear_breakpoints[1], desc = debug_commands.clear_breakpoints[2] },
       }
 
       return keymaps
@@ -65,7 +53,7 @@ return {
       require('mason-nvim-dap').setup({
         automatic_installation = true,
         ensure_installed = {
-          'debugpy',            -- Python
+          'debugpy',           -- Python
           'codelldb',          -- Rust, C++
           'js-debug-adapter',  -- JavaScript, TypeScript
           'node-debug2',       -- Node.js

@@ -7,6 +7,10 @@ return {
       -- Cache frequently used modules
       local copilot = require("copilot")
 
+      -- require("copilot").setup({
+      --   suggestion = { enabled = false },
+      --   panel = { enabled = false },
+      -- })
       -- Create a global table to store buffer-specific auto_trigger states
       _G.copilot_buffer_states = {}
 
@@ -172,13 +176,13 @@ return {
         disable_tools = true,
         -- max_tokens = 4096,
       },
-      -- file_selector = {
+      file_selector = {
       --   -- show_hidden = true
-      --   provider = "telescope",
+        provider = "fzf",
       --   provider_opts = {
       --     find_command = { "rg", "--files", "--hidden", "-g", "!.git" }
       --   }
-      -- },
+      },
       vendors = {
         copilot_claude = {
           __inherited_from = "copilot",
