@@ -1,69 +1,94 @@
--- Fuzzy Finder using fzf-lua (alternative to telescope)
 return {
   {
     "ibhagwan/fzf-lua",
     event = "VimEnter",
-    opts = {
-      -- Global settings
-      global_resume = true,
-      global_resume_query = true,
-      winopts = {
-        height = 0.85,
-        width = 0.80,
-        preview = {
-          hidden = "nohidden",
-          vertical = "down:45%",
-          layout = "flex",
-        },
-      },
-      keymap = {
-        builtin = {
-          ["<C-/>"] = "toggle-help",
-          ["<C-d>"] = "preview-page-down",
-          ["<C-u>"] = "preview-page-up",
-        },
-      },
-      fzf_opts = {
-        -- Options passed directly to fzf
-        ["--layout"] = "reverse",
-      },
-      -- Customize find command
-      files = {
-        cmd = "rg --files --hidden -g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
-      },
-      grep = {
-        rg_opts = "--hidden --column --line-number --no-heading " ..
-          "--color=always --smart-case " ..
-          "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
-      },
+    dependencies = {
+      -- Useful for getting pretty icons, but requires a Nerd Font.
+      -- { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
     },
-    keys = {
-      -- Basic file and buffer operations
-      { "<leader>ff", function() require("fzf-lua").files() end, desc = "[S]earch [F]iles" },
-      { "<leader>fg", function() require("fzf-lua").live_grep() end, desc = "[S]earch by [G]rep" },
-      { "<leader><leader>", function() require("fzf-lua").buffers() end, desc = "[ ] Find existing buffers" },
-      { "<leader>/", function() require("fzf-lua").lgrep_curbuf() end, desc = "[/] Fuzzily search in current buffer" },
+    config = function()
+      -- fzf-lua is a fast fuzzy finder that leverages the power of fzf
+      -- It can search many different aspects of Neovim, your workspace, LSP, and more!
+      --
+      -- To learn more about fzf-lua, see: https://github.com/ibhagwan/fzf-lua
 
-      -- Additional functionalities
-      { "<leader>fh", function() require("fzf-lua").help_tags() end, desc = "[S]earch [H]elp" },
-      { "<leader>fk", function() require("fzf-lua").keymaps() end, desc = "[S]earch [K]eymaps" },
-      { "<leader>fs", function() require("fzf-lua").builtin() end, desc = "[S]earch [S]elect FZF" },
-      { "<leader>fw", function() require("fzf-lua").grep_cword() end, desc = "[S]earch current [W]ord" },
-      { "<leader>fd", function() require("fzf-lua").diagnostics_document() end, desc = "[S]earch [D]iagnostics" },
-      { "<leader>fr", function() require("fzf-lua").resume() end, desc = "[S]earch [R]esume" },
-      { "<leader>f.", function() require("fzf-lua").oldfiles() end, desc = '[S]earch Recent Files ("." for repeat)' },
+      -- [[ Configure fzf-lua ]]
+      local fzf = require("fzf-lua")
 
-      -- Advanced searches
-      { "<leader>f/", function()
-        require("fzf-lua").live_grep({ grep_open_files = true, prompt = "Live Grep in Open Files> " })
-      end, desc = "[S]earch [/] in Open Files" },
+      fzf.setup({
+        -- Global fzf-lua settings
+        global_resume = true,
+        global_resume_query = true,
+        winopts = {
+          height = 0.85,
+          width = 0.80,
+          preview = {
+            scrollbar = "float",
+          },
+        },
+        keymap = {
+          -- These keys work in fzf's popup window
+          builtin = {
+            ["<c-/>"] = "toggle-help",
+            ["<c-q>"] = "toggle-fullscreen",
+            ["<c-r>"] = "toggle-preview-wrap",
+            ["<c-p>"] = "toggle-preview",
+            ["<c-y>"] = "preview-page-up",
+            ["<c-e>"] = "preview-page-down",
+          },
+        },
+        fzf_opts = {
+          -- Pass additional options to fzf
+          ["--layout"] = "reverse",
+        },
+        grep = {
+          rg_opts = "--hidden --column --line-number --no-heading "
+            .. "--color=always --smart-case "
+            .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
+        },
+        files = {
+          cmd = "rg --files --hidden " .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
+        },
+      })
 
-      -- Config files
-      { "<leader>fn", function()
-        require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
-      end, desc = "[S]earch [N]eovim files" },
-    },
+      -- Set up keymaps similar to Telescope
+      vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "[F]ind [H]elp" })
+      vim.keymap.set("n", "<leader>fk", fzf.keymaps, { desc = "[F]ind [K]eymaps" })
+      vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "[F]ind [F]iles" })
+      vim.keymap.set("n", "<leader>fs", fzf.builtin, { desc = "[F]ind [S]elect FZF" })
+      vim.keymap.set("n", "<leader>fw", fzf.grep_cword, { desc = "[F]ind current [W]ord" })
+      vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "[F]ind by [G]rep" })
+      vim.keymap.set("n", "<leader>fd", fzf.diagnostics_document, { desc = "[F]ind [D]iagnostics" })
+      vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "[F]ind [R]esume" })
+      vim.keymap.set("n", "<leader>f.", fzf.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set("n", "<leader><leader>", fzf.buffers, { desc = "[ ] Find existing buffers" })
+
+      -- Slightly advanced example of searching in current buffer
+      vim.keymap.set("n", "<leader>/", function()
+        fzf.blines({
+          winopts = {
+            height = 0.5,
+            width = 0.5,
+            preview = { hidden = "hidden" },
+          },
+        })
+      end, { desc = "[/] Fuzzily search in current buffer" })
+
+      -- Search in open files
+      vim.keymap.set("n", "<leader>f/", function()
+        fzf.grep({
+          search = "",
+          no_esc = true,
+          only_current_file = true,
+          prompt = "Grep in Current File> ",
+        })
+      end, { desc = "[F]ind [/] in Open Files" })
+
+      -- Shortcut for searching your Neovim configuration files
+      vim.keymap.set("n", "<leader>fn", function()
+        fzf.files({ cwd = vim.fn.stdpath("config") })
+      end, { desc = "[F]ind [N]eovim files" })
+    end,
   },
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:
-

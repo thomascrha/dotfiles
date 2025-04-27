@@ -177,11 +177,10 @@ return {
         -- max_tokens = 4096,
       },
       file_selector = {
-      --   -- show_hidden = true
         provider = "fzf",
-      --   provider_opts = {
-      --     find_command = { "rg", "--files", "--hidden", "-g", "!.git" }
-      --   }
+        provider_opts = {
+          find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+        },
       },
       vendors = {
         copilot_claude = {
