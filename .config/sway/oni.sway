@@ -30,8 +30,8 @@ bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
 # move the env var to the zshenv
 bindsym --no-warn Ctrl+Grave exec GUAKE_MAX_HEIGHT=1544 /home/tcrha/.config/sway/scripts/guake.sh
 
-set $PIPELAM_SOCK /tmp/pipelam.fifo
-
+# set $PIPELAM_SOCK /tmp/pipelam.fifo
+set $PIPELAM_SOCK /run/user/1000/pipelam.fifo
 bindsym --no-warn XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
 bindsym --no-warn XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
 bindsym --no-warn XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $WOBSOCK) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK

@@ -65,6 +65,7 @@ linux-firmware
 mako
 man-db
 mesa
+multimc-bin
 neovim-git
 net-tools
 network-manager-applet
@@ -79,12 +80,12 @@ pamixer
 paru
 paru-debug
 pavucontrol
+pigz
 pipewire-alsa
 pipewire-pulse
 podman
 poppler
 protobuf-c
-protontricks
 python-libconcord
 python-pip
 python-suds
@@ -92,6 +93,7 @@ python-wxpython
 qemu-full
 qemu-img
 qmk
+qt5-svg
 qutebrowser
 qwbfsmanager-git
 ripgrep-all
@@ -101,7 +103,6 @@ sbctl
 sov
 sshpass
 starship
-steamcmd
 stow
 sudo
 swappy

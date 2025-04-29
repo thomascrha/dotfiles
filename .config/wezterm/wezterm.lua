@@ -247,26 +247,26 @@ config.keys = {
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
-              -- Find the original choice to get metadata
-              local choice = nil
-              for _, c in ipairs(choices) do
-                if c.id == id then
-                  choice = c
-                  break
-                end
-              end
-
-              if not choice then
-                return
-              end
+            --   -- Find the original choice to get metadata
+            --   local choice = nil
+            --   for _, c in ipairs(choices) do
+            --     if c.id == id then
+            --       choice = c
+            --       break
+            --     end
+            --   end
+            --
+            --   if not choice then
+            --     return
+            --   end
 
               -- Remove emoji prefix if present
-              local workspace_name = string.match(choice.label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
-                or string.match(choice.label, "^(.+)%s+%(closed%)$")
-                or string.match(choice.label, "^(.+)%s+%(.+%)$")
+              local workspace_name = string.match(label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
+                or string.match(label, "^(.+)%s+%(closed%)$")
+                or string.match(label, "^(.+)%s+%(.+%)$")
 
               if not workspace_name then
-                workspace_name = choice.label
+                workspace_name = label
               end
 
               -- If it's a closed workspace
