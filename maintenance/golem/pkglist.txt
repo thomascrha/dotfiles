@@ -37,6 +37,7 @@ fd
 ffmpegthumbnailer
 file-roller
 firefox
+flatpak
 foot
 fwupd
 fzf
@@ -184,6 +185,7 @@ wl-clipboard
 wlr-randr
 wlsunset
 wob
+wofi
 xdg-desktop-portal
 xdg-desktop-portal-wlr
 xdg-user-dirs
