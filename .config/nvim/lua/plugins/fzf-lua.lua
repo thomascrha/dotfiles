@@ -61,7 +61,7 @@ return {
       vim.keymap.set("n", "<leader>fd", fzf.diagnostics_document, { desc = "[F]ind [D]iagnostics" })
       vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "[F]ind [R]esume" })
       vim.keymap.set("n", "<leader>f.", fzf.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
-      vim.keymap.set("n", "<leader><leader>", fzf.buffers, { desc = "[ ] Find existing buffers" })
+      vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "[ ] Find existing buffers" })
 
       -- Slightly advanced example of searching in current buffer
       vim.keymap.set("n", "<leader>/", function()
