@@ -4,11 +4,11 @@ local act = wezterm.action
 local config = wezterm.config_builder()
 
 -- Enable the unix domain socket server for multiplexing
-config.unix_domains = {
-  {
-    name = "windows",
-  },
-}
+-- config.unix_domains = {
+--   {
+--     name = "windows",
+--   },
+-- }
 
 -- This causes `wezterm` to act as though it was started as
 -- `wezterm connect unix` by default, connecting to the unix
@@ -102,7 +102,7 @@ wezterm.on("update-status", function(window, pane)
   local bg_color = theme.background
   local accent_color = theme.ansi[3]
   local yellow_color = theme.ansi[5] -- Blue for active workspace
-  local grey_color = "Grey"          -- Grey for inactive workspaces
+  local grey_color = "Grey" -- Grey for inactive workspaces
 
   -- Format the workspace name with theme-based styling for left side
   local workspace_text = wezterm.format({
@@ -199,39 +199,41 @@ end)
 -----------------------------
 --- Windows
 -----------------------------
--- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
---   config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04" }
--- end
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+  config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", "~" }
+end
 
-config.wsl_domains = {
-  {
-    -- The name of this specific domain.  Must be unique amonst all types
-    -- of domain in the configuration file.
-    name = 'WSL:Ubuntu-24.04',
-
-    -- The name of the distribution.  This identifies the WSL distribution.
-    -- It must match a valid distribution from your `wsl -l -v` output in
-    -- order for the domain to be useful.
-    distribution = 'Ubuntu-24.04',
-
-    -- The username to use when spawning commands in the distribution.
-    -- If omitted, the default user for that distribution will be used.
-
-    -- username = "hunter",
-
-    -- The current working directory to use when spawning commands, if
-    -- the SpawnCommand doesn't otherwise specify the directory.
-
-    -- default_cwd = "/tmp"
-
-    -- The default command to run, if the SpawnCommand doesn't otherwise
-    -- override it.  Note that you may prefer to use `chsh` to set the
-    -- default shell for your user inside WSL to avoid needing to
-    -- specify it here
-
-    -- default_prog = {"fish"}
-  },
-}
+-- config.wsl_domains = {
+--   {
+--     -- The name of this specific domain.  Must be unique amonst all types
+--     -- of domain in the configuration file.
+--     name = 'Ubuntu-24.04',
+--
+--     -- The name of the distribution.  This identifies the WSL distribution.
+--     -- It must match a valid distribution from your `wsl -l -v` output in
+--     -- order for the domain to be useful.
+--     distribution = 'Ubuntu-24.04',
+--
+--     -- The username to use when spawning commands in the distribution.
+--     -- If omitted, the default user for that distribution will be used.
+--
+--     -- username = "hunter",
+--
+--     -- The current working directory to use when spawning commands, if
+--     -- the SpawnCommand doesn't otherwise specify the directory.
+--
+--     -- default_cwd = "/tmp"
+--
+--     -- The default command to run, if the SpawnCommand doesn't otherwise
+--     -- override it.  Note that you may prefer to use `chsh` to set the
+--     -- default shell for your user inside WSL to avoid needing to
+--     -- specify it here
+--     default_cwd = '~'
+--
+--     -- default_prog = {"fish"}
+--   },
+-- }
+-- config.default_domain = 'Ubuntu-24.04'
 
 -----------------------------
 --- Plugins
@@ -241,19 +243,19 @@ config.wsl_domains = {
 -- zombie.save_workspace()
 --
 -- -- Modal (custom modes with modal plugin)
--- local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
---
--- wezterm.on("modal.enter", function(name, window, pane)
---   window:set_right_status("")
---   modal.set_right_status(window, name)
---   modal.set_window_title(pane, name)
--- end)
---
--- wezterm.on("modal.exit", function(name, window, pane)
---   window:set_right_status("")
---   modal.reset_window_title(pane)
--- end)
---
+local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
+
+wezterm.on("modal.enter", function(name, window, pane)
+  window:set_right_status("")
+  modal.set_right_status(window, name)
+  modal.set_window_title(pane, name)
+end)
+
+wezterm.on("modal.exit", function(name, window, pane)
+  window:set_right_status("")
+  modal.reset_window_title(pane)
+end)
+
 -- require("modes.resize").setup(modal)
 
 -----------------------------
@@ -319,7 +321,7 @@ config.keys = {
         end
       end
 
-            -- get projects
+      -- get projects
       for _, path in ipairs(paths) do
         print(path)
         local success, stdout = wezterm.run_child_process({ "fd", "-t", "d", "-H", "^.git$", "--prune", path })
@@ -699,7 +701,7 @@ config.keys = {
   },
 }
 
--- config.key_tables = modal.key_tables
+config.key_tables = modal.key_tables
 
 local get_hostname = function()
   local f = io.popen("/bin/hostname")
@@ -752,3 +754,4 @@ end
 
 return config
 
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:

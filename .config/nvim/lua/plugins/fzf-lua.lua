@@ -5,6 +5,10 @@ return {
     dependencies = {
       -- Useful for getting pretty icons, but requires a Nerd Font.
       -- { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+      {
+        "AckslD/nvim-neoclip.lua",
+        dependencies = { "kkharji/sqlite.lua" },
+      },
     },
     config = function()
       -- fzf-lua is a fast fuzzy finder that leverages the power of fzf
@@ -14,7 +18,7 @@ return {
 
       -- [[ Configure fzf-lua ]]
       local fzf = require("fzf-lua")
-
+      require("neoclip").setup()
       fzf.setup({
         -- Global fzf-lua settings
         global_resume = true,
@@ -62,6 +66,8 @@ return {
       vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "[F]ind [R]esume" })
       vim.keymap.set("n", "<leader>f.", fzf.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
       vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "[ ] Find existing buffers" })
+      vim.keymap.set("n", "<leader>fc", require("neoclip.fzf"), { desc = "[F]ind [C]lipboard" })
+
 
       -- Slightly advanced example of searching in current buffer
       vim.keymap.set("n", "<leader>/", function()
