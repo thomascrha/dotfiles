@@ -126,6 +126,16 @@ upgrade() {
     fi
 }
 
+## Windows configs
+conf () {
+    CONF_ITEM=$1
+    if [[ "$CONF_ITEM" == "vscode" ]]; then
+        nvim /mnt/c/Users/226960/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json
+    elif [[ "$CONF_ITEM" == "wezterm" ]]; then
+        nvim /mnt/c/Users/226960/WezTerm/wezterm.lua
+    fi
+}
+
 
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc"
@@ -192,6 +202,12 @@ fi
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc 10"
 fi
+
+
+#########################################################################################
+# Wezterm ###############################################################################
+#########################################################################################
+source $HOME/wezterm.sh
 
 #########################################################################################
 #Linux Native#####################################################################################
