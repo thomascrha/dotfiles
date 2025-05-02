@@ -1,6 +1,10 @@
 # vim: set ft=swayconfig ts=4 sw=4:
+# Left
+set $first "Dell Inc. DELL U3023E 66YJ4H3"
+# Right
+set $second "Dell Inc. DELL U3023E 40G15H3"
 
-output "Dell Inc. DELL U3023E 66YJ4H3" {
+output $first {
     mode  2561x1600@59.972Hz
     # pos 2560 0
     pos 0 0
@@ -12,7 +16,8 @@ output "Dell Inc. DELL U3023E 66YJ4H3" {
     bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
 
-output "Dell Inc. DELL U3023E 40G15H3" {
+# Right
+output $second {
     mode  2560x1600@59.972Hz
     # pos 0 0
     pos 2560 0
@@ -24,8 +29,76 @@ output "Dell Inc. DELL U3023E 40G15H3" {
     bg /home/tcrha/.config/sway/images/wallpaper.png fill
 }
 
-bindsym $mod+Shift+l output "Dell Inc. DELL U3023E 66YJ4H3" toggle
-bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
+bindsym $mod+Shift+l output $first toggle
+bindsym $mod+Shift+r output $second toggle
+
+
+workspace 10 output $first
+workspace 11 output $second
+workspace 20 output $first
+workspace 21 output $second
+workspace 30 output $first
+workspace 31 output $second
+workspace 40 output $first
+workspace 41 output $second
+workspace 50 output $first
+workspace 51 output $second
+workspace 60 output $first
+workspace 61 output $second
+workspace 70 output $first
+workspace 71 output $second
+workspace 80 output $first
+workspace 81 output $second
+workspace 90 output $first
+workspace 91 output $second
+workspace 100 output $first
+workspace 101 output $second
+
+# Workspaces:
+bindsym --no-warn --no-repeat $mod+1 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 1; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+2 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 2; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+3 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 3; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+4 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 4; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+5 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 5; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+6 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 6; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+7 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 7; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+8 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 8; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+9 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 9; echo 1 > $SOV_SOCK"
+bindsym --no-warn --no-repeat $mod+0 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py switch 10; echo 1 > $SOV_SOCK"
+
+bindsym --no-warn --release $mod+1 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+2 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+3 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+4 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+5 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+6 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+7 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+8 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+9 exec "echo 0 > $SOV_SOCK"
+bindsym --no-warn --release $mod+0 exec "echo 0 > $SOV_SOCK"
+#
+# # Move focused container to workspace
+bindsym --no-warn $mod+Ctrl+Shift+1 move container to workspace number 1, workspace number 1
+bindsym --no-warn $mod+Ctrl+Shift+2 move container to workspace number 2, workspace number 2
+bindsym --no-warn $mod+Ctrl+Shift+3 move container to workspace number 3, workspace number 3
+bindsym --no-warn $mod+Ctrl+Shift+4 move container to workspace number 4, workspace number 4
+bindsym --no-warn $mod+Ctrl+Shift+5 move container to workspace number 5, workspace number 5
+bindsym --no-warn $mod+Ctrl+Shift+6 move container to workspace number 6, workspace number 6
+bindsym --no-warn $mod+Ctrl+Shift+7 move container to workspace number 7, workspace number 7
+bindsym --no-warn $mod+Ctrl+Shift+8 move container to workspace number 8, workspace number 8
+bindsym --no-warn $mod+Ctrl+Shift+9 move container to workspace number 9, workspace number 9
+bindsym --no-warn $mod+Ctrl+Shift+0 move container to workspace number 10, workspace number 10
+
+bindsym --no-warn $mod+Shift+1 move container to workspace number 1
+bindsym --no-warn $mod+Shift+2 move container to workspace number 2
+bindsym --no-warn $mod+Shift+3 move container to workspace number 3
+bindsym --no-warn $mod+Shift+4 move container to workspace number 4
+bindsym --no-warn $mod+Shift+5 move container to workspace number 5
+bindsym --no-warn $mod+Shift+6 move container to workspace number 6
+bindsym --no-warn $mod+Shift+7 move container to workspace number 7
+bindsym --no-warn $mod+Shift+8 move container to workspace number 8
+bindsym --no-warn $mod+Shift+9 move container to workspace number 9
+bindsym --no-warn $mod+Shift+0 move container to workspace number 10
 
 # move the env var to the zshenv
 bindsym --no-warn Ctrl+Grave exec GUAKE_MAX_HEIGHT=1544 /home/tcrha/.config/sway/scripts/guake.sh

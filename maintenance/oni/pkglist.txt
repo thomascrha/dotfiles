@@ -89,6 +89,7 @@ protobuf-c
 python-libconcord
 python-pip
 python-suds
+python-typing_extensions
 python-wxpython
 qemu-full
 qemu-img
