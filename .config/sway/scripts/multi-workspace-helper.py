@@ -43,7 +43,7 @@ def get_workspace_leaves(workspaces: list[Con], workspace_name: str) -> list[Con
             return len(workspace.leaves())
     return 0
 
-async def move_container_workspace_most_likely_window(target_index: int, move_to_workspace: bool = False, num_monitors: int = DEFAULT_NUM_MONITORS):
+async def move_container_workspace_most_likely_monitor(target_index: int, move_to_workspace: bool = False, num_monitors: int = DEFAULT_NUM_MONITORS):
     i3 = await Connection().connect()
 
     # work out which wokspace within the target_index has the leasrt number of windows for if target_index is 2
@@ -98,7 +98,7 @@ async def main():
     if args.command == 'switch':
         await change_workspace_maintain_mouse_pos(workspace_index=args.workspace_index, num_monitors=args.num_monitors)
     elif args.command == 'move':
-        await move_container_workspace_most_likely_window(target_index=args.target_index, move_to_workspace=args.move_to_workspace, num_monitors=args.num_monitors)
+        await move_container_workspace_most_likely_monitor(target_index=args.target_index, move_to_workspace=args.move_to_workspace, num_monitors=args.num_monitors)
     else:
         parser.print_help()
         return 1
