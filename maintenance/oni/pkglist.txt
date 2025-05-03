@@ -101,6 +101,7 @@ ripgrep-all
 rofi-wayland
 rsync
 sbctl
+solaar
 sov
 sshpass
 starship

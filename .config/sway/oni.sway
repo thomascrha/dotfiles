@@ -78,27 +78,27 @@ bindsym --no-warn --release $mod+9 exec "echo 0 > $SOV_SOCK"
 bindsym --no-warn --release $mod+0 exec "echo 0 > $SOV_SOCK"
 #
 # # Move focused container to workspace
-bindsym --no-warn $mod+Ctrl+Shift+1 move container to workspace number 1, workspace number 1
-bindsym --no-warn $mod+Ctrl+Shift+2 move container to workspace number 2, workspace number 2
-bindsym --no-warn $mod+Ctrl+Shift+3 move container to workspace number 3, workspace number 3
-bindsym --no-warn $mod+Ctrl+Shift+4 move container to workspace number 4, workspace number 4
-bindsym --no-warn $mod+Ctrl+Shift+5 move container to workspace number 5, workspace number 5
-bindsym --no-warn $mod+Ctrl+Shift+6 move container to workspace number 6, workspace number 6
-bindsym --no-warn $mod+Ctrl+Shift+7 move container to workspace number 7, workspace number 7
-bindsym --no-warn $mod+Ctrl+Shift+8 move container to workspace number 8, workspace number 8
-bindsym --no-warn $mod+Ctrl+Shift+9 move container to workspace number 9, workspace number 9
-bindsym --no-warn $mod+Ctrl+Shift+0 move container to workspace number 10, workspace number 10
+bindsym --no-warn $mod+Ctrl+Shift+1 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 1 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+2 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 2 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+3 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 3 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+4 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 4 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+5 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 5 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+6 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 6 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+7 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 7 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+8 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 8 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+9 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 9 --move-to-workspace"
+bindsym --no-warn $mod+Ctrl+Shift+0 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 10 --move-to-workspace"
 
-bindsym --no-warn $mod+Shift+1 move container to workspace number 1
-bindsym --no-warn $mod+Shift+2 move container to workspace number 2
-bindsym --no-warn $mod+Shift+3 move container to workspace number 3
-bindsym --no-warn $mod+Shift+4 move container to workspace number 4
-bindsym --no-warn $mod+Shift+5 move container to workspace number 5
-bindsym --no-warn $mod+Shift+6 move container to workspace number 6
-bindsym --no-warn $mod+Shift+7 move container to workspace number 7
-bindsym --no-warn $mod+Shift+8 move container to workspace number 8
-bindsym --no-warn $mod+Shift+9 move container to workspace number 9
-bindsym --no-warn $mod+Shift+0 move container to workspace number 10
+bindsym --no-warn $mod+Shift+1 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 1"
+bindsym --no-warn $mod+Shift+2 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 2"
+bindsym --no-warn $mod+Shift+3 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 3"
+bindsym --no-warn $mod+Shift+4 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 4"
+bindsym --no-warn $mod+Shift+5 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 5"
+bindsym --no-warn $mod+Shift+6 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 6"
+bindsym --no-warn $mod+Shift+7 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 7"
+bindsym --no-warn $mod+Shift+8 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 8"
+bindsym --no-warn $mod+Shift+9 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 9"
+bindsym --no-warn $mod+Shift+0 exec "/home/tcrha/.config/sway/scripts/multi-workspace-helper.py move 10"
 
 # move the env var to the zshenv
 bindsym --no-warn Ctrl+Grave exec GUAKE_MAX_HEIGHT=1544 /home/tcrha/.config/sway/scripts/guake.sh
