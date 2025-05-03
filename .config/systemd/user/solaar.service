@@ -1,0 +1,18 @@
+[Unit]
+Description=solaar controller for logitech stuff
+After=graphical-session.target
+
+[Service]
+Type=simple
+; StandardOutput=journal
+; StandardError=journal
+; Needed for the waybar switch as i read this log and do want to
+; work out how to get it working with journalctl
+; StandardOutput=append:/tmp/wlsunset.log
+; StandardError=append:/tmp/wlsunset.log
+Restart=always
+RestartSec=5s
+ExecStart=/usr/bin/solaar -w hide
+
+[Install]
+WantedBy=default.target
