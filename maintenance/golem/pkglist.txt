@@ -114,6 +114,7 @@ python-dbus-next
 python-pip
 python-psutil
 python-pyqt5
+python-rich
 python-tenacity
 python-validity
 qemu-full
@@ -152,12 +153,6 @@ teams-for-linux
 teams-for-linux-wayland-hook
 thinkfan
 thinkfan-ui
-thunar
-thunar-archive-plugin
-thunar-media-tags-plugin
-thunar-shares-plugin
-thunar-vcs-plugin
-thunar-volman
 thunderbird
 thunderbird-dark-reader
 tmux
@@ -182,6 +177,7 @@ wf-recorder
 wget
 wl-clip-persist
 wl-clipboard
+wl-color-picker
 wlr-randr
 wlsunset
 wob
@@ -191,6 +187,7 @@ xdg-desktop-portal-wlr
 xdg-user-dirs
 xorg-xhost
 xorg-xwayland
+yazi
 zathura
 zathura-pdf-mupdf
 zig

@@ -1,5 +1,3 @@
-# add local bin path for pokemon-icat
-export PATH=$HOME/.local/bin:$PATH
 ###########################################################################################
 #Zim Setup###################################################################################
 #############################################################################################
@@ -42,19 +40,12 @@ bindkey "$terminfo[kcud1]" down-line-or-beginning-search
 eval $(keychain --eval --quiet id_ed25519)
 # ${HOME}/scripts/ssh-agent-setup.sh
 
+bindkey -s '^y' 'yazi\n'
+
 ###########################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
 #########################################################################################
 pokemon-icat -g 1
-
-#########################################################################################
-#Exports#################################################################################
-#########################################################################################
-export PATH=$HOME/go/bin:/usr/local/bin:$PATH
-export EDITOR='nvim'
-export VISUAL='nvim'
-export MANPAGER='nvim +Man!'
-export MANWIDTH=999
 
 #########################################################################################
 #POWERLEVEL10K###########################################################################
@@ -297,16 +288,4 @@ fi
 if [[ -f "$HOME/.fzf.zsh" ]]; then
     source "$HOME/.fzf.zsh"
     source <(fzf --zsh)
-fi
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# fnm
-FNM_PATH="/home/tcrha/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="/home/tcrha/.local/share/fnm:$PATH"
-  eval "`fnm env`"
 fi

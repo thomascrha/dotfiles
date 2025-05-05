@@ -4,6 +4,15 @@ if [[ -f $HOME/.zshenv.$(hostname) ]]; then
     source $HOME/.zshenv.$(hostname)
 fi
 
+# add local bin path for pokemon-icat
+PATH=$HOME/.local/bin:$HOME/go/bin:/usr/local/bin:$PATH
+
+# neovim
+EDITOR='nvim'
+VISUAL='nvim'
+MANPAGER='nvim +Man!'
+MANWIDTH=999
+
 # XDG shit
 XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/flatpak/exports/share/
 XDG_DATA_HOME=$HOME/.local/share
