@@ -2,12 +2,17 @@
 
 from i3ipc.aio import Connection, Con
 import asyncio
+import os
 import argparse
 import sys
+from enum import Enum
 
 
 DEFAULT_NUM_MONITORS = 2
-
+# DEFAULT_STATE_FILE = """
+# left active
+# right active
+# """
 
 async def change_workspace_maintain_mouse_pos(workspace_index: int, num_monitors: int = DEFAULT_NUM_MONITORS):
     # Function behavior:
@@ -78,6 +83,95 @@ async def move_container_workspace_most_likely_monitor(target_index: int, move_t
     # print(command)
     await i3.command(command)
 
+# class MonitorPosition(int, Enum):
+#     left = 0
+#     right = 1
+#
+# def save_state(monitor_state_fp: str = "/tmp/monitor.state", monitor_state: str = DEFAULT_STATE_FILE):
+#     with open(monitor_state_fp, "w") as state_file:
+#         state_file.write(monitor_state)
+#
+# def load_state(monitor_state_fp: str = "/tmp/monitor.state"):
+#     # assumie its the fist time running and wrtite the default state
+#     if not os.path.exists(monitor_state_fp):
+#         save_state(monitor_state_fp=monitor_state_fp, monitor_state=DEFAULT_STATE_FILE)
+#
+#     _monitor_state = dict(
+#         left=None,
+#         right=None
+#     )
+#     with (monitor_state_fp, "r") as state:
+#         line_state = state.readline()
+#         if line_state.startswith("left"):
+#             _, left_state = line_state.split(" ")
+#             if left_state == "active":
+#                 left_state = True
+#             elif left_state == "disabled":
+#                 left_state = False
+#             else:
+#                 raise ValueError("Invalid state file format")
+#             _monitor_state["left"] = left_state
+#
+#         elif line_state.startswith("right"):
+#             _, right_state = line_state.split(" ")
+#             if right_state == "active":
+#                 right_state = True
+#             elif right_state == "disabled":
+#                 right_state = False
+#             else:
+#                 raise ValueError("Invalid state file format")
+#             _monitor_state["right"] = right_state
+#
+#     if any(v is None for v in _monitor_state.values()):
+#         raise ValueError("Invalid state file format")
+#
+#     return _monitor_state
+
+def get_monitor_position(monitor_serial: str):
+    # Left
+    # set $first "Dell Inc. DELL U3023E 66YJ4H3"
+    # Right
+    # set $second "Dell Inc. DELL U3023E 40G15H3"
+    monitors = {
+        "40G15H3": "right",
+        "66YJ4H3": "left"
+    }
+    return monitors.get(monitor_serial)
+
+async def toggle_monitor(monitor_pos: str):
+    # NOTE: this only works for 2 monitors
+    i3 = await Connection().connect()
+
+    # set $first "Dell Inc. DELL U3023E 66YJ4H3" == left
+    # set $second "Dell Inc. DELL U3023E 40G15H3" == right
+    outputs_state = {get_monitor_position(output.serial) : {"active": output.active, "monitor_id": f"{output.make} {output.model} {output.serial}"} for output in await i3.get_outputs()}
+
+    outputs_state[monitor_pos]["active"] = not outputs_state[monitor_pos]["active"]
+
+    # check if both not active - and exit early
+    if not outputs_state["left"]["active"] and not outputs_state["right"]["active"]:
+        raise ValueError("Both monitors will be inactive")
+
+    # toggle the monitor
+    print(f"output '{outputs_state[monitor_pos]['monitor_id']}' toggle")
+    await i3.command(f"output '{outputs_state[monitor_pos]['monitor_id']}' toggle")
+
+    # are we disabling a monitor
+    if not outputs_state[monitor_pos]["active"]:
+        # move all the windows within the monitor_index to the other monitor
+
+        # source here is the monitor we are disabling
+        source_monitor_index = 0 if monitor_pos == "left" else 1
+        target_monitor_index = int(not source_monitor_index)
+
+        tree: Con = await i3.get_tree()
+        for workspace in tree.workspaces():
+            # i.e. 10 11 and target_monitor_index is 1 then move all the windows to 11
+            if workspace.name.endswith(str(source_monitor_index)):
+                for window in workspace.leaves():
+                    print(f"[app_id={window.app_id}] move container to workspace number {workspace.name[0]}{target_monitor_index}")
+                    await i3.command(f"[app_id={window.app_id}] move container to workspace number {workspace.name[0]}{target_monitor_index}")
+
 
 async def main():
     parser = argparse.ArgumentParser(description="Multi workspace helper for Sway/i3")
@@ -94,11 +188,16 @@ async def main():
     move_parser.add_argument('--num-monitors', '-n', type=int, default=DEFAULT_NUM_MONITORS,
                               help=f'Number of monitors (default: {DEFAULT_NUM_MONITORS})')
 
+    toggle_parser = subparsers.add_parser('toggle', help='Toggle monitor state')
+    toggle_parser.add_argument("monitor_position", type=str, choices=["left", "right"], help="Monitor position to toggle")
+
     args = parser.parse_args()
     if args.command == 'switch':
         await change_workspace_maintain_mouse_pos(workspace_index=args.workspace_index, num_monitors=args.num_monitors)
     elif args.command == 'move':
         await move_container_workspace_most_likely_monitor(target_index=args.target_index, move_to_workspace=args.move_to_workspace, num_monitors=args.num_monitors)
+    elif args.command == "toggle":
+        await toggle_monitor(monitor_pos=args.monitor_position)
     else:
         parser.print_help()
         return 1

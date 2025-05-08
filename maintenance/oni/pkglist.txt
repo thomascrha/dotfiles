@@ -15,6 +15,7 @@ cabextract
 chafa
 chromium
 clipman
+cowsay
 cryptsetup
 cups
 cups-pdf
@@ -73,7 +74,6 @@ networkmanager
 noto-fonts-emoji
 noto-fonts-extra
 nvtop
-obsidian
 openblas
 openssh
 pamixer
@@ -154,6 +154,8 @@ wlsunset
 wob
 wxwidgets-common
 wxwidgets-gtk3
+xdg-desktop-portal-gtk
+xdg-desktop-portal-wlr
 xorg-xhost
 xorg-xwayland
 yazi-nightly-bin

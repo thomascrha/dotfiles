@@ -339,6 +339,11 @@ for_window [app_id="pavucontrol-qt"] {
     move position center
 }
 
+for_window [app_id="org.kde.kdeconnect.app"] {
+  floating enabled
+  move position center
+}
+
 # apply mark for Xwayland and wayland native browser windows
 for_window [class="Chromium-browser"] mark Browser
 for_window [class="Brave-browser"] mark Browser
