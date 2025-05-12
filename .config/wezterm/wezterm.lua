@@ -57,9 +57,9 @@ require("tabline").apply_to_config(config)
 -- end
 
 -- Linux
-if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
-  config.default_prog = { "yazi" }
-end
+-- if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
+--   config.default_prog = { "yazi" }
+-- end
 -----------------------------
 --- Plugins
 -----------------------------

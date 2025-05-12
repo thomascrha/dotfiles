@@ -7,6 +7,7 @@ base-devel
 bat
 bc
 bear
+bemenu-dmenu-wayland
 blueman
 bluez
 btop
@@ -22,6 +23,7 @@ cups-pdf
 dnsmasq
 dosfstools
 downgrade
+dwl
 edk2-ovmf
 ethtool
 fastfetch
@@ -88,6 +90,7 @@ poppler
 protobuf-c
 python-libconcord
 python-pip
+python-pywal16
 python-suds
 python-typing_extensions
 python-wxpython
@@ -129,6 +132,7 @@ thunar-vcs-plugin
 thunar-volman
 thunderbird
 thunderbird-dark-reader
+tllist
 tmux
 tree
 ttf-font-awesome
@@ -150,6 +154,7 @@ wezterm
 wf-recorder
 wiibafu
 wl-clipboard
+wlr-protocols
 wlsunset
 wob
 wxwidgets-common
