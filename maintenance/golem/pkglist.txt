@@ -2,6 +2,7 @@
 acpi_call
 age
 aichat
+aisleriot
 autoconf-archive
 autotiling
 base
@@ -23,9 +24,11 @@ cryptsetup
 cups
 deluge
 deluge-gtk
+discord
 distrobox
 dmidecode
 dnsmasq
+dolphin-emu
 door-knocker
 dosfstools
 downgrade
@@ -78,6 +81,7 @@ luarocks
 lxqt-policykit
 mako
 mandoc
+mgba-qt
 mise
 mkosi
 mpv
@@ -88,9 +92,7 @@ neovim
 net-tools
 network-manager-applet
 networkmanager
-nodejs
 noto-fonts-emoji
-npm
 ntfs-3g
 nwg-launchers
 obsidian
@@ -131,12 +133,14 @@ sbctl
 seahorse
 shim
 shim-signed
+slack-desktop-wayland
 slurp
 sov-git
 squeekboard
 sshfs
 starship
 stow
+stremio
 sudo
 sway
 sway-audio-idle-inhibit-git
@@ -153,6 +157,7 @@ teams-for-linux
 teams-for-linux-wayland-hook
 thinkfan
 thinkfan-ui
+thunar
 thunderbird
 thunderbird-dark-reader
 tmux

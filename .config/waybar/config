@@ -184,7 +184,7 @@
         "101": "0",
         "urgent": "",
         "active": "",
-        "default": ""
+        // "default": "0"
       },
       "sort-by-number": true
     },

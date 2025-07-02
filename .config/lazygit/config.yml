@@ -81,4 +81,4 @@ customCommands:
               fi
               rm -f "$COMMIT_MSG_FILE"'
     context: files
-    subprocess: true
+    output: terminal

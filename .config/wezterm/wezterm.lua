@@ -212,8 +212,8 @@ config.keys = {
         end
       end
 
-      -- get projects
       for _, path in ipairs(paths) do
+        -- First get git repositories
         local success, stdout = wezterm.run_child_process({ "fd", "-t", "d", "-H", "^.git$", "--prune", path })
 
         if success then
@@ -225,8 +225,27 @@ config.keys = {
                 projects[project_name] = false
                 local project_path = git_dir:sub(1, -6) -- remove '/.git' from the end
                 table.insert(closed_choices, {
-                  label = project_name .. " (closed)",
+                  label = project_name .. " (closed) [git]",
                   id = project_path,
+                })
+              end
+            end
+          end
+        end
+
+        -- Then get all direct subfolders (one level down)
+        local success_dirs, stdout_dirs = wezterm.run_child_process({ "find", path, "-maxdepth", "1", "-type", "d" })
+
+        if success_dirs then
+          for dir in stdout_dirs:gmatch("[^\r\n]+") do
+            -- Skip the base path itself
+            if dir ~= path then
+              local folder_name = dir:match(".*/([^/]+)$")
+              if folder_name .. " (closed) [git]" and not projects[folder_name] then
+                projects[folder_name] = false
+                table.insert(closed_choices, {
+                  label = folder_name .. " (closed) [folder]",
+                  id = dir,
                 })
               end
             end
@@ -264,18 +283,31 @@ config.keys = {
             --     return
             --   end
 
-              -- Remove emoji prefix if present
-              local workspace_name = string.match(label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
-                or string.match(label, "^(.+)%s+%(closed%)$")
-                or string.match(label, "^(.+)%s+%(.+%)$")
+              -- Extract the workspace name from the label
+              local workspace_name
 
-              if not workspace_name then
-                workspace_name = label
-              end
+              -- For open workspaces in current instance (has the 🟢 emoji)
+              if string.match(label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$") then
+                workspace_name = string.match(label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
 
-              -- If it's a closed workspace
-              -- Switch to the workspace first
-              if projects[workspace_name] == false then
+                -- Just switch to the open workspace
+                inner_window:perform_action(
+                  act.SwitchToWorkspace({
+                    name = workspace_name,
+                  }),
+                  inner_pane
+                )
+              else
+                -- For closed workspaces (git repos or folders)
+                -- Extract the workspace name from the label
+                workspace_name = string.match(label, "^(.+)%s+%(closed%)%s+%[.*%]$")
+                  or string.match(label, "^(.+)%s+%(closed%).*$")
+
+                if not workspace_name then
+                  workspace_name = label
+                end
+
+                -- Create a new workspace with the proper cwd
                 inner_window:perform_action(
                   act.SwitchToWorkspace({
                     name = workspace_name,
@@ -283,14 +315,6 @@ config.keys = {
                       args = { "zsh" },
                       cwd = id,
                     },
-                  }),
-                  inner_pane
-                )
-              else
-                -- For workspaces open in the current instance, just switch to them
-                inner_window:perform_action(
-                  act.SwitchToWorkspace({
-                    name = workspace_name,
                   }),
                   inner_pane
                 )
