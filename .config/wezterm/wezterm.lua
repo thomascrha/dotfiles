@@ -110,8 +110,8 @@ require("tabline").apply_to_config(config)
 -- -- local zombie = require("zombie.wezterm")
 -- >>>>>>> 8ae29f3 (asdasdn)
 -- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm.git")
-local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
-print(zombie)
+-- local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
+-- print(zombie)
 -- zombie.restore_workspaces()
 
 -- Modal (custom modes with modal plugin)
@@ -139,8 +139,9 @@ local function is_vim(pane)
 end
 
 local paths = {
-  "/home/tcrha/Projects",
   "/home/tcrha/dotfiles",
+  "/home/tcrha/Projects",
+  "/home/tcrha/qbe"
 }
 config.leader = { key = "`", mods = "NONE", timeout_milliseconds = 1500 }
 config.keys = {
@@ -214,7 +215,7 @@ config.keys = {
 
       for _, path in ipairs(paths) do
         -- First get git repositories
-        local success, stdout = wezterm.run_child_process({ "fd", "-t", "d", "-H", "^.git$", "--prune", path })
+        local success, stdout = wezterm.run_child_process({ "find", path, "-type", "d", "-name", ".git" })
 
         if success then
           -- Process each .git directory found
@@ -233,24 +234,24 @@ config.keys = {
           end
         end
 
-        -- Then get all direct subfolders (one level down)
-        local success_dirs, stdout_dirs = wezterm.run_child_process({ "find", path, "-maxdepth", "1", "-type", "d" })
-
-        if success_dirs then
-          for dir in stdout_dirs:gmatch("[^\r\n]+") do
-            -- Skip the base path itself
-            if dir ~= path then
-              local folder_name = dir:match(".*/([^/]+)$")
-              if folder_name .. " (closed) [git]" and not projects[folder_name] then
-                projects[folder_name] = false
-                table.insert(closed_choices, {
-                  label = folder_name .. " (closed) [folder]",
-                  id = dir,
-                })
-              end
-            end
-          end
-        end
+        -- -- Then get all direct subfolders (one level down)
+        -- local success_dirs, stdout_dirs = wezterm.run_child_process({ "find", path, "-maxdepth", "1", "-type", "d" })
+        --
+        -- if success_dirs then
+        --   for dir in stdout_dirs:gmatch("[^\r\n]+") do
+        --     -- Skip the base path itself
+        --     if dir ~= path then
+        --       local folder_name = dir:match(".*/([^/]+)$")
+        --       if folder_name .. " (closed) [git]" and not projects[folder_name] then
+        --         projects[folder_name] = false
+        --         table.insert(closed_choices, {
+        --           label = folder_name .. " (closed) [folder]",
+        --           id = dir,
+        --         })
+        --       end
+        --     end
+        --   end
+        -- end
       end
 
       -- Combine choices with open workspaces at the top
