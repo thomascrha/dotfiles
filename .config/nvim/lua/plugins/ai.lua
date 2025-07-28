@@ -137,46 +137,60 @@ return {
       debug = false,
       -- add any opts here
       -- for example
-      provider = "copilot",
       providers = {
         copilot = {
           -- model = "o1",
           -- model = "gemini-2.0-flash-001",
           model = "claude-3.7-sonnet",
           -- model = "claude-3.7-sonnet-thought",
-          -- disable_tools = true,
+          disable_tools = true,
           -- max_tokens = 4096,
-          -- file_selector = {
-          --   provider = "fzf",
-          --   provider_opts = {
-          --     find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
-          --   },
+        },
+        file_selector = {
+          provider = "fzf",
+          provider_opts = {
+            find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+          },
+        },
+        vendors = {
+          copilot_claude = {
+            __inherited_from = "copilot",
+            model = "claude-3.7-sonnet",
+            -- model = "claude-3.7-sonnet-thought",
+            -- disable_tools = true,
+            -- max_tokens = 4096,
+            -- file_selector = {
+            --   provider = "fzf",
+            --   provider_opts = {
+            --     find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+            --   },
+            -- },
+          },
+          -- copilot_claude = {
+          --   __inherited_from = "copilot",
+          --   model = "claude-3.7-sonnet",
+          -- },
+          -- copilot_claude_thinking = {
+          --   __inherited_from = "copilot",
+          --   model = "claude-3.7-sonnet-thought",
+          -- },
+          -- copilot_o1 = {
+          --   __inherited_from = "copilot",
+          --   model = "o1",
+          -- },
+          -- copilot_o3_mini = {
+          --   __inherited_from = "copilot",
+          --   model = "o3-mini",
+          -- },
+          -- copilot_gemini = {
+          --   __inherited_from = "copilot",
+          --   model = "gemini-2.0-flash-100",
+          -- },
+          -- copilot_4openai = {
+          --   __inherited_from = "copilot",
+          --   model = "gpt-4o-2024-08-06",
           -- },
         },
-        -- copilot_claude = {
-        --   __inherited_from = "copilot",
-        --   model = "claude-3.7-sonnet",
-        -- },
-        -- copilot_claude_thinking = {
-        --   __inherited_from = "copilot",
-        --   model = "claude-3.7-sonnet-thought",
-        -- },
-        -- copilot_o1 = {
-        --   __inherited_from = "copilot",
-        --   model = "o1",
-        -- },
-        -- copilot_o3_mini = {
-        --   __inherited_from = "copilot",
-        --   model = "o3-mini",
-        -- },
-        -- copilot_gemini = {
-        --   __inherited_from = "copilot",
-        --   model = "gemini-2.0-flash-100",
-        -- },
-        -- copilot_4openai = {
-        --   __inherited_from = "copilot",
-        --   model = "gpt-4o-2024-08-06",
-        -- },
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

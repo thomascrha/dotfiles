@@ -23,7 +23,6 @@ cups-pdf
 dnsmasq
 dosfstools
 downgrade
-dwl
 edk2-ovmf
 ethtool
 fastfetch
