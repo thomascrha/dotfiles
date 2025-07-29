@@ -18,3 +18,4 @@ XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/flatpak/exports/share/
 XDG_DATA_HOME=$HOME/.local/share
 
 source $HOME/.zshenv.secrets
+. "$HOME/.cargo/env"
