@@ -175,37 +175,27 @@ config.keys = {
     action = wezterm.action.SendString("`"),
   },
   {
-    key = "r",
-    mods = "LEADER",
-    action = wezterm.action_callback(function()
-      wezterm.log_info("Reloading configuration...")
-      _G.workspaces = update_workspaces()
-    end),
-  },
-  {
     key = "/",
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
+      _G.workspaces = update_workspaces()
       local current_workpace_id = wezterm.mux.get_active_workspace()
       local choices = {}
       for _, workspace in pairs(_G.workspaces) do
         -- Skip the current workspace to avoid switching to it itself
-        if current_workpace_id == workspace.id then
-          goto next_iteration
+        if current_workpace_id ~= workspace.id then
+          if workspace.open then
+            table.insert(choices, 1, {
+              label = "🟢 " .. workspace.id,
+              id = workspace.id,
+            })
+          else
+            table.insert(choices, {
+              label = workspace.id,
+              id = workspace.id,
+            })
+          end
         end
-
-        if workspace.open then
-          table.insert(choices, 1, {
-            label = "🟢 " .. workspace.id,
-            id = workspace.id,
-          })
-        else
-          table.insert(choices, {
-            label = workspace.id,
-            id = workspace.id,
-          })
-        end
-        ::next_iteration::
       end
 
       win:perform_action(
