@@ -51,20 +51,26 @@ config.selection_word_boundary = " \t\n{}[]()''`,;:@│*"
 require("tabline").apply_to_config(config)
 
 -----------------------------
---- Project/Workspace Management
+--- Workspace Management
 -----------------------------
----@type Workspaces
+_G.paths = {
+  {
+    path = "/home/tcrha/dotfiles",
+    single = true,
+  },
+  {
+    path = "/home/tcrha/Projects",
+    single = false,
+  },
+  {
+    path = "/home/tcrha/qbe",
+    single = false,
+  },
+}
+
 _G.workspaces = _G.workspaces or {}
 
----@alias WorkspaceId string
----@alias WorkpaceDetails table<string, any>
----@alias Workspaces table<WorkspaceId, WorkpaceDetails>
----@alias WorkspaceName string
----@alias WorkspacePath string
-
----@return Workspaces
 local function update_workspaces()
-  ---@type Workspaces
   local workspaces = {}
 
   -- add a default workspace if it doesn't exist
@@ -77,50 +83,64 @@ local function update_workspaces()
     }
   end
 
-  -- wezterm.log_info("Workspaces: ", wezterm.json_encode(_G.workspaces))
-
-  local paths = {
-    "/home/tcrha/dotfiles",
-    "/home/tcrha/Projects",
-    "/home/tcrha/qbe",
-  }
-
   -- Add git repositories from the specified paths
-  for _, path in ipairs(paths) do
-    local success, stdout, stderr = wezterm.run_child_process({ "fd", "--type", "d", "--hidden", ".git", path })
-    if success then
-      for git_dir in stdout:gmatch("[^\r\n]+") do
-        ---@type WorkspaceName
-        local workspace_name = git_dir:match(".*/([^/]+)/.git/?$")
-        if workspace_name then
-          ---@type WorkspacePath
-          local workspace_path = git_dir:sub(1, -6) -- remove '/.git' from the end
-          if not workspaces[workspace_name] then
-            workspaces[workspace_name] = {
-              id = workspace_name,
-              path = workspace_path,
-              actvive = false,
-              open = false,
-            }
-          end
-          -- exisitng workspace
-          if _G.workspaces[workspace_name] then
-            workspaces[workspace_name].active = _G.workspaces[workspace_name].active
-            workspaces[workspace_name].open = _G.workspaces[workspace_name].open
-          end
-        end
+  for _, path_table in ipairs(_G.paths) do
+    if path_table.single then
+      local workspace_id = path_table.path:gsub("/$", ""):match(".*/([^/]+)/?$")
+      local workspace_path = path_table.path:gsub("/$", "")
+      if not workspaces[workspace_id] then
+        workspaces[workspace_id] = {
+          id = workspace_id,
+          path = workspace_path,
+          active = false,
+          open = false,
+        }
       end
-    else
-      wezterm.log_error("Failed to update projects list for path " .. path .. ": " .. stderr)
+
+      goto next_iteration
     end
+
+    local path = path_table.path
+    -- find all directories one level down - this captures everything i need
+    local success_fd_dirs, fd_dirs, stderr_fd_dirs = wezterm.run_child_process({
+      "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path
+    })
+
+    if not success_fd_dirs then
+      wezterm.log_error("Failed to update projects list for path " .. path .. ": " .. stderr_fd_dirs)
+      goto next_iteration
+    end
+
+    for fd_dir in fd_dirs:gmatch("[^\r\n]+") do
+      local workspace_id = fd_dir:gsub("/$", ""):match(".*/([^/]+)/?$")
+      local workspace_path = fd_dir:gsub("/$", "")
+      if not workspaces[workspace_id] then
+        workspaces[workspace_id] = {
+          id = workspace_id,
+          path = workspace_path,
+          actvive = false,
+          open = false,
+        }
+      end
+      -- exisitng workspace
+      if _G.workspaces[workspace_id] then
+        workspaces[workspace_id].active = _G.workspaces[workspace_id].active
+        workspaces[workspace_id].open = _G.workspaces[workspace_id].open
+      end
+    end
+
+    ::next_iteration::
   end
 
   return workspaces
 end
 
----@type Workspaces
 _G.workspaces = update_workspaces()
 
+-- wezterm.on('update-status', function(window, pane)
+--   wezterm.log_info(pane)
+--   wezterm.log_info(window)
+-- end)
 -----------------------------
 --- Windows
 -----------------------------
@@ -218,7 +238,7 @@ config.keys = {
     end),
   },
   -- This will create a new split and run your default program inside it
-  { key = "X", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
+  { key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false })},
   { key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-1) },
   { key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(1) },
   { key = "PageUp", action = act.ScrollByPage(-0.8) },
