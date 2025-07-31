@@ -83,7 +83,7 @@ return {
             .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
         },
         files = {
-          cmd = "rg --files --hidden " .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
+          cmd = "rg --files --hidden " .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**' -g '!undodir/**'" ,
         },
       })
 

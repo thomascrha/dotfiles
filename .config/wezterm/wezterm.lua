@@ -49,6 +49,78 @@ config.window_padding = {
 config.selection_word_boundary = " \t\n{}[]()''`,;:@│*"
 
 require("tabline").apply_to_config(config)
+
+-----------------------------
+--- Project/Workspace Management
+-----------------------------
+---@type Workspaces
+_G.workspaces = _G.workspaces or {}
+
+---@alias WorkspaceId string
+---@alias WorkpaceDetails table<string, any>
+---@alias Workspaces table<WorkspaceId, WorkpaceDetails>
+---@alias WorkspaceName string
+---@alias WorkspacePath string
+
+---@return Workspaces
+local function update_workspaces()
+  ---@type Workspaces
+  local workspaces = {}
+
+  -- add a default workspace if it doesn't exist
+  if not workspaces["default"] then
+    workspaces["default"] = {
+      id = "default",
+      path = "/home/tcrha",
+      active = true,
+      open = true,
+    }
+  end
+
+  -- wezterm.log_info("Workspaces: ", wezterm.json_encode(_G.workspaces))
+
+  local paths = {
+    "/home/tcrha/dotfiles",
+    "/home/tcrha/Projects",
+    "/home/tcrha/qbe",
+  }
+
+  -- Add git repositories from the specified paths
+  for _, path in ipairs(paths) do
+    local success, stdout, stderr = wezterm.run_child_process({ "fd", "--type", "d", "--hidden", ".git", path })
+    if success then
+      for git_dir in stdout:gmatch("[^\r\n]+") do
+        ---@type WorkspaceName
+        local workspace_name = git_dir:match(".*/([^/]+)/.git/?$")
+        if workspace_name then
+          ---@type WorkspacePath
+          local workspace_path = git_dir:sub(1, -6) -- remove '/.git' from the end
+          if not workspaces[workspace_name] then
+            workspaces[workspace_name] = {
+              id = workspace_name,
+              path = workspace_path,
+              actvive = false,
+              open = false,
+            }
+          end
+          -- exisitng workspace
+          if _G.workspaces[workspace_name] then
+            workspaces[workspace_name].active = _G.workspaces[workspace_name].active
+            workspaces[workspace_name].open = _G.workspaces[workspace_name].open
+          end
+        end
+      end
+    else
+      wezterm.log_error("Failed to update projects list for path " .. path .. ": " .. stderr)
+    end
+  end
+
+  return workspaces
+end
+
+---@type Workspaces
+_G.workspaces = update_workspaces()
+
 -----------------------------
 --- Windows
 -----------------------------
@@ -60,75 +132,6 @@ require("tabline").apply_to_config(config)
 -- if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
 --   config.default_prog = { "yazi" }
 -- end
------------------------------
---- Plugins
------------------------------
--- Zombie
--- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm")
--- <<<<<<< HEAD
---
--- -- local function searcher(module_name)
--- --     -- Use "/" instead of "." as directory separator
--- --     local path, err = package.searchpath(module_name, package.path, "/")
--- --     if path then
--- --         return assert(loadfile(path))
--- --     end
--- --     return err
--- -- end
--- -- table.insert(package.searchers, searcher)
--- --
--- --
--- -- local zombie = require("zombie.wezterm")
--- -- print(zombie)
--- ||||||| parent of 8ae29f3 (asdasdn)
---
--- local function searcher(module_name)
---     -- Use "/" instead of "." as directory separator
---     local path, err = package.searchpath(module_name, package.path, "/")
---     if path then
---         return assert(loadfile(path))
---     end
---     return err
--- end
--- table.insert(package.searchers, searcher)
---
---
--- local zombie = require("zombie.wezterm")
--- print(zombie)
--- =======
--- -- local function searcher(module_name)
--- --     -- Use "/" instead of "." as directory separator
--- --     local path, err = package.searchpath(module_name, package.path, "/")
--- --     if path then
--- --         return assert(loadfile(path))
--- --     end
--- --     return err
--- -- end
--- -- table.insert(package.searchers, searcher)
--- --
--- --
--- -- local zombie = require("zombie.wezterm")
--- >>>>>>> 8ae29f3 (asdasdn)
--- local zombie = wezterm.plugin.require("https://github.com/thomascrha/zombie.wezterm.git")
--- local zombie = wezterm.plugin.require("file:///home/tcrha/Projects/zombie.wezterm")
--- print(zombie)
--- zombie.restore_workspaces()
-
--- Modal (custom modes with modal plugin)
-local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
-
-wezterm.on("modal.enter", function(name, window, pane)
-  window:set_right_status("")
-  modal.set_right_status(window, name)
-  modal.set_window_title(pane, name)
-end)
-
-wezterm.on("modal.exit", function(name, window, pane)
-  window:set_right_status("")
-  modal.reset_window_title(pane)
-end)
-
-require("modes.resize").setup(modal)
 
 -----------------------------
 --- Keybindings
@@ -138,35 +141,9 @@ local function is_vim(pane)
   return pane:get_user_vars().IS_NVIM == "true"
 end
 
-local paths = {
-  "/home/tcrha/dotfiles",
-  "/home/tcrha/Projects",
-  "/home/tcrha/qbe"
-}
 config.leader = { key = "`", mods = "NONE", timeout_milliseconds = 1500 }
 config.keys = {
   {
-    key = "i",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-      zombie.save_current_workspace()
-    end),
-  },
-  {
-    key = "o",
-    mods = "LEADER",
-    action = wezterm.action_callback(function(win, pane)
-      zombie.restore_current_workspace()
-    end),
-    -- action = zombie.restore_current_workspace()
-  },
-  -- resize_mode,
-  {
-    key = "r",
-    mods = "LEADER",
-    action = modal.activate_mode("resize"),
-  },
-    {
     key = 'R',
     mods = 'LEADER',
     action = wezterm.action.ReloadConfiguration,
@@ -178,89 +155,37 @@ config.keys = {
     action = wezterm.action.SendString("`"),
   },
   {
+    key = "r",
+    mods = "LEADER",
+    action = wezterm.action_callback(function()
+      wezterm.log_info("Reloading configuration...")
+      _G.workspaces = update_workspaces()
+    end),
+  },
+  {
     key = "/",
     mods = "LEADER",
-    -- action = workspace_switcher.switch_workspace(),
     action = wezterm.action_callback(function(win, pane)
-      -- Get list of workspaces in current wezterm instance
-      local workspaces = wezterm.mux.get_workspace_names()
-      if #workspaces == 0 then
-        return
-      end
-
-      local projects = {}
-      local open_choices = {}
-      local closed_choices = {}
-      local active_workspace = wezterm.mux.get_active_workspace()
-
-      -- We no longer need to check for workspaces in other processes
-      -- as we're using the unix socket connection
-
-      -- Process current instance workspaces first
-      for _, workspace_name in ipairs(workspaces) do
-        if workspace_name == active_workspace then
-          print("Active workspace: " .. workspace_name)
-        else
-          table.insert(open_choices, {
-            label = "🟢 " .. workspace_name .. " (open in current instance)",
-            id = workspace_name,
-          })
-          -- check if the default workspace ixists and if it does remove it
-          if workspace_name ~= "default" then
-            projects[workspace_name] = true
-          end
-          -- mark as open
-        end
-      end
-
-      for _, path in ipairs(paths) do
-        -- First get git repositories
-        local success, stdout = wezterm.run_child_process({ "find", path, "-type", "d", "-name", ".git" })
-
-        if success then
-          -- Process each .git directory found
-          for git_dir in stdout:gmatch("[^\r\n]+") do
-            local project_name = git_dir:match(".*/([^/]+)/.git/?$")
-            if project_name then
-              if not projects[project_name] then
-                projects[project_name] = false
-                local project_path = git_dir:sub(1, -6) -- remove '/.git' from the end
-                table.insert(closed_choices, {
-                  label = project_name .. " (closed) [git]",
-                  id = project_path,
-                })
-              end
-            end
-          end
-        end
-
-        -- -- Then get all direct subfolders (one level down)
-        -- local success_dirs, stdout_dirs = wezterm.run_child_process({ "find", path, "-maxdepth", "1", "-type", "d" })
-        --
-        -- if success_dirs then
-        --   for dir in stdout_dirs:gmatch("[^\r\n]+") do
-        --     -- Skip the base path itself
-        --     if dir ~= path then
-        --       local folder_name = dir:match(".*/([^/]+)$")
-        --       if folder_name .. " (closed) [git]" and not projects[folder_name] then
-        --         projects[folder_name] = false
-        --         table.insert(closed_choices, {
-        --           label = folder_name .. " (closed) [folder]",
-        --           id = dir,
-        --         })
-        --       end
-        --     end
-        --   end
-        -- end
-      end
-
-      -- Combine choices with open workspaces at the top
+      local current_workpace_id = wezterm.mux.get_active_workspace()
       local choices = {}
-      for _, choice in ipairs(open_choices) do
-        table.insert(choices, choice)
-      end
-      for _, choice in ipairs(closed_choices) do
-        table.insert(choices, choice)
+      for _, workspace in pairs(_G.workspaces) do
+        -- Skip the current workspace to avoid switching to it itself
+        if current_workpace_id == workspace.id then
+          goto next_iteration
+        end
+
+        if workspace.open then
+          table.insert(choices, 1, {
+            label = "🟢 " .. workspace.id,
+            id = workspace.id,
+          })
+        else
+          table.insert(choices, {
+            label = workspace.id,
+            id = workspace.id,
+          })
+        end
+        ::next_iteration::
       end
 
       win:perform_action(
@@ -271,55 +196,20 @@ config.keys = {
           choices = choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
-            --   -- Find the original choice to get metadata
-            --   local choice = nil
-            --   for _, c in ipairs(choices) do
-            --     if c.id == id then
-            --       choice = c
-            --       break
-            --     end
-            --   end
-            --
-            --   if not choice then
-            --     return
-            --   end
+              inner_window:perform_action(
+                act.SwitchToWorkspace({
+                  name = id,
+                  spawn = {
+                    args = { "zsh" },
+                    cwd = _G.workspaces[id].path,
+                  },
+                }),
+                inner_pane
+              )
+              _G.workspaces[current_workpace_id].active = false
+              _G.workspaces[id].active = true
 
-              -- Extract the workspace name from the label
-              local workspace_name
-
-              -- For open workspaces in current instance (has the 🟢 emoji)
-              if string.match(label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$") then
-                workspace_name = string.match(label, "^🟢%s+(.+)%s+%(open%s+in%s+current%s+instance%)$")
-
-                -- Just switch to the open workspace
-                inner_window:perform_action(
-                  act.SwitchToWorkspace({
-                    name = workspace_name,
-                  }),
-                  inner_pane
-                )
-              else
-                -- For closed workspaces (git repos or folders)
-                -- Extract the workspace name from the label
-                workspace_name = string.match(label, "^(.+)%s+%(closed%)%s+%[.*%]$")
-                  or string.match(label, "^(.+)%s+%(closed%).*$")
-
-                if not workspace_name then
-                  workspace_name = label
-                end
-
-                -- Create a new workspace with the proper cwd
-                inner_window:perform_action(
-                  act.SwitchToWorkspace({
-                    name = workspace_name,
-                    spawn = {
-                      args = { "zsh" },
-                      cwd = id,
-                    },
-                  }),
-                  inner_pane
-                )
-              end
+              _G.workspaces[id].open = true
             end
           end),
         }),
@@ -327,7 +217,6 @@ config.keys = {
       )
     end),
   },
-
   -- This will create a new split and run your default program inside it
   { key = "X", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
   { key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-1) },
@@ -461,12 +350,13 @@ config.keys = {
   },
   {
     key = "LeftArrow",
-    mods = "ALT",
+    mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
+      wezterm.log_info("LeftArrow pressed")
       if is_vim(pane) then
-        -- pass the keys through to vim/nvim
+        wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "LeftArrow", mods = "ALT" },
+          SendKey = { key = "LeftArrow", mods = "CTRL" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Left" }, pane)
@@ -475,12 +365,13 @@ config.keys = {
   },
   {
     key = "RightArrow",
-    mods = "ALT",
+    mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
+      wezterm.log_info("RightArrow pressed")
       if is_vim(pane) then
-        -- pass the keys through to vim/nvim
+        wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "RightArrow", mods = "ALT" },
+          SendKey = { key = "RightArrow", mods = "CTRL" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Right" }, pane)
@@ -489,12 +380,13 @@ config.keys = {
   },
   {
     key = "UpArrow",
-    mods = "ALT",
+    mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
+      wezterm.log_info("UpArrow pressed")
       if is_vim(pane) then
-        -- pass the keys through to vim/nvim
+        wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "UpArrow", mods = "ALT" },
+          SendKey = { key = "UpArrow", mods = "CTRL" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Up" }, pane)
@@ -503,12 +395,13 @@ config.keys = {
   },
   {
     key = "DownArrow",
-    mods = "ALT",
+    mods = "CTRL",
     action = wezterm.action_callback(function(win, pane)
+      wezterm.log_info("DownArrow pressed")
       if is_vim(pane) then
-        -- pass the keys through to vim/nvim
+        wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "DownArrow", mods = "ALT" },
+          SendKey = { key = "DownArrow", mods = "CTRL" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Down" }, pane)
@@ -608,8 +501,6 @@ config.keys = {
     end),
   },
 }
-
-config.key_tables = modal.key_tables
 
 local get_hostname = function()
   local f = io.popen("/bin/hostname")
