@@ -33,4 +33,7 @@ require("lazy").setup("plugins", {
     },
   },
 })
+
+-- disable diagnositics by default
+vim.diagnostic.enable(false)
 -- vim ft=lua ts=2 sts=2 sw=2 et:

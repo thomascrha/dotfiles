@@ -85,15 +85,15 @@ return {
       desc = "Enable wrap and spell check for text filetypes",
     })
     -- Disable line numbers in oil buffers
-    -- create_autocmd("BufEnter", {
-    --   group = augroup("oil_settings"),
-    --   pattern = "oil://*",
-    --   callback = function()
-    --     opt_local.number = false
-    --     opt_local.relativenumber = false
-    --   end,
-    --   desc = "Disable line numbers in oil file explorer",
-    -- })
+    create_autocmd("BufEnter", {
+      group = augroup("oil_settings"),
+      pattern = "oil://*",
+      callback = function()
+        opt_local.number = false
+        opt_local.relativenumber = false
+      end,
+      desc = "Disable line numbers in oil file explorer",
+    })
   end,
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:

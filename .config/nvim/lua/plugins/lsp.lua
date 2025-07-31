@@ -96,8 +96,8 @@ return {
           -- --  the definition of its *type*, not where it was *defined*.
           -- map("grt", require("fzf-lua").lsp_typedefs, "[G]oto [T]ype Definition")
 
-          vim.keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { desc = '[G]oto [D]efinition', buffer = event.buf })
-          vim.keymap.set('n', '<leader>gr', require("fzf-lua").lsp_references, { desc = '[G]oto [R]eferences', buffer = event.buf })
+          -- vim.keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { desc = '[G]oto [D]efinition', buffer = event.buf })
+          -- vim.keymap.set('n', '<leader>gr', require("fzf-lua").lsp_references, { desc = '[G]oto [R]eferences', buffer = event.buf })
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method

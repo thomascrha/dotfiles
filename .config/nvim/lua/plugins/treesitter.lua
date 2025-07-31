@@ -17,6 +17,15 @@ return {
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<c-space>',
+          node_incremental = '<c-space>',
+          scope_incremental = '<c-s>',
+          node_decremental = '<c-backspace>',
+        },
+      },
     },
   }
 }

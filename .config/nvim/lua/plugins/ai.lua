@@ -122,22 +122,8 @@ return {
         },
       },
       selector = {
-        provider = "fzf_lua", -- Use fzf-lua instead of native
-        title = "",
-        provider_opts = {
-          fzf_opts = {
-            -- Pass additional options to fzf
-            ["--layout"] = "reverse",
-            ["--prompt"] = "",
-          },
-          files = {
-            -- Let fzf-lua build the command to ensure options are respected
-            hidden = true,
-            no_ignore = true,
-            -- Add globs to exclude specific directories
-            rg_opts = "--hidden --no-ignore --glob '!.git' --glob '!node_modules' --glob '!dist' --glob '!build'",
-          },
-        },
+        provider = "snacks", -- Use fzf-lua instead of native
+        provider_opts = {},
         exclude_auto_select = {}, -- List of items to exclude from auto selection
       },
       behaviour = {
@@ -166,7 +152,6 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      "ibhagwan/fzf-lua", -- for file_selector provider fzf
       "stevearc/dressing.nvim", -- for input provider dressing
       "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
