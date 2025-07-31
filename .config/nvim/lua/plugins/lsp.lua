@@ -199,7 +199,32 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      --
       local servers = {
+        -- multis
+        denols = {},
+        ruff = {},
+
+        -- debuggers
+        codelldb = {},
+        debugpy = {},
+
+        -- formatters
+        -- clang_format = {},
+        stylua = {},
+
+        -- linters
+        cpplint = {},
+        luacheck = {},
+
+        -- lsps
+        azure_pipelines_ls = {},
+        bashls = {},
+        docker_compose_language_service = {},
+        dockerls = {},
+        jsonls = {},
+        terraformls = {},
+        yamlls = {},
         clangd = {},
         -- gopls = {},
         pyright = {

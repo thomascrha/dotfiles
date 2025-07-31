@@ -30,11 +30,11 @@ return {
         },
       })
       -- moving between splits
-      vim.keymap.set('n', '<C-Left>', require('smart-splits').move_cursor_left, { desc = 'move to [p]revious split' })
-      vim.keymap.set('n', '<C-Down>', require('smart-splits').move_cursor_down, { desc = 'move to [n]ext split' })
-      vim.keymap.set('n', '<C-Up>', require('smart-splits').move_cursor_up, { desc = 'move to [p]revious split' })
-      vim.keymap.set('n', '<C-Right>', require('smart-splits').move_cursor_right, { desc = 'move to [n]ext split' })
-      vim.keymap.set('n', '<C-\\>', require('smart-splits').move_cursor_previous, { desc = 'move to [p]revious split' })
+      vim.keymap.set('n', '<A-Left>', require('smart-splits').move_cursor_left, { desc = 'move to [p]revious split' })
+      vim.keymap.set('n', '<A-Down>', require('smart-splits').move_cursor_down, { desc = 'move to [n]ext split' })
+      vim.keymap.set('n', '<A-Up>', require('smart-splits').move_cursor_up, { desc = 'move to [p]revious split' })
+      vim.keymap.set('n', '<A-Right>', require('smart-splits').move_cursor_right, { desc = 'move to [n]ext split' })
+      vim.keymap.set('n', '<A-\\>', require('smart-splits').move_cursor_previous, { desc = 'move to [p]revious split' })
 
       -- -- swapping buffers between windows
       vim.keymap.set('n', '<leader><leader><Left>', require('smart-splits').swap_buf_left, { desc = 'swap buffer [l]eft' })

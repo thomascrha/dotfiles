@@ -370,13 +370,13 @@ config.keys = {
   },
   {
     key = "LeftArrow",
-    mods = "CTRL",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("LeftArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "LeftArrow", mods = "CTRL" },
+          SendKey = { key = "LeftArrow", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Left" }, pane)
@@ -385,13 +385,13 @@ config.keys = {
   },
   {
     key = "RightArrow",
-    mods = "CTRL",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("RightArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "RightArrow", mods = "CTRL" },
+          SendKey = { key = "RightArrow", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Right" }, pane)
@@ -400,13 +400,13 @@ config.keys = {
   },
   {
     key = "UpArrow",
-    mods = "CTRL",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("UpArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "UpArrow", mods = "CTRL" },
+          SendKey = { key = "UpArrow", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Up" }, pane)
@@ -415,13 +415,13 @@ config.keys = {
   },
   {
     key = "DownArrow",
-    mods = "CTRL",
+    mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("DownArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "DownArrow", mods = "CTRL" },
+          SendKey = { key = "DownArrow", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Down" }, pane)
