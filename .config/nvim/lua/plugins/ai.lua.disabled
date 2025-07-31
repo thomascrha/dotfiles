@@ -1,0 +1,29 @@
+      selector = {
+        provider = function(selector)
+          local items = selector.items ---@type avante.ui.SelectorItem[]
+          local title = selector.title ---@type string
+          local on_select = selector.on_select ---@type fun(selected_item_ids: string[]|nil): nil
+          -- Snacks picker logic with hidden files enabled
+          local picker = require("snacks").picker.pick({
+            title = title,
+            items = items,
+            hidden = true, -- Enable hidden files
+            confirm = function(picker)
+              picker:close()
+              local items = picker:selected({ fallback = true })
+              local paths = {}
+              for _, item in ipairs(items) do
+                table.insert(paths, item._path)
+              end
+              on_select(paths)
+            end,
+            on_close = function()
+              if completed then return end
+              completed = true
+              vim.schedule(function() selector.on_select(nil) end)
+            end,
+          })
+        end,
+        provider_opts = {},
+        exclude_auto_select = {}, -- List of items to exclude from auto selection
+      },

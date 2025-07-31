@@ -112,12 +112,18 @@ class PlayerManager:
         logger.debug(f"Metadata changed for player {player.props.player_name}")
         player_name = player.props.player_name
         artist = player.get_artist()
+        artist = artist.replace("&", "&amp;") if artist else None
         title = player.get_title()
+        title = title.replace("&", "&amp;") if title else None
+        album = player.get_album()
+        album = album.replace("&", "&amp;") if album else None
 
         track_info = ""
         if player_name == "spotify" and "mpris:trackid" in metadata.keys() and ":ad:" in player.props.metadata["mpris:trackid"]:
             track_info = "Advertisement"
-        elif artist is not None and title is not None:
+        elif artist and title and album:
+            track_info = f"{artist} - {album} - {title}"
+        elif artist and title:
             track_info = f"{artist} - {title}"
         else:
             track_info = title
@@ -192,4 +198,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

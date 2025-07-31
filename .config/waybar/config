@@ -22,8 +22,8 @@
     "modules-left": [
       "sway/workspaces",
       "sway/window",
-      "sway/mode",
-      "custom/media"
+      "custom/media",
+      "sway/mode"
     ],
     "modules-center": [
       "custom/weather",
@@ -230,7 +230,7 @@
     // },
 
     "custom/media": {
-      "format": "{icon} {}",
+      "format": "{icon} {text}",
       "escape": true,
       "return-type": "json",
       "max-length": 40,
@@ -267,7 +267,7 @@
 
     "sway/window": {
       "format": "{}",
-      "max-length": 120
+      "max-length": 60
     },
 
     "pulseaudio": {
