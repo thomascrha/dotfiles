@@ -18,7 +18,6 @@ btop
 btrfs-progs
 calibre
 ccache
-chromedriver
 clipman
 cryptsetup
 cups
@@ -47,8 +46,8 @@ fzf
 gimp
 git
 git-delta
+gnome-multi-writer
 go
-google-chrome
 gparted
 greetd-tuigreet
 grimshot-bin-sway
@@ -81,6 +80,7 @@ luarocks
 lxqt-policykit
 mako
 mandoc
+mediawriter
 mgba-qt
 mise
 mkosi
@@ -97,6 +97,7 @@ ntfs-3g
 nwg-launchers
 obsidian
 openssh
+otf-font-awesome
 paru
 paru-debug
 pavucontrol
@@ -106,9 +107,11 @@ pipewire-pulse
 pkgfile
 playerctl
 podman
+popsicle
 power-profiles-daemon
 pre-commit
 print-manager
+prismlauncher
 pwvucontrol
 python
 python-black
@@ -155,14 +158,20 @@ system-config-printer
 systemd-ukify
 teams-for-linux
 teams-for-linux-wayland-hook
+teamspeak3
+teamspeak3-server
 thinkfan
 thinkfan-ui
 thunar
+thunar-archive-plugin
+thunar-media-tags-plugin
+thunar-shares-plugin
+thunar-vcs-plugin
+thunar-volman
 thunderbird
 thunderbird-dark-reader
 tmux
 tree
-ttf-font-awesome
 ttf-roboto-mono-nerd
 ttf-ubuntu-font-family
 tumbler
