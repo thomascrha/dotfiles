@@ -109,6 +109,40 @@ return {
     version = "v0.0.27",
     keys = {
       { "<leader>aC", "<cmd>AvanteClear<cr>", desc = "Avante: Clear Avante" },
+      {
+        "<leader>am",
+        function()
+          -- Find the Avante window by filetype
+          local avante_win = nil
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            if string.match(vim.bo[buf].filetype, "Avante") then
+              avante_win = win
+              break
+            end
+          end
+
+          if avante_win then
+            local current_width = vim.api.nvim_win_get_width(avante_win)
+            -- The width from opts is a percentage.
+            local default_width_percentage = 40
+            local default_width = math.floor(vim.o.columns * default_width_percentage / 100)
+
+            -- Toggle between default and maximized width.
+            -- Using a small tolerance for comparison due to potential rounding.
+            if math.abs(current_width - default_width) <= 1 then
+              -- Maximize width
+              vim.api.nvim_win_set_width(avante_win, vim.o.columns)
+            else
+              -- Restore to default width
+              vim.api.nvim_win_set_width(avante_win, default_width)
+            end
+          else
+            vim.notify("Avante window not found", vim.log.levels.WARN)
+          end
+        end,
+        desc = "Avante: [m]aximize/restore window width",
+      },
     },
     opts = {
       provider = "copilot",
@@ -116,8 +150,8 @@ return {
       debug = false,
       providers = {
         copilot = {
-          model = "claude-3.7-sonnet-thought",
-          -- model = "gemini-2.5-pro",
+          -- model = "claude-3.7-sonnet-thought",
+          model = "gemini-2.5-pro",
           disable_tools = true,
           extra_request_body = {
             max_tokens = 65536,
@@ -156,6 +190,24 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      -- The first argument is the plugin definition, the second is the opts table
+      require("avante").setup(opts)
+
+      -- Create an autocommand to set a buffer-local keymap for the Avante window
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "Avante*",
+        callback = function(args)
+          -- Map <Esc> in normal mode to close the window
+          vim.keymap.set("n", "<Esc>", "<cmd>AvanteToggle<cr>", {
+            buffer = args.buf,
+            silent = true,
+            desc = "Close Avante window",
+          })
+        end,
+        desc = "Set buffer-local keymap for Avante window",
+      })
+    end,
     build = "make",
     dependencies = {
       "nvim-lua/plenary.nvim",

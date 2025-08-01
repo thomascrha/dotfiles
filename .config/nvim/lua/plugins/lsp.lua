@@ -203,7 +203,31 @@ return {
       local servers = {
         -- multis
         denols = {},
-        ruff = {},
+        ruff = {
+          init_options = {
+            settings = {
+              -- We only want ruff to be a linter and formatter.
+              -- Disable all other language server features.
+              showUnusedImports = false,
+              completion = false,
+              hover = false,
+              rename = false,
+              definition = false,
+              references = false,
+              implementation = false,
+              signatureHelp = false,
+              codeAction = {
+                -- These are for formatting and organizing imports.
+                -- We want to keep them.
+                disable = { "source.unusedImports" },
+                fixAll = true,
+                source = {
+                  organizeImports = true,
+                },
+              },
+            },
+          },
+        },
 
         -- debuggers
         codelldb = {},
@@ -218,7 +242,19 @@ return {
         luacheck = {},
 
         -- lsps
-        azure_pipelines_ls = {},
+        -- disabled as its broken
+        -- azure_pipelines_ls = {
+        --   settings = {
+        --     cmd = {
+        --       "/home/tcrha/Software/azure-pipelines-language-server/language-server/bin/azure-pipelines-language-server",
+        --     },
+        --     schemas = {
+        --       ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+        --         "azure-pipelines/**/*.y*l",
+        --       },
+        --     },
+        --   },
+        -- },
         bashls = {},
         docker_compose_language_service = {},
         dockerls = {},
@@ -262,7 +298,7 @@ return {
 
                     -- Add site-packages to extraPaths
                     client.config.settings.python.analysis.extraPaths = {
-                      site_packages
+                      site_packages,
                     }
 
                     vim.notify("Python virtual environment found at: " .. venv_path, vim.log.levels.INFO)
