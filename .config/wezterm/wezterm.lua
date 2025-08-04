@@ -70,6 +70,15 @@ _G.paths = {
 
 _G.workspaces = _G.workspaces or {}
 
+local function contains_item(tbl, item_to_find)
+    for _, value in pairs(tbl) do
+        if value == item_to_find then
+            return true
+        end
+    end
+    return false
+end
+
 local function update_workspaces()
   local workspaces = {}
 
@@ -83,17 +92,20 @@ local function update_workspaces()
     }
   end
 
+  local active_workspace_names = wezterm.mux.get_workspace_names()
+
   -- Add git repositories from the specified paths
   for _, path_table in ipairs(_G.paths) do
     if path_table.single then
       local workspace_id = path_table.path:gsub("/$", ""):match(".*/([^/]+)/?$")
       local workspace_path = path_table.path:gsub("/$", "")
+      local open = contains_item(active_workspace_names, workspace_id)
       if not workspaces[workspace_id] then
         workspaces[workspace_id] = {
           id = workspace_id,
           path = workspace_path,
           active = false,
-          open = false,
+          open = open,
         }
       end
 
@@ -114,12 +126,13 @@ local function update_workspaces()
     for fd_dir in fd_dirs:gmatch("[^\r\n]+") do
       local workspace_id = fd_dir:gsub("/$", ""):match(".*/([^/]+)/?$")
       local workspace_path = fd_dir:gsub("/$", "")
+      local open = contains_item(active_workspace_names, workspace_id)
       if not workspaces[workspace_id] then
         workspaces[workspace_id] = {
           id = workspace_id,
           path = workspace_path,
           actvive = false,
-          open = false,
+          open = open,
         }
       end
       -- exisitng workspace
@@ -131,7 +144,6 @@ local function update_workspaces()
 
     ::next_iteration::
   end
-
   return workspaces
 end
 
