@@ -21,9 +21,9 @@
 
     "modules-left": [
       "sway/workspaces",
+      "sway/mode",
       "sway/window",
-      "custom/media",
-      "sway/mode"
+      "custom/media"
     ],
     "modules-center": [
       "custom/weather",
@@ -267,7 +267,7 @@
 
     "sway/window": {
       "format": "{}",
-      "max-length": 60
+      "max-length": 30
     },
 
     "pulseaudio": {

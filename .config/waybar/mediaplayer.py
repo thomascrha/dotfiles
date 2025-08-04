@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 import gi
-gi.require_version("Playerctl", "2.0")
-from gi.repository import Playerctl, GLib
-from gi.repository.Playerctl import Player
 import argparse
 import logging
 import sys
 import signal
-import gi
 import json
 import os
-from typing import List
+
+gi.require_version("Playerctl", "2.0")
+from gi.repository import Playerctl, GLib
+from gi.repository.Playerctl import Player
 
 logger = logging.getLogger(__name__)
+
 
 def signal_handler(sig, frame):
     logger.info("Received signal to stop, exiting")
@@ -21,21 +21,24 @@ def signal_handler(sig, frame):
     # loop.quit()
     sys.exit(0)
 
+MUSIC_URLS = json.loads(os.environ.get("MUSIC_URLS", json.dumps(["music.youtube.com"])))
 
 class PlayerManager:
     def __init__(self, selected_player=None, excluded_player=[]):
         self.manager = Playerctl.PlayerManager()
         self.loop = GLib.MainLoop()
         self.manager.connect(
-            "name-appeared", lambda *args: self.on_player_appeared(*args))
+            "name-appeared", lambda *args: self.on_player_appeared(*args)
+        )
         self.manager.connect(
-            "player-vanished", lambda *args: self.on_player_vanished(*args))
+            "player-vanished", lambda *args: self.on_player_vanished(*args)
+        )
 
         signal.signal(signal.SIGINT, signal_handler)
         signal.signal(signal.SIGTERM, signal_handler)
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
         self.selected_player = selected_player
-        self.excluded_player = excluded_player.split(',') if excluded_player else []
+        self.excluded_player = excluded_player.split(",") if excluded_player else []
 
         self.init_players()
 
@@ -55,21 +58,22 @@ class PlayerManager:
     def init_player(self, player):
         logger.info(f"Initialize new player: {player.name}")
         player = Playerctl.Player.new_from_name(player)
-        player.connect("playback-status",
-                       self.on_playback_status_changed, None)
+        player.connect("playback-status", self.on_playback_status_changed, None)
         player.connect("metadata", self.on_metadata_changed, None)
         self.manager.manage_player(player)
         self.on_metadata_changed(player, player.props.metadata)
 
-    def get_players(self) -> List[Player]:
+    def get_players(self) -> list[Player]:
         return self.manager.props.players
 
     def write_output(self, text, player):
         logger.debug(f"Writing output: {text}")
 
-        output = {"text": text,
-                  "class": "custom-" + player.props.player_name,
-                  "alt": player.props.player_name}
+        output = {
+            "text": text,
+            "class": "custom-" + player.props.player_name,
+            "alt": player.props.player_name,
+        }
 
         sys.stdout.write(json.dumps(output) + "\n")
         sys.stdout.flush()
@@ -79,7 +83,9 @@ class PlayerManager:
         sys.stdout.flush()
 
     def on_playback_status_changed(self, player, status, _=None):
-        logger.debug(f"Playback status changed for player {player.props.player_name}: {status}")
+        logger.debug(
+            f"Playback status changed for player {player.props.player_name}: {status}"
+        )
         self.on_metadata_changed(player, player.props.metadata)
 
     def get_first_playing_player(self):
@@ -110,6 +116,18 @@ class PlayerManager:
 
     def on_metadata_changed(self, player, metadata, _=None):
         logger.debug(f"Metadata changed for player {player.props.player_name}")
+
+        # # Filter out YouTube videos, only allowing YouTube Music
+        if 'xesam:url' in metadata.keys():
+            stream_url = metadata['xesam:url']
+            for url in MUSIC_URLS:
+                if url not in stream_url:
+                    logger.info(f"Skipping YouTube video: {url}")
+                    # If the filtered player is the one showing, clear the output.
+                    # Another player will be shown if/when its metadata or status changes.
+                    self.clear_output()
+                    return
+
         player_name = player.props.player_name
         artist = player.get_artist()
         artist = artist.replace("&", "&amp;") if artist else None
@@ -119,7 +137,11 @@ class PlayerManager:
         album = album.replace("&", "&amp;") if album else None
 
         track_info = ""
-        if player_name == "spotify" and "mpris:trackid" in metadata.keys() and ":ad:" in player.props.metadata["mpris:trackid"]:
+        if (
+            player_name == "spotify"
+            and "mpris:trackid" in metadata.keys()
+            and ":ad:" in player.props.metadata["mpris:trackid"]
+        ):
             track_info = "Advertisement"
         elif artist and title and album:
             track_info = f"{artist} - {album} - {title}"
@@ -135,28 +157,38 @@ class PlayerManager:
                 track_info = " " + track_info
         # only print output if no other player is playing
         current_playing = self.get_first_playing_player()
-        if current_playing is None or current_playing.props.player_name == player.props.player_name:
+        if (
+            current_playing is None
+            or current_playing.props.player_name == player.props.player_name
+        ):
             self.write_output(track_info, player)
         else:
-            logger.debug(f"Other player {current_playing.props.player_name} is playing, skipping")
+            logger.debug(
+                f"Other player {current_playing.props.player_name} is playing, skipping"
+            )
 
     def on_player_appeared(self, _, player):
         logger.info(f"Player has appeared: {player.name}")
         if player.name in self.excluded_player:
             logger.debug(
-                "New player appeared, but it's in exclude player list, skipping")
+                "New player appeared, but it's in exclude player list, skipping"
+            )
             return
-        if player is not None and (self.selected_player is None or player.name == self.selected_player):
+        if player is not None and (
+            self.selected_player is None or player.name == self.selected_player
+        ):
             self.init_player(player)
         else:
             logger.debug(
-                "New player appeared, but it's not the selected player, skipping")
+                "New player appeared, but it's not the selected player, skipping"
+            )
 
     def on_player_vanished(self, _, player):
         logger.info(f"Player {player.props.player_name} has vanished")
         self.show_most_important_player()
 
-def parse_arguments():
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # Increase verbosity with every occurrence of -v
@@ -169,18 +201,18 @@ def parse_arguments():
 
     parser.add_argument("--enable-logging", action="store_true")
 
-    return parser.parse_args()
-
-
-def main():
-    arguments = parse_arguments()
+    arguments = parser.parse_args()
 
     # Initialize logging
     if arguments.enable_logging:
-        logfile = os.path.join(os.path.dirname(
-            os.path.realpath(__file__)), "media-player.log")
-        logging.basicConfig(filename=logfile, level=logging.DEBUG,
-                            format="%(asctime)s %(name)s %(levelname)s:%(lineno)d %(message)s")
+        logfile = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "media-player.log"
+        )
+        logging.basicConfig(
+            filename=logfile,
+            level=logging.DEBUG,
+            format="%(asctime)s %(name)s %(levelname)s:%(lineno)d %(message)s",
+        )
 
     # Logging is set by default to WARN and higher.
     # With every occurrence of -v it's lowered by one
@@ -194,7 +226,3 @@ def main():
 
     player = PlayerManager(arguments.player, arguments.exclude)
     player.run()
-
-
-if __name__ == "__main__":
-    main()

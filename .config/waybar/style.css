@@ -71,6 +71,7 @@
 #disk,
 #power-profiles-daemon,
 #custom-media,
+#sway-mode,
 #custom-power,
 #tray {
     font-size: 14px;
@@ -163,10 +164,15 @@
     color: red;
 }
 
+#custom-media {
+    min-width: 200px;
+}
+
 #window {
     font-weight: bold;
     padding-left: 10px;
     padding-right: 10px;
+    min-width: 240px;
 }
 
 #workspaces button {
