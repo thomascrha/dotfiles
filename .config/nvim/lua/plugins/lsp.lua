@@ -190,10 +190,19 @@ return {
         -- linters
         'cpplint', -- Used to lint C++ code
         'luacheck', -- Used to lint Lua code
+        'markdownlint', -- Used to lint Markdown code
+        'jsonlint', -- Used to lint JSON code
+        'yamllint', -- Used to lint YAML code
+        'hadolint', -- Used to lint Dockerfiles
+        'shellcheck', -- Used to lint Bash scripts
+        'tflint', -- Used to lint Terraform code
         -- formatters
+        'black', -- Used to format Python code
+        'isort', -- Used to sort Python imports
+        'yamlfmt', -- Used to format YAML code
         'stylua', -- Used to format Lua code
         'clang-format', -- Used to format C/C++ code
-        -- debuggers
+        -- debugger
         'codelldb', -- Used for debugging Rust code
         'debugpy', -- Used for debugging Python code
         -- lsps
@@ -205,6 +214,7 @@ return {
         'yamlls', -- YAML language server
         'clangd', -- C/C++ language server
         'pyright', -- Python language server
+        'lua_ls', -- Lua language server
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
