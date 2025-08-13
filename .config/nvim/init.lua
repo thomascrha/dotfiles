@@ -34,7 +34,7 @@ require("lazy").setup("plugins", {
   },
 })
 
-require("diagnostics").setup()
-require("lsp").setup()
+-- require("diagnostics").setup()
+-- require("lsp").setup()
 
 -- vim ft=lua ts=2 sts=2 sw=2 et:
