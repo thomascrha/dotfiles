@@ -18,7 +18,7 @@ return {
     vim.o.ignorecase = true
     -- if search has capital match case
     vim.o.smartcase = true
-    -- don"t highlight search
+    -- don"t highlight s:map <Up> <Nop>
     vim.o.hlsearch = false
     vim.o.incsearch = true
 
@@ -56,10 +56,10 @@ return {
 
     -- Decrease update time
     vim.o.updatetime = 200
-    vim.wo.signcolumn = 'yes'
+    vim.wo.signcolumn = "yes"
 
     -- Set completeopt to have a better completion experience
-    vim.o.completeopt = 'menuone,noselect'
+    vim.o.completeopt = "menuone,noselect"
 
     -- Save undo history
     vim.o.undofile = true
@@ -82,14 +82,14 @@ return {
     vim.g.copilot_assume_mapped = true
 
     -- Nice looking file diff
-    vim.o.fillchars = 'diff:/'
+    vim.o.fillchars = "diff:/"
 
     -- Show hidden characters like tabs, trailing spaces, etc.
     vim.o.list = true
-    vim.o.listchars = 'tab:→ ,trail:·,extends:▶,precedes:◀,nbsp:␣'
+    vim.o.listchars = "tab:→ ,trail:·,extends:▶,precedes:◀,nbsp:␣"
 
     vim.o.mousemodel = "extend"
-  end
+  end,
 }
 
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:
