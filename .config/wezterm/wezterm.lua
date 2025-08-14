@@ -7,6 +7,12 @@ local config = wezterm.config_builder()
 config.unix_domains = {
   {
     name = "unix",
+    socket_path = "/home/tcrha/.local/state/wezterm/wezterm.sock",
+
+    -- If true, do not attempt to start this server if we try and fail to
+    -- connect to it.
+
+    no_serve_automatically = true,
   },
 }
 

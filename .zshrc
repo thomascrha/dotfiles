@@ -194,6 +194,8 @@ if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc 10"
 fi
 
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
 #########################################################################################
 # Wezterm ###############################################################################
@@ -212,76 +214,11 @@ source $HOME/wezterm.sh
 #########################################################################################
 if [[ $(grep microsoft /proc/version) ]]; then
     export BROWSER=wslview
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    if command -v pyenv 1>/dev/null 2>&1; then
-        eval "$(pyenv init -)"
+
+    # if socket does not exist, create it
+    if [[ ! -S /home/tcrha/.local/state/wezterm/wezterm.sock ]]; then
+        wezterm-mux-server --daemonize
     fi
-    # cd $HOME
-    # add software to path
-    # export PATH=$PATH:$HOME/software/bin
-
-    # alias vpn-start="wsl.exe -d wsl-vpnkit service wsl-vpnkit start"
-
-    # PORTFORWARDING_RUNNING=`ps aux | grep ssh | grep -v grep | grep $PORTFORWARDING_HOST`
-    # if [ -z "$PORTFORWARDING_RUNNING" ]; then
-    # start port forwarding
-    #     ssh -N -L 3128:127.0.0.1:3128 $PORTFORWARDING_HOST >/dev/null 2>&1 &
-    #     disown
-    # fi
-    # alias to add proxy info to pip
-    # alias pip="pip --proxy http://localhost:3128"
-
-    # alias docker-compose="docker compose"
-    #
-    # WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
-    # if [ -z "$WSL_RUNNING" ]; then
-    #     # start the wsl vpnkit
-    #     wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
-    # fi
-    # alias docker-compose="docker compose"
-
-    # WSL_RUNNING=`ps aux | grep vpnkit | grep -v grep`
-    # if [ -z "$WSL_RUNNING" ]; then
-    #     # start the wsl vpnkit
-    #     wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit > /dev/null 2>&1 &
-    # fi
-
-    # DOCKER_FORWARDING=`ps aux | grep ssh | grep -v grep | grep docker`
-    # if [ -z "$DOCKER_FORWARDING" ]; then
-    #     # start port forwarding
-    #     rm -rf /tmp/socket.remote | true
-    #     ssh -nNT -L /tmp/socket.remote:/var/run/docker.sock $PORTFORWARDING_HOST >/dev/null 2>&1 &
-    #     disown
-    # fi
-
-    # export DOCKER_HOST=unix:///tmp/socket.remote
-
-    # Start Docker daemon automatically when logging in if not running.
-    # DOCKER_RUNNING=`ps aux | grep dockerd | grep -v grep`
-    # if [ -z "$DOCKER_RUNNING" ]; then
-    #     # sudo dockerd --bip 172.17.0.1/28 > /dev/null 2>&1 &
-    #     # disown
-    #     sudo service docker start
-    # fi
-
-    # add code to path
-
-    # fix screen issues with WSL
-    # export SCREENDIR=$HOME/.local/run/screen
-
-    # allow poetry to use correct ssl certs
-    export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-
-    # add pip packages to path
-    export PATH="/home/tcrha/.local/bin:$PATH"
-
-    export VISUAL=vim
-    export EDITOR="$VISUAL"
-
-    export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-
-    alias kill-vpnkit="sudo kill -9 $(ps aux | grep vpnkit | grep -v grep | awk '{print $2}')"
 
 fi
 

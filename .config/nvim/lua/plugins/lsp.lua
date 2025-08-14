@@ -190,7 +190,6 @@ return {
         -- linters
         'cpplint', -- Used to lint C++ code
         'luacheck', -- Used to lint Lua code
-        'markdownlint', -- Used to lint Markdown code
         'jsonlint', -- Used to lint JSON code
         'yamllint', -- Used to lint YAML code
         'hadolint', -- Used to lint Dockerfiles
