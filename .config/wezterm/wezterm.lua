@@ -7,12 +7,6 @@ local config = wezterm.config_builder()
 config.unix_domains = {
   {
     name = "unix",
-    socket_path = "/home/tcrha/.local/state/wezterm/wezterm.sock",
-
-    -- If true, do not attempt to start this server if we try and fail to
-    -- connect to it.
-
-    no_serve_automatically = true,
   },
 }
 
@@ -154,22 +148,6 @@ local function update_workspaces()
 end
 
 _G.workspaces = update_workspaces()
-
--- wezterm.on('update-status', function(window, pane)
---   wezterm.log_info(pane)
---   wezterm.log_info(window)
--- end)
------------------------------
---- Windows
------------------------------
--- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
---   config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04" }
--- end
-
--- Linux
--- if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
---   config.default_prog = { "yazi" }
--- end
 
 -----------------------------
 --- Keybindings

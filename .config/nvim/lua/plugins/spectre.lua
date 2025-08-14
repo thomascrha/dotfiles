@@ -1,6 +1,6 @@
 return {
   {
-    "windwp/nvim-spectre",
+    "nvim-pack/nvim-spectre",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -8,7 +8,7 @@ return {
       -----------------------------------------------------------------------------------
       -- " run command :Spectre
       -----------------------------------------------------------------------------------
-      vim.keymap.set('n', '<leader>S', "<cmd>lua require('spectre').open()<cr>", { desc = '[S]ectre search' })
+      vim.keymap.set('n', '<leader>Ss', "<cmd>lua require('spectre').open()<cr>", { desc = '[S]ectre search' })
       -- "search current word
       vim.keymap.set({ 'n', 'v' }, '<leader>Sw', "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", { desc = '[s]pectre current [w]ord' })
       -- "  search in current file
@@ -17,4 +17,4 @@ return {
   },
 
 }
--- vim: set ft=lua ts=2 sts=2 sw=2 et:
+-- vim set ft=lua ts=2 sts=2 sw=2 et:

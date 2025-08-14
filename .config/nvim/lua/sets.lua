@@ -23,7 +23,7 @@ return {
     vim.o.incsearch = true
 
     -- wrap lines
-    vim.o.wrap = false
+    vim.o.wrap = true
 
     -- Tabs
     -- tab size options

@@ -215,8 +215,8 @@ source $HOME/wezterm.sh
 if [[ $(grep microsoft /proc/version) ]]; then
     export BROWSER=wslview
 
-    # if socket does not exist, create it
-    if [[ ! -S /home/tcrha/.local/state/wezterm/wezterm.sock ]]; then
+    # check if wezterm-mux-server is already running using ps aux
+    if ! ps aux | grep -v grep |grep wezterm-mux-server > /dev/null; then
         wezterm-mux-server --daemonize
     fi
 
