@@ -50,7 +50,6 @@ gnome-multi-writer
 go
 gparted
 greetd-tuigreet
-grimshot-bin-sway
 gthumb
 gtk4
 guestfs-tools
@@ -88,7 +87,7 @@ mpv
 multimc-bin
 mupdf
 nasm
-neovim
+neovim-nightly-bin
 net-tools
 network-manager-applet
 networkmanager
@@ -98,6 +97,7 @@ nwg-launchers
 obsidian
 openssh
 otf-font-awesome
+pandoc-cli
 paru
 paru-debug
 pavucontrol
@@ -172,6 +172,7 @@ thunderbird
 thunderbird-dark-reader
 tmux
 tree
+ttf-jetbrains-mono
 ttf-roboto-mono-nerd
 ttf-ubuntu-font-family
 tumbler

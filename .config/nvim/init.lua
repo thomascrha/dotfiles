@@ -1,6 +1,8 @@
 require("sets").setup()
 require("keymaps").setup()
 require("autocmds").setup()
+require("diagnostics").setup()
+require("lsp").setup()
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -34,7 +36,5 @@ require("lazy").setup("plugins", {
   },
 })
 
--- require("diagnostics").setup()
--- require("lsp").setup()
 
 -- vim ft=lua ts=2 sts=2 sw=2 et:
