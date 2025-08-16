@@ -214,12 +214,6 @@ source $HOME/wezterm.sh
 #########################################################################################
 if [[ $(grep microsoft /proc/version) ]]; then
     export BROWSER=wslview
-
-    # check if wezterm-mux-server is already running using ps aux
-    if ! ps aux | grep -v grep |grep wezterm-mux-server > /dev/null; then
-        wezterm-mux-server --daemonize
-    fi
-
 fi
 
 if [[ -f "$HOME/.fzf.zsh" ]]; then

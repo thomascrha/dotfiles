@@ -21,10 +21,10 @@ return {
     vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
 
     -- diabled arrow keys
-    vim.keymap.set({ "n", "v" }, "<Up>", "<Nop>", { desc = "Disable <Up> arrow key" })
-    vim.keymap.set({ "n", "v" }, "<Down>", "<Nop>", { desc = "Disable <Down> arrow key" })
-    vim.keymap.set({ "n", "v" }, "<Left>", "<Nop>", { desc = "Disable <Left> arrow key" })
-    vim.keymap.set({ "n", "v" }, "<Right>", "<Nop>", { desc = "Disable <Right> arrow key" })
+    -- vim.keymap.set({ "n", "v" }, "<Up>", "<Nop>", { desc = "Disable <Up> arrow key" })
+    -- vim.keymap.set({ "n", "v" }, "<Down>", "<Nop>", { desc = "Disable <Down> arrow key" })
+    -- vim.keymap.set({ "n", "v" }, "<Left>", "<Nop>", { desc = "Disable <Left> arrow key" })
+    -- vim.keymap.set({ "n", "v" }, "<Right>", "<Nop>", { desc = "Disable <Right> arrow key" })
   end,
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:
