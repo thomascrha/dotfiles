@@ -1,35 +1,23 @@
-
-return {
+return{
   setup = function()
-      -- Diagnostic Config
-      -- See :help vim.diagnostic.Opts
-      vim.diagnostic.config({
-        severity_sort = true,
-        float = { border = "rounded", source = "if_many" },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
-          text = {
-            [vim.diagnostic.severity.ERROR] = "󰅚 ",
-            [vim.diagnostic.severity.WARN] = "󰀪 ",
-            [vim.diagnostic.severity.INFO] = "󰋽 ",
-            [vim.diagnostic.severity.HINT] = "󰌶 ",
-          },
-        } or {},
-        virtual_text = {
-          source = "if_many",
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+    -- Diagnostic Config
+    -- See :help vim.diagnostic.Opts
+    vim.diagnostic.config({
+      severity_sort = true,
+      virtual_text = false, -- Disable virtual text for all lines by default
+      float = { border = "rounded" },
+      underline = true,     -- Enable underlines for diagnostics
+      signs = true,         -- Show signs in the gutter
+      -- },
+    })
+    vim.keymap.set('n', 'D', function()
+      vim.diagnostic.open_float(nil, {
+        scope = 'line',
+        focusable = false,
+        close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
       })
-  end
+    end, { desc = 'Show diagnostics' })
+  end,
 }
 
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:

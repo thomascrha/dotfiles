@@ -19,23 +19,6 @@
 # Requires: swaylock-effects
 # Requires: /usr/bin/pkill, /usr/bin/pgrep
 
-# Due to a some quirks i couldn't get this to work without putting it in a script
-# bellow was here basically just for reference
-# exec LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-1} && \
-# swayidle -w \
-#     timeout $LT 'swaylock-effects -f' \
-#     timeout $((LT + ST)) 'swaymsg "output * power off"' \
-#                   resume 'swaymsg "output * power on"'  \
-#     timeout $ST 'pgrep -xu "$USER" -f swaylock-effects >/dev/null && swaymsg "output * power off"' \
-#          resume 'pgrep -xu "$USER" -f swaylock-effects >/dev/null && swaymsg "output * power on"'  \
-#     before-sleep 'swaylock-effects -f' \
-#     lock 'swaylock-effects -f' \
-#     unlock 'pkill -xu "$USER" -SIGUSR1 -f swaylock-effects'
-
-# exec_always /home/tcrha/.config/swaylock/lock-routine.sh
-# running_apps=$(pgrep -fc "swaylock -f")
-# echo "Running apps: $running_apps"
-# if [ $running_apps = 0 ]; then
 LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-500}
 swayidle -w \
     timeout $LT 'swaylock -f' \

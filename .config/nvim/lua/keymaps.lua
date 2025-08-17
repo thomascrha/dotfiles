@@ -3,17 +3,16 @@ return {
     -- [[ Basic Keymaps ]]
     --  See `:help vim.keymap.set()`
 
-    -- Source file lua
-    vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>")
-    vim.keymap.set("n", "<leader>x", ":.lua<CR>")
-    vim.keymap.set("v", "<leader>x", ":lua<CR>")
+    -- resource config
+    vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>', { desc = "Resource neovim config" })
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.format)
 
     -- Clear highlights on search when pressing <Esc> in normal mode
     --  See `:help hlsearch`
     vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
     -- Diagnostic keymaps
-    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+    -- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
     -----------------------------------------------------------------------------------
     -- Use leader and yank to copy to the clipboard
     -----------------------------------------------------------------------------------

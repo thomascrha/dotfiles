@@ -14,7 +14,7 @@ return {
       copilot.setup({
         auto_refresh = true,
         suggestion = {
-          auto_trigger = false,
+          auto_trigger = true,
           keymap = {
             accept = false, -- Disable default keymaps
             next = false,
@@ -34,7 +34,7 @@ return {
           local bufnr = ev.buf
           -- Initialize buffer state to false (disabled) if not already set
           if _G.copilot_buffer_states[bufnr] == nil then
-            _G.copilot_buffer_states[bufnr] = false
+            _G.copilot_buffer_states[bufnr] = true
           end
         end,
         desc = "Initialize copilot buffer state",
@@ -62,20 +62,6 @@ return {
         suggestion.prev()
       end, { desc = "Previous copilot suggestion" })
 
-      vim.keymap.set("n", "<leader>ce", function()
-        vim.cmd("Copilot enable")
-        vim.cmd("Copilot status")
-      end, { desc = "[C]opilot [e]nable" })
-
-      vim.keymap.set("n", "<leader>cd", function()
-        vim.cmd("Copilot disable")
-        vim.cmd("Copilot status")
-      end, { desc = "[C]opilot [d]isable" })
-
-      vim.keymap.set("n", "<leader>cs", function()
-        vim.cmd("Copilot status")
-      end, { desc = "[C]opilot [s]tatus" })
-
       -- toggle auto trigger with status message
       vim.keymap.set("n", "<leader>ct", function()
         local bufnr = vim.api.nvim_get_current_buf()
@@ -85,22 +71,11 @@ return {
         -- Display current buffer's auto-trigger status
         vim.notify(
           "Copilot auto-trigger "
-            .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
-            .. " for current buffer",
+          .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
+          .. " for current buffer",
           vim.log.levels.INFO
         )
       end, { desc = "[C]opilot [t]oggle auto trigger" })
-
-      -- show current buffer's auto-trigger status
-      vim.keymap.set("n", "<leader>cc", function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        vim.notify(
-          "Copilot auto-trigger "
-            .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
-            .. " for current buffer",
-          vim.log.levels.INFO
-        )
-      end, { desc = "[C]opilot [c]urrent auto trigger status" })
     end,
   },
   {
@@ -191,15 +166,11 @@ return {
       },
     },
     config = function(_, opts)
-      -- The first argument is the plugin definition, the second is the opts table
       require("avante").setup(opts)
-
-      -- Create an autocommand to set a buffer-local keymap for the Avante window
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "Avante*",
         callback = function(args)
-          -- Map <Esc> in normal mode to close the window
-          vim.keymap.set("n", "<Esc>", "<cmd>AvanteToggle<cr>", {
+          vim.keymap.set("n", "q", "<cmd>AvanteToggle<cr>", {
             buffer = args.buf,
             silent = true,
             desc = "Close Avante window",
@@ -243,4 +214,4 @@ return {
     },
   },
 }
--- vaim: set ft=lua ts=2 sts=2 sw=2 et:
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:

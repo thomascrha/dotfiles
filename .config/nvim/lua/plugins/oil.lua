@@ -17,6 +17,16 @@ return {
         view_options = { show_hidden = true },
       })
       vim.keymap.set("n", "<leader>-", "<cmd>Oil<CR>", { desc = "Toggle Oil" })
+      -- Disable line numbers in oil buffers
+      vim.api.nvim_create_autocmd("BufEnter", {
+        group = vim.api.nvim_create_augroup("oil_settings", { clear = true }),
+        pattern = "oil://*",
+        callback = function()
+          vim.opt_local.number = false
+          vim.opt_local.relativenumber = false
+        end,
+        desc = "Disable line numbers in oil file explorer",
+      })
     end,
   },
 }

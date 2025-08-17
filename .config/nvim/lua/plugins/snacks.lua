@@ -8,8 +8,8 @@ return {
     ---@type snacks.Config
     opts = {
       bigfile = { enabled = true },
-      dashboard = { enabled = true },
-      explorer = { enabled = true },
+      dashboard = { enabled = false },
+      explorer = { enabled = false },
       indent = { enabled = false },
       input = { enabled = true },
       notifier = {
@@ -17,10 +17,10 @@ return {
         timeout = 3000,
       },
       picker = { enabled = true },
-      quickfile = { enabled = true },
-      scope = { enabled = true },
+      quickfile = { enabled = false },
+      scope = { enabled = false },
       scroll = { enabled = false },
-      statuscolumn = { enabled = true },
+      statuscolumn = { enabled = false },
       words = { enabled = true },
       styles = {
         notification = {
@@ -33,7 +33,6 @@ return {
       { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
       { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
       { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-      { "<leader>e", function() Snacks.explorer({hidden = true}) end, desc = "File Explorer" },
       -- find
       { "<leader>fh", function() Snacks.picker.help() end, desc = "Help Pages" },
       { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },

@@ -3,10 +3,6 @@ return {
     vim.g.mapleader = " "
     vim.g.maplocalleader = " "
 
-    -- `:help nerd-font` - For plugins that use special glyphs from nerd fonts
-    -- Nerd font support
-    vim.g.have_nerd_fonts = false
-
     -- Make line numbers default
     vim.wo.number = true
 
@@ -51,15 +47,8 @@ return {
     -- Give more space for displaying messages.
     vim.o.cmdheight = 1
 
-    -- colun width
-    vim.o.colorcolumn = "120"
-
     -- Decrease update time
-    vim.o.updatetime = 200
     vim.wo.signcolumn = "yes"
-
-    -- Set completeopt to have a better completion experience
-    vim.o.completeopt = "menuone,noselect"
 
     -- Save undo history
     vim.o.undofile = true
@@ -89,6 +78,8 @@ return {
     vim.o.listchars = "tab:→ ,trail:·,extends:▶,precedes:◀,nbsp:␣"
 
     vim.o.mousemodel = "extend"
+
+    vim.opt.winborder = "rounded"
   end,
 }
 

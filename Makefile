@@ -10,7 +10,7 @@ stow: ## Stow dotfiles
 	stow --no-folding -t ${HOME} -v -d ${PWD} -S .
 	@if [ ! -z "$(CLEAR)" ]; then \
 		echo "clearing"; \
-		sudo find ${HOME} -xtype l -delete; \
+		sudo fd --follow --type symlink -H . ${HOME} -X rm -rf; \
 	fi
 	./decrypt.sh
 

@@ -172,7 +172,6 @@ thunderbird
 thunderbird-dark-reader
 tmux
 tree
-ttf-jetbrains-mono
 ttf-roboto-mono-nerd
 ttf-ubuntu-font-family
 tumbler
@@ -185,6 +184,7 @@ vim
 virt-install
 virt-manager
 virt-viewer
+walker-bin
 waybar
 waylock
 wezterm-git
@@ -198,6 +198,7 @@ wlsunset
 wob
 wofi
 xdg-desktop-portal
+xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
 xdg-user-dirs
 xorg-xhost
