@@ -34,7 +34,6 @@ return {
         "man",
         "notify",
         "qf",
-        "spectre_panel",
         "startuptime",
         "neotest-output",
         "checkhealth",
@@ -58,7 +57,6 @@ return {
       end,
       desc = "Enable wrap and spell check for text filetypes",
     })
-
   end,
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:

@@ -21,14 +21,7 @@ smart_borders on
 
 bar {
     swaybar_command waybar
-    position top
-    hidden_state hide
-    mode hide
-    modifier Mod4
 }
-# bar {
-#     swaybar_command waybar
-# }
 ### Input configuration
 input type:pointer {
   natural_scroll disabled
@@ -200,7 +193,7 @@ bindsym $mod+p mode "passthrough"
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
 bindsym $mod+t layout tabbed
-bindsym $mod+d layout default
+# bindsym $mod+d layout default
 bindsym $mod+v layout splitv
 bindsym $mod+h layout splith
 
@@ -215,6 +208,7 @@ bindsym $mod+u focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+a focus parent
+bindsym $mod+d focus child
 
 # Resizing containers:
 #

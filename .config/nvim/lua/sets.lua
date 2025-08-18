@@ -80,6 +80,9 @@ return {
     vim.o.mousemodel = "extend"
 
     vim.opt.winborder = "rounded"
+
+    -- prevent the built-in vim.lsp.completion autotrigger from selecting the first item
+    vim.opt.completeopt = { "menuone", "noselect", "popup" }
   end,
 }
 

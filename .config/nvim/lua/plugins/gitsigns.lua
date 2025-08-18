@@ -21,8 +21,8 @@ return {
       },
       signs_staged_enable = true,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-      linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+      numhl = false,     -- Toggle with `:Gitsigns toggle_numhl`
+      linehl = false,    -- Toggle with `:Gitsigns toggle_linehl`
       word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
       watch_gitdir = {
         follow_files = true,
@@ -41,7 +41,7 @@ return {
       current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
       sign_priority = 6,
       update_debounce = 100,
-      status_formatter = nil, -- Use default
+      status_formatter = nil,  -- Use default
       max_file_length = 40000, -- Disable if file is longer than this (in lines)
       preview_config = {
         -- Options passed to nvim_open_win
@@ -104,7 +104,8 @@ return {
         vim.keymap.set("n", "<leader>hq", gitsigns.setqflist, { buffer = bufnr, desc = "Send hunks to quickfix" })
 
         -- Toggles
-        vim.keymap.set("n", "<leader>tb", gitsigns.toggle_current_line_blame, { buffer = bufnr, desc = "Toggle current line blame" })
+        vim.keymap.set("n", "<leader>tb", gitsigns.toggle_current_line_blame,
+          { buffer = bufnr, desc = "Toggle current line blame" })
         vim.keymap.set("n", "<leader>tw", gitsigns.toggle_word_diff, { buffer = bufnr, desc = "Toggle word diff" })
 
         -- Text object

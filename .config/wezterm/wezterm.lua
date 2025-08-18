@@ -3,23 +3,11 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local config = wezterm.config_builder()
 
--- Enable the unix domain socket server for multiplexing
-config.unix_domains = {
-  {
-    name = "unix",
-  },
-}
-
--- This causes `wezterm` to act as though it was started as
--- `wezterm connect unix` by default, connecting to the unix
--- domain on startup.
--- If you prefer to connect manually, leave out this line.
-config.default_gui_startup_args = { "connect", "unix" }
 
 -----------------------------
 --- General settings
 -----------------------------
-config.enable_wayland = true
+-- config.enable_wayland = true
 -- workaround for wayland when trying to create new windows in a scaled display
 -- config.default_gui_startup_args = {'start', '--always-new-process'}
 
@@ -47,13 +35,21 @@ config.window_padding = {
 -- Note that dot (.) & slash (/) are allowed though for
 -- easy selection of (partial) paths.
 config.selection_word_boundary = " \t\n{}[]()''`,;:@│*"
+-- Enable the unix domain socket server for multiplexing
+config.unix_domains = {
+  {
+    name = "unix",
+  },
+}
+
+config.default_gui_startup_args = { "connect", "unix" }
 
 require("tabline").apply_to_config(config)
 
 -----------------------------
 --- Workspace Management
 -----------------------------
-_G.paths = {
+local paths = {
   {
     path = "/home/tcrha/dotfiles",
     single = true,
@@ -67,8 +63,6 @@ _G.paths = {
     single = false,
   },
 }
-
-_G.workspaces = _G.workspaces or {}
 
 local function contains_item(tbl, item_to_find)
     for _, value in pairs(tbl) do
@@ -95,7 +89,7 @@ local function update_workspaces()
   local active_workspace_names = wezterm.mux.get_workspace_names()
 
   -- Add git repositories from the specified paths
-  for _, path_table in ipairs(_G.paths) do
+  for _, path_table in ipairs(paths) do
     if path_table.single then
       local workspace_id = path_table.path:gsub("/$", ""):match(".*/([^/]+)/?$")
       local workspace_path = path_table.path:gsub("/$", "")
@@ -135,19 +129,12 @@ local function update_workspaces()
           open = open,
         }
       end
-      -- exisitng workspace
-      if _G.workspaces[workspace_id] then
-        workspaces[workspace_id].active = _G.workspaces[workspace_id].active
-        workspaces[workspace_id].open = _G.workspaces[workspace_id].open
-      end
     end
 
     ::next_iteration::
   end
   return workspaces
 end
-
-_G.workspaces = update_workspaces()
 
 -----------------------------
 --- Keybindings
@@ -174,10 +161,10 @@ config.keys = {
     key = "/",
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
-      _G.workspaces = update_workspaces()
+      local workspaces = update_workspaces()
       local current_workpace_id = wezterm.mux.get_active_workspace()
       local choices = {}
-      for _, workspace in pairs(_G.workspaces) do
+      for _, workspace in pairs(workspaces) do
         -- Skip the current workspace to avoid switching to it itself
         if current_workpace_id ~= workspace.id then
           if workspace.open then
@@ -207,15 +194,15 @@ config.keys = {
                   name = id,
                   spawn = {
                     args = { "zsh" },
-                    cwd = _G.workspaces[id].path,
+                    cwd = workspaces[id].path,
                   },
                 }),
                 inner_pane
               )
-              _G.workspaces[current_workpace_id].active = false
-              _G.workspaces[id].active = true
+              workspaces[current_workpace_id].active = false
+              workspaces[id].active = true
 
-              _G.workspaces[id].open = true
+              workspaces[id].open = true
             end
           end),
         }),
@@ -534,7 +521,7 @@ end
 --  config.font_size
 --
 -- check if file exists $HOSTNAME.lua in wezterm config dir and apply the config
-hostname_path = wezterm.config_dir .. "/" .. get_hostname() .. ".lua"
+local hostname_path = wezterm.config_dir .. "/" .. get_hostname() .. ".lua"
 if file_exists(hostname_path) then
   local host_config = require(get_hostname())
   if host_config then
@@ -549,7 +536,7 @@ end
 local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
   config.window_background_opacity = 0.9
-  config.font_size = config.font_size - 2
+  config.font_size = config.font_size - 1
 
   config.default_prog = { "zsh" }
   config.font = wezterm.font({
