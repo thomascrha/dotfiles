@@ -17,6 +17,7 @@ return {
           ['<Up>'] = 'prev_item',
           ['<C-Space>'] = 'toggle_completion',
         },
+
       },
       appearance = {
         nerd_font_variant = 'mono',

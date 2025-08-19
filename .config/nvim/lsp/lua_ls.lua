@@ -5,9 +5,9 @@ return {
       completion = {
         callSnippet = "Replace",
       },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-      }
+      -- workspace = {
+      --   library = vim.api.nvim_get_runtime_file("", true),
+      -- }
     },
   }
 }

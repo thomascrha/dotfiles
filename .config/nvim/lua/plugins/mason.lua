@@ -21,12 +21,6 @@ return {
         'hadolint', -- Used to lint Dockerfiles
         'shellcheck', -- Used to lint Bash scripts
         'tflint', -- Used to lint Terraform code
-        -- formatters
-        'black', -- Used to format Python code
-        'isort', -- Used to sort Python imports
-        'yamlfmt', -- Used to format YAML code
-        'stylua', -- Used to format Lua code
-        'clang-format', -- Used to format C/C++ code
         -- debugger
         'codelldb', -- Used for debugging Rust code
         'debugpy', -- Used for debugging Python code

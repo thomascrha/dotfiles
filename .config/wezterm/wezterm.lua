@@ -73,20 +73,39 @@ local function contains_item(tbl, item_to_find)
     return false
 end
 
+local function add_workspace_choice(choices, current_workspace_id, workspace_id, is_open)
+  if current_workspace_id ~= workspace_id then
+    if is_open then
+      table.insert(choices, 1, {
+        label = "🟢 " .. workspace_id,
+        id = workspace_id,
+      })
+    else
+      table.insert(choices, {
+        label = workspace_id,
+        id = workspace_id,
+      })
+    end
+  end
+end
+
 local function update_workspaces()
   local workspaces = {}
+  local choices = {}
+  local active_workspace_names = wezterm.mux.get_workspace_names()
+  local current_workpace_id = wezterm.mux.get_active_workspace()
 
   -- add a default workspace if it doesn't exist
   if not workspaces["default"] then
+    local open = contains_item(active_workspace_names, "default")
     workspaces["default"] = {
       id = "default",
       path = "/home/tcrha",
       active = true,
-      open = true,
+      open = open,
     }
+    add_workspace_choice(choices, current_workpace_id, "default", open)
   end
-
-  local active_workspace_names = wezterm.mux.get_workspace_names()
 
   -- Add git repositories from the specified paths
   for _, path_table in ipairs(paths) do
@@ -101,6 +120,7 @@ local function update_workspaces()
           active = false,
           open = open,
         }
+        add_workspace_choice(choices, current_workpace_id, workspace_id, open)
       end
 
       goto next_iteration
@@ -109,7 +129,7 @@ local function update_workspaces()
     local path = path_table.path
     -- find all directories one level down - this captures everything i need
     local success_fd_dirs, fd_dirs, stderr_fd_dirs = wezterm.run_child_process({
-      "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path
+      "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path,
     })
 
     if not success_fd_dirs then
@@ -125,16 +145,18 @@ local function update_workspaces()
         workspaces[workspace_id] = {
           id = workspace_id,
           path = workspace_path,
-          actvive = false,
+          active = false,
           open = open,
         }
+        add_workspace_choice(choices, current_workpace_id, workspace_id, open)
       end
     end
 
     ::next_iteration::
   end
-  return workspaces
+  return { workspaces = workspaces, choices = choices }
 end
+
 
 -----------------------------
 --- Keybindings
@@ -161,32 +183,16 @@ config.keys = {
     key = "/",
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
-      local workspaces = update_workspaces()
+      local result = update_workspaces()
+      local workspaces = result.workspaces
       local current_workpace_id = wezterm.mux.get_active_workspace()
-      local choices = {}
-      for _, workspace in pairs(workspaces) do
-        -- Skip the current workspace to avoid switching to it itself
-        if current_workpace_id ~= workspace.id then
-          if workspace.open then
-            table.insert(choices, 1, {
-              label = "🟢 " .. workspace.id,
-              id = workspace.id,
-            })
-          else
-            table.insert(choices, {
-              label = workspace.id,
-              id = workspace.id,
-            })
-          end
-        end
-      end
 
       win:perform_action(
         act.InputSelector({
           fuzzy_description = "⚠️  Select workspace to switch to: ",
           title = "⚠️  Select workspace to switch to: ",
           fuzzy = true,
-          choices = choices,
+          choices = result.choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             if id then
               inner_window:perform_action(
