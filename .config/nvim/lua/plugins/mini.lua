@@ -2,21 +2,6 @@ return {
   {
     "echasnovski/mini.nvim",
     config = function()
-      -- Better Around/Inside textobjects
-      --
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]paren
-      --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
-      --  - ci'  - [C]hange [I]nside [']quote
-      -- require("mini.ai").setup({ n_lines = 500 })
-
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      -- require("mini.surround").setup()
-
       require("mini.icons").setup()
 
       -- Simple and easy statusline.
@@ -33,27 +18,6 @@ return {
       statusline.section_location = function()
         return "%2l:%-2v"
       end
-
-      require("mini.move").setup(
-        {
-          -- Module mappings. Use `''` (empty string) to disable one.
-          mappings = {
-            -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
-            left = '<C-Left>',
-            right = '<C-Right>',
-            down = '<C-Down>',
-            up = '<C-Up>',
-
-            -- Move current line in Normal mode
-            line_left = '<C-Left>',
-            line_right = '<C-Right>',
-            line_down = '<C-Down>',
-            line_up = '<C-Up>',
-          },
-        }
-      )
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
 }

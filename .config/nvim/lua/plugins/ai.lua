@@ -133,13 +133,6 @@ return {
           },
         },
       },
-      selector = {
-        provider = "snacks",
-        provider_opts = {
-          hidden = true
-        },
-        exclude_auto_select = {}, -- List of items to exclude from auto selection
-      },
       behaviour = {
         auto_focus_sidebar = false, -- Set to false to prevent auto-focus and entering insert mode
         auto_suggestions = false,

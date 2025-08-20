@@ -1,0 +1,132 @@
+return {
+  {
+    "ibhagwan/fzf-lua",
+    event = "VimEnter",
+    dependencies = {
+      -- Useful for getting pretty icons, but requires a Nerd Font.
+      -- { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+      {
+        "AckslD/nvim-neoclip.lua",
+        dependencies = { "kkharji/sqlite.lua" },
+      },
+    },
+    config = function()
+      -- fzf-lua is a fast fuzzy finder that leverages the power of fzf
+      -- It can search many different aspects of Neovim, your workspace, LSP, and more!
+      --
+      -- To learn more about fzf-lua, see: https://github.com/ibhagwan/fzf-lua
+
+      -- [[ Configure fzf-lua ]]
+      local fzf = require("fzf-lua")
+      require("neoclip").setup()
+      fzf.setup({
+        -- Global fzf-lua settings
+        global_resume = true,
+        global_resume_query = true,
+        winopts = {
+          height = 0.85,
+          width = 0.80,
+          preview = {
+            scrollbar = "float",
+          },
+        },
+        keymap = {
+          -- These keys work in fzf's popup window
+          builtin = {
+            -- neovim `:tmap` mappings for the fzf win
+            -- true,        -- uncomment to inherit all the below in your custom config
+            ["<M-Esc>"] = "hide", -- hide fzf-lua, `:FzfLua resume` to continue
+            ["<F1>"] = "toggle-help",
+            ["<F2>"] = "toggle-fullscreen",
+            -- Only valid with the 'builtin' previewer
+            ["<F3>"] = "toggle-preview-wrap",
+            ["<F4>"] = "toggle-preview",
+            -- Rotate preview clockwise/counter-clockwise
+            ["<F5>"] = "toggle-preview-ccw",
+            ["<F6>"] = "toggle-preview-cw",
+            -- `ts-ctx` binds require `nvim-treesitter-context`
+            ["<F7>"] = "toggle-preview-ts-ctx",
+            ["<F8>"] = "preview-ts-ctx-dec",
+            ["<F9>"] = "preview-ts-ctx-inc",
+            ["<S-Left>"] = "preview-reset",
+            ["<S-down>"] = "preview-page-down",
+            ["<S-up>"] = "preview-page-up",
+            ["<M-S-down>"] = "preview-down",
+            ["<M-S-up>"] = "preview-up",
+          },
+          fzf = {
+            -- fzf '--bind=' options
+            -- true,        -- uncomment to inherit all the below in your custom config
+            ["ctrl-z"] = "abort",
+            ["ctrl-u"] = "unix-line-discard",
+            ["ctrl-f"] = "half-page-down",
+            ["ctrl-b"] = "half-page-up",
+            ["ctrl-a"] = "beginning-of-line",
+            ["ctrl-e"] = "end-of-line",
+            ["alt-a"] = "toggle-all",
+            ["alt-g"] = "first",
+            ["alt-G"] = "last",
+            -- Only valid with fzf previewers (bat/cat/git/etc)
+            ["f3"] = "toggle-preview-wrap",
+            ["f4"] = "toggle-preview",
+            ["shift-down"] = "preview-page-down",
+            ["shift-up"] = "preview-page-up",
+          },
+        },
+        fzf_opts = {
+          -- Pass additional options to fzf
+          ["--layout"] = "reverse",
+        },
+        grep = {
+          rg_opts = "--hidden --column --line-number --no-heading "
+            .. "--color=always --smart-case "
+            .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**'",
+        },
+        files = {
+          cmd = "rg --files --hidden " .. "-g '!node_modules/**' -g '!.git/**' -g '!dist/**' -g '!build/**' -g '!undodir/**'" ,
+        },
+      })
+
+      -- Set up keymaps similar to Telescope
+      vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "[F]ind [H]elp" })
+      vim.keymap.set("n", "<leader>fk", fzf.keymaps, { desc = "[F]ind [K]eymaps" })
+      vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "[F]ind [F]iles" })
+      vim.keymap.set("n", "<leader>fs", fzf.builtin, { desc = "[F]ind [S]elect FZF" })
+      vim.keymap.set("n", "<leader>fw", fzf.grep_cword, { desc = "[F]ind current [W]ord" })
+      vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "[F]ind by [G]rep" })
+      vim.keymap.set("n", "<leader>fd", fzf.diagnostics_document, { desc = "[F]ind [D]iagnostics" })
+      vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "[F]ind [R]esume" })
+      vim.keymap.set("n", "<leader>f.", fzf.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "[ ] Find existing buffers" })
+      vim.keymap.set("n", "<leader>fc", require("neoclip.fzf"), { desc = "[F]ind [C]lipboard" })
+
+      -- Slightly advanced example of searching in current buffer
+      vim.keymap.set("n", "<leader>/", function()
+        fzf.blines({
+          winopts = {
+            height = 0.5,
+            width = 0.5,
+            preview = { hidden = "hidden" },
+          },
+        })
+      end, { desc = "[/] Fuzzily search in current buffer" })
+
+      -- Search in open files
+      vim.keymap.set("n", "<leader>f/", function()
+        fzf.grep({
+          search = "",
+          no_esc = true,
+          only_current_file = true,
+          prompt = "Grep in Current File> ",
+        })
+      end, { desc = "[F]ind [/] in Open Files" })
+
+      -- Shortcut for searching your Neovim configuration files
+      vim.keymap.set("n", "<leader>fn", function()
+        fzf.files({ cwd = vim.fn.stdpath("config") })
+      end, { desc = "[F]ind [N]eovim files" })
+    end,
+  },
+}
+-- vim: set ft=lua ts=2 sts=2 sw=2 et:
+

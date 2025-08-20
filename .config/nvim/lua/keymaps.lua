@@ -1,29 +1,36 @@
 return {
   setup = function()
-    -- [[ Basic Keymaps ]]
-    --  See `:help vim.keymap.set()`
-
-    -- resource config
-    vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>', { desc = "Resource neovim config" })
-    vim.keymap.set('n', '<leader>F', vim.lsp.buf.format)
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.format, { desc = '[F]ormat current buffer' })
 
     -- Clear highlights on search when pressing <Esc> in normal mode
-    --  See `:help hlsearch`
     vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
-    -- Diagnostic keymaps
-    -- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
     -----------------------------------------------------------------------------------
     -- Use leader and yank to copy to the clipboard
     -----------------------------------------------------------------------------------
     vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = '[y]ank into system clipboard' })
     vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
 
-    -- diabled arrow keys
-    -- vim.keymap.set({ "n", "v" }, "<Up>", "<Nop>", { desc = "Disable <Up> arrow key" })
-    -- vim.keymap.set({ "n", "v" }, "<Down>", "<Nop>", { desc = "Disable <Down> arrow key" })
-    -- vim.keymap.set({ "n", "v" }, "<Left>", "<Nop>", { desc = "Disable <Left> arrow key" })
-    -- vim.keymap.set({ "n", "v" }, "<Right>", "<Nop>", { desc = "Disable <Right> arrow key" })
+    -- Move lines
+    vim.keymap.set("n", "<C-Down>", ":m .+1<CR>==", { desc = "Move line down" })
+    vim.keymap.set("n", "<C-Up>", ":m .-2<CR>==", { desc = "Move line up" })
+    vim.keymap.set("v", "<C-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+    vim.keymap.set("v", "<C-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
+
+    -- Toggle relative line numbers
+    vim.keymap.set("n", "<leader>tn", function()
+      if vim.wo.relativenumber then
+        vim.wo.relativenumber = false
+        vim.wo.number = true
+      else
+        vim.wo.relativenumber = true
+        vim.wo.number = true
+      end
+    end, { desc = "Toggle relative line numbers" })
+
+    -- center cursor on screen
+    vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center cursor" })
+    vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center cursor" })
   end,
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:

@@ -65,12 +65,12 @@ local paths = {
 }
 
 local function contains_item(tbl, item_to_find)
-    for _, value in pairs(tbl) do
-        if value == item_to_find then
-            return true
-        end
+  for _, value in pairs(tbl) do
+    if value == item_to_find then
+      return true
     end
-    return false
+  end
+  return false
 end
 
 local function add_workspace_choice(choices, current_workspace_id, workspace_id, is_open)
@@ -217,27 +217,27 @@ config.keys = {
     end),
   },
   -- This will create a new split and run your default program inside it
-  { key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false })},
-  { key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-1) },
-  { key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(1) },
-  { key = "PageUp", action = act.ScrollByPage(-0.8) },
-  { key = "PageDown", action = act.ScrollByPage(0.8) },
-  { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+  { key = "x",         mods = "LEADER",                action = wezterm.action.CloseCurrentPane({ confirm = false }) },
+  { key = "UpArrow",   mods = "SHIFT",                 action = act.ScrollByLine(-1) },
+  { key = "DownArrow", mods = "SHIFT",                 action = act.ScrollByLine(1) },
+  { key = "PageUp",    action = act.ScrollByPage(-0.8) },
+  { key = "PageDown",  action = act.ScrollByPage(0.8) },
+  { key = "z",         mods = "LEADER",                action = act.TogglePaneZoomState },
   -- { key = 'u', mods = 'LEADER', action = wezterm.plugin.update_all() },
-  { key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-  { key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-  { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
-  { key = "Q", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) },
+  { key = "-",         mods = "LEADER",                action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+  { key = "\\",        mods = "LEADER",                action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+  { key = "c",         mods = "LEADER",                action = act.SpawnTab("CurrentPaneDomain") },
+  { key = "Q",         mods = "LEADER",                action = act.CloseCurrentTab({ confirm = false }) },
   -- goto tabs via index
-  { key = "1", mods = "LEADER", action = act.ActivateTab(0) },
-  { key = "2", mods = "LEADER", action = act.ActivateTab(1) },
-  { key = "3", mods = "LEADER", action = act.ActivateTab(2) },
-  { key = "4", mods = "LEADER", action = act.ActivateTab(3) },
-  { key = "5", mods = "LEADER", action = act.ActivateTab(4) },
-  { key = "6", mods = "LEADER", action = act.ActivateTab(5) },
-  { key = "7", mods = "LEADER", action = act.ActivateTab(6) },
-  { key = "8", mods = "LEADER", action = act.ActivateTab(7) },
-  { key = "9", mods = "LEADER", action = act.ActivateTab(8) },
+  { key = "1",         mods = "LEADER",                action = act.ActivateTab(0) },
+  { key = "2",         mods = "LEADER",                action = act.ActivateTab(1) },
+  { key = "3",         mods = "LEADER",                action = act.ActivateTab(2) },
+  { key = "4",         mods = "LEADER",                action = act.ActivateTab(3) },
+  { key = "5",         mods = "LEADER",                action = act.ActivateTab(4) },
+  { key = "6",         mods = "LEADER",                action = act.ActivateTab(5) },
+  { key = "7",         mods = "LEADER",                action = act.ActivateTab(6) },
+  { key = "8",         mods = "LEADER",                action = act.ActivateTab(7) },
+  { key = "9",         mods = "LEADER",                action = act.ActivateTab(8) },
   {
     key = ",",
     mods = "LEADER",
@@ -348,14 +348,14 @@ config.keys = {
     }),
   },
   {
-    key = "LeftArrow",
+    key = "h",
     mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("LeftArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "LeftArrow", mods = "ALT" },
+          SendKey = { key = "h", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Left" }, pane)
@@ -363,14 +363,14 @@ config.keys = {
     end),
   },
   {
-    key = "RightArrow",
+    key = "l",
     mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("RightArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "RightArrow", mods = "ALT" },
+          SendKey = { key = "l", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Right" }, pane)
@@ -378,14 +378,14 @@ config.keys = {
     end),
   },
   {
-    key = "UpArrow",
+    key = "k",
     mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("UpArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "UpArrow", mods = "ALT" },
+          SendKey = { key = "k", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Up" }, pane)
@@ -393,14 +393,14 @@ config.keys = {
     end),
   },
   {
-    key = "DownArrow",
+    key = "j",
     mods = "ALT",
     action = wezterm.action_callback(function(win, pane)
       wezterm.log_info("DownArrow pressed")
       if is_vim(pane) then
         wezterm.log_info("is_vim")
         win:perform_action({
-          SendKey = { key = "DownArrow", mods = "ALT" },
+          SendKey = { key = "j", mods = "ALT" },
         }, pane)
       else
         win:perform_action({ ActivatePaneDirection = "Down" }, pane)
