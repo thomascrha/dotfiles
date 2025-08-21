@@ -52,7 +52,7 @@ require("tabline").apply_to_config(config)
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
   config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", "~" }
   config.window_decorations = "RESIZE"
-  config.font_size = 12
+  config.font_size = 11
 end
 
 
@@ -137,17 +137,8 @@ local function update_workspaces()
     end
 
     local path = path_table.path
-    -- find all directories one level down - this captures everything i need
-    -- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-    --     pre_command = {
-    --         args = {"wsl.exe", "-d", "Ubuntu-24.04", "--cd", workspaces[id].path  }
-    --     }
-    -- end
 
-    local _command = { "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path_table.path }
-    -- local command = prepend_table(pre_command, fd_command)
-    -- local t = {3, 4, 5}
-    -- local concatenation = {1, 2, table.unpack(t)}
+    local _command = { "/bin/sh", "-c", "'", "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path_table.path, "'" }
     local command = _command
     if wezterm.target_triple == "x86_64-pc-windows-msvc" then
       command = { "wsl.exe", "-d", "Ubuntu-24.04", "--", table.unpack(_command) }
