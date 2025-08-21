@@ -133,6 +133,7 @@ return {
           },
         },
       },
+      hints = { enabled = false },
       behaviour = {
         auto_focus_sidebar = false, -- Set to false to prevent auto-focus and entering insert mode
         auto_suggestions = false,
