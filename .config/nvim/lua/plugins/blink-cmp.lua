@@ -3,8 +3,6 @@ return {
     'saghen/blink.cmp',
     event = 'VimEnter',
     version = '1.*',
-    dependencies = {
-    },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
     opts = {

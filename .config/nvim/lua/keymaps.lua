@@ -31,6 +31,8 @@ return {
     -- center cursor on screen
     vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center cursor" })
     vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center cursor" })
+    vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
+    vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
   end,
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:
