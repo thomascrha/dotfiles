@@ -47,6 +47,15 @@ config.default_gui_startup_args = { "connect", "unix" }
 require("tabline").apply_to_config(config)
 
 -----------------------------
+--- Windows
+-----------------------------
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+  config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", "~" }
+  config.font_size = 12
+end
+
+
+-----------------------------
 --- Workspace Management
 -----------------------------
 local paths = {
@@ -128,27 +137,42 @@ local function update_workspaces()
 
     local path = path_table.path
     -- find all directories one level down - this captures everything i need
-    local success_fd_dirs, fd_dirs, stderr_fd_dirs = wezterm.run_child_process({
-      "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path,
-    })
+    -- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+    --     pre_command = {
+    --         args = {"wsl.exe", "-d", "Ubuntu-24.04", "--cd", workspaces[id].path  }
+    --     }
+    -- end
 
+    local _command = { "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path_table.path }
+    -- local command = prepend_table(pre_command, fd_command)
+    -- local t = {3, 4, 5}
+    -- local concatenation = {1, 2, table.unpack(t)}
+    local command = _command
+    if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+      command = { "wsl.exe", "-d", "Ubuntu-24.04", "--", table.unpack(_command) }
+    end
+    wezterm.log_info("Running command: " .. table.concat(command, " "))
+
+    local success_fd_dirs, fd_dirs, stderr_fd_dirs = wezterm.run_child_process(command)
     if not success_fd_dirs then
       wezterm.log_error("Failed to update projects list for path " .. path .. ": " .. stderr_fd_dirs)
       goto next_iteration
     end
 
     for fd_dir in fd_dirs:gmatch("[^\r\n]+") do
-      local workspace_id = fd_dir:gsub("/$", ""):match(".*/([^/]+)/?$")
-      local workspace_path = fd_dir:gsub("/$", "")
-      local open = contains_item(active_workspace_names, workspace_id)
-      if not workspaces[workspace_id] then
-        workspaces[workspace_id] = {
-          id = workspace_id,
-          path = workspace_path,
-          active = false,
-          open = open,
-        }
-        add_workspace_choice(choices, current_workpace_id, workspace_id, open)
+      if fd_dir:match("^/") then
+        local workspace_id = fd_dir:gsub("/$", ""):match(".*/([^/]+)/?$")
+        local workspace_path = fd_dir:gsub("/$", "")
+        local open = contains_item(active_workspace_names, workspace_id)
+        if not workspaces[workspace_id] then
+          workspaces[workspace_id] = {
+            id = workspace_id,
+            path = workspace_path,
+            active = false,
+            open = open,
+          }
+          add_workspace_choice(choices, current_workpace_id, workspace_id, open)
+        end
       end
     end
 
@@ -194,14 +218,21 @@ config.keys = {
           fuzzy = true,
           choices = result.choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+            local spawn = {
+              args = { "zsh" },
+              cwd = workspaces[id].path,
+            }
+            if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+              spawn = {
+                args = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", workspaces[id].path }
+              }
+            end
+
             if id then
               inner_window:perform_action(
                 act.SwitchToWorkspace({
                   name = id,
-                  spawn = {
-                    args = { "zsh" },
-                    cwd = workspaces[id].path,
-                  },
+                  spawn = spawn,
                 }),
                 inner_pane
               )
