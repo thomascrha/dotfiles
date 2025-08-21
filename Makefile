@@ -12,8 +12,7 @@ stow: ## Stow dotfiles
 		echo "clearing"; \
 		sudo fd --follow --type symlink -H . ${HOME} -X rm -rf; \
 	fi
-	# check if $WSL_DISTRO_NAME is set
-	@if [ ! -z "$WSL_DISTRO_NAME" ]; then \
+	@if [ ! -z "$(WSL_DISTRO_NAME)" ]; then \
 		echo "WSL detected, running wezdows install script"; \
 		./scripts/install-wezdows.sh; \
 	fi
