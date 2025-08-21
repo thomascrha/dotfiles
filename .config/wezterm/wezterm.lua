@@ -51,6 +51,7 @@ require("tabline").apply_to_config(config)
 -----------------------------
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
   config.default_prog = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", "~" }
+  config.window_decorations = "RESIZE"
   config.font_size = 12
 end
 
