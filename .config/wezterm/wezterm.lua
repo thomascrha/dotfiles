@@ -138,7 +138,7 @@ local function update_workspaces()
 
     local path = path_table.path
 
-    local _command = { "/bin/sh", "-c", "'", "fd", "--absolute-path", "--type", "d", "--max-depth", "1", ".", path_table.path, "'" }
+    local _command = { "/bin/sh", "-c", "fd --absolute-path --type d --max-depth 1 . " .. path_table.path }
     local command = _command
     if wezterm.target_triple == "x86_64-pc-windows-msvc" then
       command = { "wsl.exe", "-d", "Ubuntu-24.04", "--", table.unpack(_command) }
