@@ -113,6 +113,40 @@ return {
 
         -- Text object
         vim.keymap.set({ "o", "x" }, "ih", gitsigns.select_hunk, { buffer = bufnr, desc = "Select hunk" })
+
+        -- git-conflict inlay hints
+        local ns = vim.api.nvim_create_namespace("git-conflict-inlay-hints")
+        local function set_inlay_hints(bufnr)
+          vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+          local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+          for i, line in ipairs(lines) do
+            if line:match("^<<<<<<<") then
+              vim.api.nvim_buf_set_extmark(bufnr, ns, i - 1, -1, {
+                virt_text = { { "co: choose ours", "Comment" } },
+                virt_text_pos = "eol",
+              })
+            elseif line:match("^=======") then
+              vim.api.nvim_buf_set_extmark(bufnr, ns, i - 1, -1, {
+                virt_text = { { "ct: choose theirs | cb: choose both | c0: choose none", "Comment" } },
+                virt_text_pos = "eol",
+              })
+            end
+          end
+        end
+
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "GitConflictDetected",
+          callback = function(args)
+            set_inlay_hints(args.buf)
+          end,
+        })
+
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "GitConflictResolved",
+          callback = function(args)
+            vim.api.nvim_buf_clear_namespace(args.buf, ns, 0, -1)
+          end,
+        })
       end,
     })
   end,
