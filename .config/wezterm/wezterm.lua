@@ -211,12 +211,12 @@ config.keys = {
           choices = result.choices,
           action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
             local spawn = {
-              args = { "zsh" },
+              args = { "/bin/zsh" },
               cwd = workspaces[id].path,
             }
             if wezterm.target_triple == "x86_64-pc-windows-msvc" then
               spawn = {
-                args = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", workspaces[id].path }
+                args = { "wsl.exe", "-d", "Ubuntu-24.04", "--cd", workspaces[id].path },
               }
             end
 
