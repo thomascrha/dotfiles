@@ -44,18 +44,12 @@ return {
     -- set termguicolors to enable highlight groups
     vim.o.termguicolors = true
 
-    -- Give more space for displaying messages.
-    vim.o.cmdheight = 1
-
     -- Decrease update time
     vim.wo.signcolumn = "yes"
 
     -- Save undo history
     vim.o.undofile = true
     vim.o.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
-
-    -- scrolling padding
-    vim.o.scrolloff = 8
 
     --  spelling
     -- vim.o.spell = true
@@ -67,8 +61,6 @@ return {
     -- make splits open to down and right
     vim.o.splitbelow = true
     vim.o.splitright = true
-
-    vim.g.copilot_assume_mapped = true
 
     -- Nice looking file diff
     vim.o.fillchars = "diff:/"
