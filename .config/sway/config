@@ -339,6 +339,13 @@ for_window [app_id="org.kde.kdeconnect.app"] {
   move position center
 }
 
+for_window [app_id="blueman-manager"] {
+    floating enable
+    move position center
+    # set the size of the window
+    resize set 800 600
+}
+
 # apply mark for Xwayland and wayland native browser windows
 for_window [class="Chromium-browser"] mark Browser
 for_window [class="Brave-browser"] mark Browser
