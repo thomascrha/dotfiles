@@ -122,13 +122,8 @@ return {
           for i, line in ipairs(lines) do
             if line:match("^<<<<<<<") then
               vim.api.nvim_buf_set_extmark(bufnr, ns, i - 1, -1, {
-                virt_text = { { "co: choose ours", "Comment" } },
-                virt_text_pos = "eol",
-              })
-            elseif line:match("^=======") then
-              vim.api.nvim_buf_set_extmark(bufnr, ns, i - 1, -1, {
-                virt_text = { { "ct: choose theirs | cb: choose both | c0: choose none", "Comment" } },
-                virt_text_pos = "eol",
+                virt_lines = { { { "co: choose ours | ct: choose theirs | cb: choose both | c0: choose none", "Comment" } } },
+                virt_lines_above = true,
               })
             end
           end

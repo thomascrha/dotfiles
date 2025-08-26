@@ -40,17 +40,6 @@ bindsym $mod+Shift+r output "Dell Inc. DELL U3023E 40G15H3" toggle
 
 set $terminal "WEZTERM_CONFIG_FONT_SIZE=12 wezterm"
 
-## Pipelam testing
-## create the fifo
-
-# set $PIPELAM_SOCK /tmp/pipelam.fifo
-set $PIPELAM_SOCK /run/user/1000/pipelam.fifo
-bindsym --no-warn XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
-bindsym --no-warn XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
-bindsym --no-warn XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $WOBSOCK) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $PIPELAM_SOCK
-
-bindsym --no-warn XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $PIPELAM_SOCK
-bindsym --no-warn XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $PIPELAM_SOCK
 #########################################################################################
 # Rotation ##############################################################################
 #########################################################################################

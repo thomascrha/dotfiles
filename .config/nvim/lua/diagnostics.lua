@@ -1,4 +1,4 @@
-return{
+return {
   setup = function()
     -- Diagnostic Config
     -- See :help vim.diagnostic.Opts
@@ -17,6 +17,10 @@ return{
         close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
       })
     end, { desc = 'Show diagnostics' })
+    vim.keymap.set('n', '<leader>D', function()
+      vim.diagnostic.setqflist({ bufnr = 0 })
+      vim.cmd('copen')
+    end, { desc = 'Diagnostics to quickfix' })
   end,
 }
 

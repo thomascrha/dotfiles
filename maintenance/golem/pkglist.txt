@@ -10,6 +10,7 @@ base-devel
 bat
 bc
 bear
+bfg-git
 blueman
 bluez-utils
 breeze-gtk
@@ -27,6 +28,7 @@ discord
 distrobox
 dmidecode
 dnsmasq
+dolphin
 dolphin-emu
 door-knocker
 dosfstools
@@ -58,7 +60,6 @@ gvfs-google
 gvfs-mtp
 gvfs-nfs
 gvfs-smb
-hplip-plugin
 hunspell-en_au
 iio-sensor-proxy
 imagemagick
@@ -67,6 +68,7 @@ inetutils
 intel-ucode
 kdeconnect
 keychain
+kitty
 lazygit
 less
 libosinfo
@@ -97,7 +99,6 @@ nwg-launchers
 obsidian
 openssh
 otf-font-awesome
-pandoc-cli
 paru
 paru-debug
 pavucontrol
@@ -147,6 +148,7 @@ stremio
 sudo
 sway
 sway-audio-idle-inhibit-git
+sway-services-git
 swaybg
 swayidle
 swaylock-effects
@@ -195,7 +197,6 @@ wl-clipboard
 wl-color-picker
 wlr-randr
 wlsunset
-wob
 wofi
 xdg-desktop-portal
 xdg-desktop-portal-gtk
