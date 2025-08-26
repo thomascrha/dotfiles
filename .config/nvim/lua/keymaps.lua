@@ -8,8 +8,8 @@ return {
     -----------------------------------------------------------------------------------
     -- Use leader and yank to copy to the clipboard
     -----------------------------------------------------------------------------------
-    vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = '[y]ank into system clipboard' })
-    vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
+    -- vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = '[y]ank into system clipboard' })
+    -- vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
 
     -- Move lines
     vim.keymap.set("n", "<C-Down>", ":m .+1<CR>==", { desc = "Move line down" })

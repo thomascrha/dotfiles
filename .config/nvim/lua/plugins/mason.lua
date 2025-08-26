@@ -10,20 +10,20 @@ return {
     config = function()
       require("mason").setup()
       local ensure_installed = {
-        -- multis
-        'ruff', -- Used to lint Python code and formatting - has lsp but not used
-        'denols', -- Deno language server for JavaScript/TypeScript - only used for formatting and linting
-        -- linters
-        'cpplint', -- Used to lint C++ code
-        'luacheck', -- Used to lint Lua code
-        'jsonlint', -- Used to lint JSON code
-        'yamllint', -- Used to lint YAML code
-        'hadolint', -- Used to lint Dockerfiles
-        'shellcheck', -- Used to lint Bash scripts
-        'tflint', -- Used to lint Terraform code
-        -- debugger
-        'codelldb', -- Used for debugging Rust code
-        'debugpy', -- Used for debugging Python code
+        -- -- multis
+        -- 'ruff', -- Used to lint Python code and formatting - has lsp but not used
+        -- 'denols', -- Deno language server for JavaScript/TypeScript - only used for formatting and linting
+        -- -- linters
+        -- 'cpplint', -- Used to lint C++ code
+        -- 'luacheck', -- Used to lint Lua code
+        -- 'jsonlint', -- Used to lint JSON code
+        -- 'yamllint', -- Used to lint YAML code
+        -- 'hadolint', -- Used to lint Dockerfiles
+        -- 'shellcheck', -- Used to lint Bash scripts
+        -- 'tflint', -- Used to lint Terraform code
+        -- -- debugger
+        -- 'codelldb', -- Used for debugging Rust code
+        -- 'debugpy', -- Used for debugging Python code
         -- lsps
         'bashls', -- Bash language server
         'docker_compose_language_service', -- Docker Compose language server

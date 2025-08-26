@@ -75,6 +75,9 @@ return {
 
     -- prevent the built-in vim.lsp.completion autotrigger from selecting the first item
     vim.opt.completeopt = { "menuone", "noselect", "popup" }
+
+    -- Use system clipboard
+    vim.o.clipboard = "unnamedplus"
   end,
 }
 
