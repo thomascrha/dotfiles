@@ -1,12 +1,5 @@
 return {
   setup = function()
-    -- Check if we need to reload the file when it changed
-    vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-      group = vim.api.nvim_create_augroup("checktime", { clear = true }),
-      command = "checktime",
-      desc = "Reload the file when it changes",
-    })
-
     -- Highlight on yank
     vim.api.nvim_create_autocmd("TextYankPost", {
       group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
