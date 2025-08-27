@@ -5,7 +5,7 @@ if [[ -f $HOME/.zshenv.$(hostname) ]]; then
 fi
 
 # add local bin path for pokemon-icat
-PATH=$HOME/.local/bin:$HOME/go/bin:/usr/local/bin:$PATH
+PATH=$HOME/.local/bin:$HOME/go/bin:/usr/local/bin:/mnt/c/Users/226960/WezTerm:$PATH
 
 # neovim
 EDITOR='nvim'
