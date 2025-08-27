@@ -2,9 +2,14 @@ return {
   {
     'mrjones2014/smart-splits.nvim',
     config = function()
-      require('smart-splits').setup({
-        wezterm_cli_path = "wezterm.exe"
-      })
+      local config = {}
+      if os.getenv("WSL_INTEROP") then
+        print("Running in WSL!")
+        config = {
+          wezterm_cli_path = "wezterm.exe"
+        }
+      end
+      require('smart-splits').setup(config)
       vim.keymap.set('n', '<A-Left>', require('smart-splits').resize_left)
       vim.keymap.set('n', '<A-Down>', require('smart-splits').resize_down)
       vim.keymap.set('n', '<A-Up>', require('smart-splits').resize_up)

@@ -12,10 +12,10 @@ return {
     -- vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = '[Y]ank to end of line into system clipboard' })
 
     -- Move lines
-    vim.keymap.set("n", "<C-Down>", ":m .+1<CR>==", { desc = "Move line down" })
-    vim.keymap.set("n", "<C-Up>", ":m .-2<CR>==", { desc = "Move line up" })
-    vim.keymap.set("v", "<C-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
-    vim.keymap.set("v", "<C-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
+    vim.keymap.set("n", "<C-j>", ":m .+1<CR>==", { desc = "Move line down" })
+    vim.keymap.set("n", "<C-k>", ":m .-2<CR>==", { desc = "Move line up" })
+    vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+    vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
     -- Toggle relative line numbers
     vim.keymap.set("n", "<leader>tn", function()
