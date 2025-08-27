@@ -55,7 +55,6 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
   config.font_size = 11
 end
 
-
 -----------------------------
 --- Workspace Management
 -----------------------------
@@ -261,6 +260,8 @@ config.keys = {
   { key = "7",         mods = "LEADER",                action = act.ActivateTab(6) },
   { key = "8",         mods = "LEADER",                action = act.ActivateTab(7) },
   { key = "9",         mods = "LEADER",                action = act.ActivateTab(8) },
+  { key = '-', mods = 'CTRL', action = act.DisableDefaultAssignment, },
+  { key = '=', mods = 'CTRL', action = act.DisableDefaultAssignment, },
   {
     key = ",",
     mods = "LEADER",
@@ -370,67 +371,6 @@ config.keys = {
       end),
     }),
   },
-  {
-    key = "h",
-    mods = "ALT",
-    action = wezterm.action_callback(function(win, pane)
-      wezterm.log_info("LeftArrow pressed")
-      if is_vim(pane) then
-        wezterm.log_info("is_vim")
-        win:perform_action({
-          SendKey = { key = "h", mods = "ALT" },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Left" }, pane)
-      end
-    end),
-  },
-  {
-    key = "l",
-    mods = "ALT",
-    action = wezterm.action_callback(function(win, pane)
-      wezterm.log_info("RightArrow pressed")
-      if is_vim(pane) then
-        wezterm.log_info("is_vim")
-        win:perform_action({
-          SendKey = { key = "l", mods = "ALT" },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Right" }, pane)
-      end
-    end),
-  },
-  {
-    key = "k",
-    mods = "ALT",
-    action = wezterm.action_callback(function(win, pane)
-      wezterm.log_info("UpArrow pressed")
-      if is_vim(pane) then
-        wezterm.log_info("is_vim")
-        win:perform_action({
-          SendKey = { key = "k", mods = "ALT" },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Up" }, pane)
-      end
-    end),
-  },
-  {
-    key = "j",
-    mods = "ALT",
-    action = wezterm.action_callback(function(win, pane)
-      wezterm.log_info("DownArrow pressed")
-      if is_vim(pane) then
-        wezterm.log_info("is_vim")
-        win:perform_action({
-          SendKey = { key = "j", mods = "ALT" },
-        }, pane)
-      else
-        win:perform_action({ ActivatePaneDirection = "Down" }, pane)
-      end
-    end),
-  },
-
   -- Workspace switching with Alt+number keys
   {
     key = "1",
@@ -573,5 +513,31 @@ if mode == "on" then
     harfbuzz_features = { "calt=0" },
   })
 end
+
+--- Smart Splits
+
+local smart_splits = wezterm.plugin.require('https://github.com/mrjones2014/smart-splits.nvim')
+-- you can put the rest of your Wezterm config here
+smart_splits.apply_to_config(config, {
+  -- the default config is here, if you'd like to use the default keys,
+  -- you can omit this configuration table parameter and just use
+  -- smart_splits.apply_to_config(config)
+
+  -- directional keys to use in order of: left, down, up, right
+  direction_keys = { 'LeftArrow', 'DownArrow', 'UpArrow', 'RightArrow' },
+  -- if you want to use separate direction keys for move vs. resize, you
+  -- can also do this:
+  -- direction_keys = {
+  --   move = { 'h', 'j', 'k', 'l' },
+  --   resize = { 'LeftArrow', 'DownArrow', 'UpArrow', 'RightArrow' },
+  -- },
+  -- modifier keys to combine with direction_keys
+  modifiers = {
+    move = 'CTRL', -- modifier to use for pane movement, e.g. CTRL+h to move left
+    resize = 'META', -- modifier to use for pane resize, e.g. META+h to resize to the left
+  },
+  -- log level to use: info, warn, error
+  log_level = 'info',
+})
 
 return config
