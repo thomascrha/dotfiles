@@ -173,6 +173,7 @@ local function update_workspaces()
 end
 
 
+
 -----------------------------
 --- Keybindings
 -----------------------------
@@ -227,6 +228,7 @@ config.keys = {
                 }),
                 inner_pane
               )
+              wezterm.emit('format-tab-title', inner_window, inner_pane)
               workspaces[current_workpace_id].active = false
               workspaces[id].active = true
 

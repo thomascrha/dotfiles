@@ -89,7 +89,8 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
-    version = "v0.0.27",
+    -- version = "v0.0.27",
+    version = false,
     keys = {
       { "<leader>aC", "<cmd>AvanteClear<cr>", desc = "Avante: Clear Avante" },
       {
@@ -135,10 +136,10 @@ return {
         copilot = {
           model = "claude-3.7-sonnet-thought",
           -- model = "gemini-2.5-pro",
-          disable_tools = true,
-          extra_request_body = {
-            max_tokens = 65536,
-          },
+          -- disable_tools = true,
+          -- extra_request_body = {
+          --   max_tokens = 65536,
+          -- },
         },
       },
       hints = { enabled = false },

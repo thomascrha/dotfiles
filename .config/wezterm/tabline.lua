@@ -29,6 +29,7 @@ local M = {}
 M.apply_to_config = function(config)
   config.tab_bar_at_bottom = true
   config.use_fancy_tab_bar = false
+  config.tab_max_width = 26
   local theme = wezterm.color.get_builtin_schemes()[config.color_scheme]
   -- Custom tab bar with workspace name on the left side
   wezterm.on("update-status", function(window, pane)
@@ -111,7 +112,14 @@ M.apply_to_config = function(config)
     window:set_right_status(wezterm.format(right_status))
   end)
 
-  config.tab_max_width = 26
+  wezterm.on(
+    'new-tab-button-click',
+    function(window, pane, button, default_action)
+      -- just log the default action and allow wezterm to perform it
+      wezterm.log_info('new-tab', window, pane, button, default_action)
+    end
+  )
+
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     -- local theme = wezterm.color.get_default_colors()
     local fg_color = theme.foreground
@@ -122,7 +130,7 @@ M.apply_to_config = function(config)
     local title = tab.active_pane.title
     -- Truncate the title if it's too long
     if #title > 15 then
-      title = wezterm.truncate_right(title, 15) .. "…"
+      title = "…" .. wezterm.truncate_left(title, 15) .. "…"
     end
 
     -- Format for active vs inactive tabs

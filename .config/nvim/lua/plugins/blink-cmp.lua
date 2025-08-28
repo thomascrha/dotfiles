@@ -4,6 +4,7 @@ return {
     version = '1.*',
     dependencies = {
       "giuxtaposition/blink-cmp-copilot",
+      "Kaiser-Yang/blink-cmp-avante",
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -27,11 +28,19 @@ return {
         documentation = { auto_show = true },
       },
 
+
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        default = { 'copilot', 'avante', 'lsp', 'path', 'snippets', 'buffer' },
         providers = {
+          avante = {
+            module = 'blink-cmp-avante',
+            name = 'Avante',
+            opts = {
+              -- options for blink-cmp-avante
+            }
+          },
           copilot = {
             name = "copilot",
             module = "blink-cmp-copilot",
@@ -55,6 +64,9 @@ return {
         nerd_font_variant = 'mono',
         -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
         kind_icons = {
+          AvanteCmd = "",
+          AvanteMention = "",
+          AvanteShortcut = '',
           Copilot = "",
           Text = '󰉿',
           Method = '󰊕',
