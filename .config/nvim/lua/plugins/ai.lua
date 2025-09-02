@@ -8,54 +8,46 @@ return {
       local copilot = require("copilot")
 
       -- Create a global table to store buffer-specific auto_trigger states
-      _G.copilot_buffer_states = {}
+      -- _G.copilot_buffer_states = {}
 
       -- Setup configuration
       copilot.setup({
         auto_refresh = true,
         suggestion = {
-          auto_trigger = false
+          auto_trigger = false,
+          keymap = {
+            accept = false, -- Disable default keymaps
+            next = false,
+            prev = false,
+          },
         },
         filetypes = {
           ["*"] = true, -- Enable for all filetypes
         },
       })
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "BlinkCmpMenuOpen",
-        callback = function()
-          vim.b.copilot_suggestion_hidden = true
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "BlinkCmpMenuClose",
-        callback = function()
-          vim.b.copilot_suggestion_hidden = false
-        end,
-      })
 
       local suggestion = require("copilot.suggestion")
-
-      -- Set up autocmd to initialize buffer state when a new buffer is opened
-      vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
-        callback = function(ev)
-          local bufnr = ev.buf
-          -- Initialize buffer state to false (disabled) if not already set
-          if _G.copilot_buffer_states[bufnr] == nil then
-            _G.copilot_buffer_states[bufnr] = true
-          end
-        end,
-        desc = "Initialize copilot buffer state",
-      })
-
-      -- Clean up buffer state when buffer is deleted
-      vim.api.nvim_create_autocmd("BufDelete", {
-        callback = function(ev)
-          local bufnr = ev.buf
-          _G.copilot_buffer_states[bufnr] = nil
-        end,
-        desc = "Clean up copilot buffer state",
-      })
+      --
+      -- -- Set up autocmd to initialize buffer state when a new buffer is opened
+      -- vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
+      --   callback = function(ev)
+      --     local bufnr = ev.buf
+      --     -- Initialize buffer state to false (disabled) if not already set
+      --     if _G.copilot_buffer_states[bufnr] == nil then
+      --       _G.copilot_buffer_states[bufnr] = false
+      --     end
+      --   end,
+      --   desc = "Initialize copilot buffer state",
+      -- })
+      --
+      -- -- Clean up buffer state when buffer is deleted
+      -- vim.api.nvim_create_autocmd("BufDelete", {
+      --   callback = function(ev)
+      --     local bufnr = ev.buf
+      --     _G.copilot_buffer_states[bufnr] = nil
+      --   end,
+      --   desc = "Clean up copilot buffer state",
+      -- })
 
       -- Define keymaps in a table for better organization
       vim.keymap.set("i", "<C-u>", function()
@@ -70,20 +62,60 @@ return {
         suggestion.prev()
       end, { desc = "Previous copilot suggestion" })
 
+      -- vim.keymap.set("n", "<leader>ce", function()
+      --   vim.cmd("Copilot enable")
+      --   vim.cmd("Copilot status")
+      -- end, { desc = "[C]opilot [e]nable" })
+      --
+      -- vim.keymap.set("n", "<leader>cd", function()
+      --   vim.cmd("Copilot disable")
+      --   vim.cmd("Copilot status")
+      -- end, { desc = "[C]opilot [d]isable" })
+      --
+      -- vim.keymap.set("n", "<leader>cs", function()
+      --   vim.cmd("Copilot status")
+      -- end, { desc = "[C]opilot [s]tatus" })
+
       -- toggle auto trigger with status message
-      vim.keymap.set("n", "<leader>ct", function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        suggestion.toggle_auto_trigger()
-        -- Update the buffer state to the opposite of what it was
-        _G.copilot_buffer_states[bufnr] = not _G.copilot_buffer_states[bufnr]
-        -- Display current buffer's auto-trigger status
-        vim.notify(
-          "Copilot auto-trigger "
-          .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
-          .. " for current buffer",
-          vim.log.levels.INFO
-        )
-      end, { desc = "[C]opilot [t]oggle auto trigger" })
+      -- vim.keymap.set("n", "<leader>ct", function()
+      --   local bufnr = vim.api.nvim_get_current_buf()
+      --   suggestion.toggle_auto_trigger()
+      --   -- Update the buffer state to the opposite of what it was
+      --   _G.copilot_buffer_states[bufnr] = not _G.copilot_buffer_states[bufnr]
+      --   -- Display current buffer's auto-trigger status
+      --   vim.notify(
+      --     "Copilot auto-trigger "
+      --       .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
+      --       .. " for current buffer",
+      --     vim.log.levels.INFO
+      --   )
+      -- end, { desc = "[C]opilot [t]oggle auto trigger" })
+      --
+      -- -- add insert mode toggle for auto trigger
+      -- vim.keymap.set("i", "<C-e>", function()
+      --   local bufnr = vim.api.nvim_get_current_buf()
+      --   suggestion.toggle_auto_trigger()
+      --   -- Update the buffer state to the opposite of what it was
+      --   _G.copilot_buffer_states[bufnr] = not _G.copilot_buffer_states[bufnr]
+      --   -- Display current buffer's auto-trigger status
+      --   vim.notify(
+      --     "Copilot auto-trigger "
+      --       .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
+      --       .. " for current buffer",
+      --     vim.log.levels.INFO
+      --   )
+      -- end, { desc = "Toggle copilot auto trigger" })
+      --
+      -- -- show current buffer's auto-trigger status
+      -- vim.keymap.set("n", "<leader>cc", function()
+      --   local bufnr = vim.api.nvim_get_current_buf()
+      --   vim.notify(
+      --     "Copilot auto-trigger "
+      --       .. (_G.copilot_buffer_states[bufnr] and "enabled" or "disabled")
+      --       .. " for current buffer",
+      --     vim.log.levels.INFO
+      --   )
+      -- end, { desc = "[C]opilot [c]urrent auto trigger status" })
     end,
   },
   {

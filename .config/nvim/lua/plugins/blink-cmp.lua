@@ -2,10 +2,10 @@ return {
   {
     'saghen/blink.cmp',
     version = '1.*',
-    dependencies = {
-      "giuxtaposition/blink-cmp-copilot",
-      "Kaiser-Yang/blink-cmp-avante",
-    },
+    -- dependencies = {
+    --   "giuxtaposition/blink-cmp-copilot",
+    --   "Kaiser-Yang/blink-cmp-avante",
+    -- },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -25,6 +25,30 @@ return {
 
       -- (Default) Only show the documentation popup when manually triggered
       completion = {
+        menu = {
+          draw = {
+            components = {
+              kind_icon = {
+                text = function(ctx)
+                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return kind_icon
+                end,
+                -- (optional) use highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              },
+              kind = {
+                -- (optional) use highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              }
+            }
+          }
+        },
         documentation = { auto_show = true },
       },
 
@@ -32,73 +56,73 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'copilot', 'avante', 'lsp', 'path', 'snippets', 'buffer' },
-        providers = {
-          avante = {
-            module = 'blink-cmp-avante',
-            name = 'Avante',
-            opts = {
-              -- options for blink-cmp-avante
-            }
-          },
-          copilot = {
-            name = "copilot",
-            module = "blink-cmp-copilot",
-            score_offset = 100,
-            async = true,
-            transform_items = function(_, items)
-              local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-              local kind_idx = #CompletionItemKind + 1
-              CompletionItemKind[kind_idx] = "Copilot"
-              for _, item in ipairs(items) do
-                item.kind = kind_idx
-              end
-              return items
-            end,
-          },
-        },
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        -- providers = {
+        --   avante = {
+        --     module = 'blink-cmp-avante',
+        --     name = 'Avante',
+        --     opts = {
+        --       -- options for blink-cmp-avante
+        --     }
+        --   },
+        --   copilot = {
+        --     name = "copilot",
+        --     module = "blink-cmp-copilot",
+        --     score_offset = 100,
+        --     async = true,
+        --     transform_items = function(_, items)
+        --       local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+        --       local kind_idx = #CompletionItemKind + 1
+        --       CompletionItemKind[kind_idx] = "Copilot"
+        --       for _, item in ipairs(items) do
+        --         item.kind = kind_idx
+        --       end
+        --       return items
+        --     end,
+        --   },
+        -- },
       },
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono',
         -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
-        kind_icons = {
-          AvanteCmd = "",
-          AvanteMention = "",
-          AvanteShortcut = '',
-          Copilot = "",
-          Text = '󰉿',
-          Method = '󰊕',
-          Function = '󰊕',
-          Constructor = '󰒓',
-
-          Field = '󰜢',
-          Variable = '󰆦',
-          Property = '󰖷',
-
-          Class = '󱡠',
-          Interface = '󱡠',
-          Struct = '󱡠',
-          Module = '󰅩',
-
-          Unit = '󰪚',
-          Value = '󰦨',
-          Enum = '󰦨',
-          EnumMember = '󰦨',
-
-          Keyword = '󰻾',
-          Constant = '󰏿',
-
-          Snippet = '󱄽',
-          Color = '󰏘',
-          File = '󰈔',
-          Reference = '󰬲',
-          Folder = '󰉋',
-          Event = '󱐋',
-          Operator = '󰪚',
-          TypeParameter = '󰬛',
-        },
+        -- kind_icons = {
+        --   AvanteCmd = "",
+        --   AvanteMention = "",
+        --   AvanteShortcut = '',
+        --   Copilot = "",
+        --   Text = '󰉿',
+        --   Method = '󰊕',
+        --   Function = '󰊕',
+        --   Constructor = '󰒓',
+        --
+        --   Field = '󰜢',
+        --   Variable = '󰆦',
+        --   Property = '󰖷',
+        --
+        --   Class = '󱡠',
+        --   Interface = '󱡠',
+        --   Struct = '󱡠',
+        --   Module = '󰅩',
+        --
+        --   Unit = '󰪚',
+        --   Value = '󰦨',
+        --   Enum = '󰦨',
+        --   EnumMember = '󰦨',
+        --
+        --   Keyword = '󰻾',
+        --   Constant = '󰏿',
+        --
+        --   Snippet = '󱄽',
+        --   Color = '󰏘',
+        --   File = '󰈔',
+        --   Reference = '󰬲',
+        --   Folder = '󰉋',
+        --   Event = '󱐋',
+        --   Operator = '󰪚',
+        --   TypeParameter = '󰬛',
+        -- },
       },
 
       -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
