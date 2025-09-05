@@ -43,6 +43,7 @@ file-roller
 firefox
 flatpak
 foot
+fuzzel
 fwupd
 fzf
 gimp
@@ -93,6 +94,7 @@ neovim-nightly-bin
 net-tools
 network-manager-applet
 networkmanager
+niri
 noto-fonts-emoji
 ntfs-3g
 nwg-launchers
@@ -146,9 +148,7 @@ starship
 stow
 stremio
 sudo
-sway
 sway-audio-idle-inhibit-git
-sway-services-git
 swaybg
 swayidle
 swaylock-effects

@@ -14,7 +14,7 @@ return {
       copilot.setup({
         auto_refresh = true,
         suggestion = {
-          auto_trigger = false,
+          auto_trigger = true,
           keymap = {
             accept = false, -- Disable default keymaps
             next = false,

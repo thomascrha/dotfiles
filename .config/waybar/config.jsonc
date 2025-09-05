@@ -6,216 +6,202 @@
 // Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
 //
 // =============================================================================
-
 {
-  // -------------------------------------------------------------------------
-  // Global configuration
-  // -------------------------------------------------------------------------
-
-  "layer": "top",
-
-    "position": "top",
-
+    // -------------------------------------------------------------------------
+    // Global configuration
+    // -------------------------------------------------------------------------
+    "layer": "top",
+    "position": "bottom",
     // If height property would be not present, it'd be calculated dynamically
     "height": 30,
-
     "modules-left": [
-      "sway/workspaces",
-      "sway/mode",
-      "sway/window",
-      "custom/media"
+        "sway/workspaces",
+        "sway/mode",
+        "sway/window",
+        "custom/media"
     ],
     "modules-center": [
-      "custom/weather",
-      "clock"
+        "custom/weather",
+        "clock"
     ],
     "modules-right": [
-      "custom/recorder",
-      "disk",
-      "memory",
-      "cpu",
-      "temperature",
-      "battery",
-      "pulseaudio",
-      "backlight",
-      "tray",
-      "idle_inhibitor",
-      "power-profiles-daemon",
-      "custom/wlsunset",
-      "custom/screenrotation-lock",
-      "custom/screenshotting",
-      "custom/power"
+        "custom/recorder",
+        "disk",
+        "memory",
+        "cpu",
+        "temperature",
+        "battery",
+        "pulseaudio",
+        "backlight",
+        "tray",
+        "idle_inhibitor",
+        "power-profiles-daemon",
+        "custom/wlsunset",
+        "custom/screenrotation-lock",
+        "custom/screenshotting",
+        "custom/power"
     ],
-
-
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
     "custom/power": {
-      "format" : "⏻",
-      "tooltip": false,
-      "menu": "on-click",
-      "menu-file": "/home/tcrha/.config/waybar/power_menu.xml",
-      "menu-actions": {
-        "shutdown": "shutdown",
-        "reboot": "reboot",
-        "suspend": "systemctl suspend",
-        "hibernate": "systemctl hibernate",
-        "logout": "swaymsg exit"
-      }
+        "format": "⏻",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "/home/tcrha/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "shutdown": "shutdown",
+            "reboot": "reboot",
+            "suspend": "systemctl suspend",
+            "hibernate": "systemctl hibernate",
+            "logout": "swaymsg exit"
+        }
     },
-
     "custom/screenshotting": {
-      "format": "",
-      "tooltip": false,
-      "menu": "on-click",
-      "menu-file": "/home/tcrha/.config/waybar/screenshot_menu.xml",
-      "menu-actions": {
-        "screenshot-selection-file": "grimshot --notify save area",
-        "screenshot-selection-clip": "grimshot --notify copy area",
-        "screenshot-selection-edit": "grim -g \"$(slurp)\" - | swappy -f -",
-        "screenshot-fullscreen-file": "grimshot --notify save screen",
-        "screenshot-fullscrden-clip": "grimshot --notify copy screen",
-        "screenshot-fullscreen-edit": "grim - | swappy -f -",
-        "videoshot-fullscreen-file": "wf-recorder -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
-        "videoshot-selection-file": "wf-recorder -g \"$(slurp)\" -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
-      }
+        "format": "",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "/home/tcrha/.config/waybar/screenshot_menu.xml",
+        "menu-actions": {
+            "screenshot-selection-file": "grimshot --notify save area",
+            "screenshot-selection-clip": "grimshot --notify copy area",
+            "screenshot-selection-edit": "grim -g \"$(slurp)\" - | swappy -f -",
+            "screenshot-fullscreen-file": "grimshot --notify save screen",
+            "screenshot-fullscrden-clip": "grimshot --notify copy screen",
+            "screenshot-fullscreen-edit": "grim - | swappy -f -",
+            "videoshot-fullscreen-file": "wf-recorder -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
+            "videoshot-selection-file": "wf-recorder -g \"$(slurp)\" -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S.mp4\")",
+        }
     },
     "custom/screenrotation-lock": {
-      "return-type": "json",
-      "exec": "/home/tcrha/.config/waybar/rot8-on-off.sh",
-      "on-click": "/home/tcrha/.config/waybar/rot8-on-off.sh click",
-      "tooltip": true,
-      "interval": 1
+        "return-type": "json",
+        "exec": "/home/tcrha/.config/waybar/rot8-on-off.sh",
+        "on-click": "/home/tcrha/.config/waybar/rot8-on-off.sh click",
+        "tooltip": true,
+        "interval": 1
     },
     "custom/wlsunset": {
-      "return-type": "json",
-      "exec": "/home/tcrha/.config/waybar/wlsunset-on-off.sh",
-      "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh click",
-      "tooltip": true,
-      "interval": 1
+        "return-type": "json",
+        "exec": "/home/tcrha/.config/waybar/wlsunset-on-off.sh",
+        "on-click": "/home/tcrha/.config/waybar/wlsunset-on-off.sh click",
+        "tooltip": true,
+        "interval": 1
     },
-
     "idle_inhibitor": {
-      "format": "{icon}",
-      "format-icons": {
-        "activated": "",
-        "deactivated": ""
-      }
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
     },
     "custom/recorder": {
-      "format": "",
-      "return-type": "json",
-      "interval": 1,
-      "exec": "echo '{\"class\": \"recording\"}'",
-      "exec-if": "pgrep wf-recorder",
-      "on-click": "pkill -f wf-recorder"
+        "format": "",
+        "return-type": "json",
+        "interval": 1,
+        "exec": "echo '{\"class\": \"recording\"}'",
+        "exec-if": "pgrep wf-recorder",
+        "on-click": "pkill -f wf-recorder"
     },
     "custom/weather": {
-      "exec": "/home/tcrha/.config/waybar/get_weather.sh Wentworth+Falls",
-      "return-type": "json",
-      "format": "{}",
-      "tooltip": true,
-      "interval": 3600
+        "exec": "/home/tcrha/.config/waybar/get_weather.sh Wentworth+Falls",
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true,
+        "interval": 3600
     },
-
-
     "disk": {
-      "interval": 30,
-      "format": " {percentage_free}%",
-      "path": "/"
+        "interval": 30,
+        "format": " {percentage_free}%",
+        "path": "/"
     },
-
     "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-      "tooltip": true,
-      "format-icons": {
-        "default": "",
-        "performance": "",
-        "balanced": "",
-        "power-saver": ""
-      }
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
     },
-
     "battery": {
-      "interval": 10,
-      "states": {
-        "warning": 30,
-        "critical": 15
-      },
-      // Connected to AC
-      "format": " {icon}   {capacity}%", // Icon: bolt
-                                          // Not connected to AC
-      "format-discharging": "{icon}   {capacity}%",
-      "format-icons": [
-        "", // Icon: battery-full
-        "", // Icon: battery-three-quarters
-        "", // Icon: battery-half
-        "", // Icon: battery-quarter
-        ""  // Icon: battery-empty
-      ],
-      "tooltip": true
+        "interval": 10,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        // Connected to AC
+        "format": " {icon}   {capacity}%", // Icon: bolt
+        // Not connected to AC
+        "format-discharging": "{icon}   {capacity}%",
+        "format-icons": [
+            "", // Icon: battery-full
+            "", // Icon: battery-three-quarters
+            "", // Icon: battery-half
+            "", // Icon: battery-quarter
+            "" // Icon: battery-empty
+        ],
+        "tooltip": true
     },
-
     "sway/workspaces": {
-      "format": "{icon}",
-      "on-click": "activate",
-      "format-icons": {
-        "10": "1",
-        "11": "1",
-        "20": "2",
-        "21": "2",
-        "30": "3",
-        "31": "3",
-        "40": "4",
-        "41": "4",
-        "50": "5",
-        "51": "5",
-        "60": "6",
-        "61": "6",
-        "70": "7",
-        "71": "7",
-        "80": "8",
-        "81": "8",
-        "90": "9",
-        "91": "9",
-        "100": "0",
-        "101": "0",
-        "urgent": "",
-        "active": "",
-        // "default": "0"
-      },
-      "sort-by-number": true
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "10": "1",
+            "11": "1",
+            "20": "2",
+            "21": "2",
+            "30": "3",
+            "31": "3",
+            "40": "4",
+            "41": "4",
+            "50": "5",
+            "51": "5",
+            "60": "6",
+            "61": "6",
+            "70": "7",
+            "71": "7",
+            "80": "8",
+            "81": "8",
+            "90": "9",
+            "91": "9",
+            "100": "0",
+            "101": "0",
+            "urgent": "",
+            "active": "",
+            // "default": "0"
+        },
+        "sort-by-number": true
     },
     "backlight": {
-      "device": "intel_backlight",
-      "format": "  {percent}%"
+        "device": "intel_backlight",
+        "format": "  {percent}%"
     },
     "clock": {
         "format": "{:%H:%M}  ",
         "format-alt": "{:%A, %B %d, %Y (%R)}",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
-                    "mode"          : "year",
-                    "mode-mon-col"  : 3,
-                    "weeks-pos"     : "right",
-                    "on-scroll"     : 1,
-                    "format": {
-                              "months":     "<span color='#ffead3'><b>{}</b></span>",
-                              "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-                              "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-                              "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-                              "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
-                              }
-                    },
-        "actions":  {
-                    "on-click-right": "mode",
-                    "on-scroll-up": "tz_up",
-                    "on-scroll-down": "tz_down",
-                    "on-scroll-up": "shift_up",
-                    "on-scroll-down": "shift_down"
-                    }
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-scroll-up": "tz_up",
+            "on-scroll-down": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
     // "clock#time": {
     //   "interval": 1,
@@ -228,83 +214,76 @@
     //   "format": " {:%e %b %Y}", // Icon: calendar-alt
     //   "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     // },
-
     "custom/media": {
-      "format": "{icon} {text}",
-      "escape": true,
-      "return-type": "json",
-      "max-length": 40,
-      "on-click": "playerctl play-pause",
-      "on-click-right": "playerctl next",
-      "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
-      "on-scroll-up": "playerctl next",
-      "on-scroll-down": "playerctl previous",
-      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources/custom_modules folder
+        "format": "{icon} {text}",
+        "escape": true,
+        "return-type": "json",
+        "max-length": 40,
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous",
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources/custom_modules folder
     },
-
     "cpu": {
-      "interval": 5,
-      "format": "   {usage}%", // Icon: microchip
-      "states": {
-        "warning": 70,
-        "critical": 90
-      }
+        "interval": 5,
+        "format": "   {usage}%", // Icon: microchip
+        "states": {
+            "warning": 70,
+            "critical": 90
+        }
     },
-
     "memory": {
-      "interval": 5,
-      "format": " {}%", // Icon: memory
-      "states": {
-        "warning": 70,
-        "critical": 90
-      }
+        "interval": 5,
+        "format": " {}%", // Icon: memory
+        "states": {
+            "warning": 70,
+            "critical": 90
+        }
     },
-
     "sway/mode": {
-      "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
-      "tooltip": false
+        "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
+        "tooltip": false
     },
-
     "sway/window": {
-      "format": "{}",
-      "max-length": 30
+        "format": "{}",
+        "max-length": 30
     },
-
     "pulseaudio": {
-      "format": "{icon}   {volume}%",
-      "format-bluetooth": "{icon}   {volume}%",
-      "format-muted": "",
-      "format-icons": {
-        "headphones": "",
-        "handsfree": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["", ""]
-      },
-      "on-click": "pwvucontrol"
+        "format": "{icon}   {volume}%",
+        "format-bluetooth": "{icon}   {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                ""
+            ]
+        },
+        "on-click": "pwvucontrol"
     },
-
     "temperature": {
-      "critical-threshold": 90,
-      // "thermal-zone": 1,
-      "interval": 5,
-      "format": "{icon} {temperatureC}°C",
-      "format-icons": [
-        "", // Icon: temperature-empty
-        "", // Icon: temperature-quarter
-        "", // Icon: temperature-half
-        "", // Icon: temperature-three-quarters
-        ""  // Icon: temperature-full
-      ],
-      "tooltip": true
+        "critical-threshold": 90,
+        // "thermal-zone": 1,
+        "interval": 5,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [
+            "", // Icon: temperature-empty
+            "", // Icon: temperature-quarter
+            "", // Icon: temperature-half
+            "", // Icon: temperature-three-quarters
+            "" // Icon: temperature-full
+        ],
+        "tooltip": true
     },
-
     "tray": {
-      "icon-size": 21,
-      "spacing": 10
+        "icon-size": 21,
+        "spacing": 10
     }
-
 }
-
