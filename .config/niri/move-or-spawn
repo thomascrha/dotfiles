@@ -13,7 +13,6 @@ if [[ -n "$APP_ID" ]]; then
 else
   # if the application is not running, spawn it
   CMD="$APPLICATION $APPLICATION_OPTIONS"
-  echo "Spawning: $CMD"
   niri msg action spawn-sh -- "$CMD"
 fi
 

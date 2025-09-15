@@ -89,7 +89,7 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    // focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse max-scroll-amount="0%"
 }
 
 // You can configure outputs by their name, which you can find
@@ -403,6 +403,7 @@ binds {
     Mod+e hotkey-overlay-title="Run a File Manager: email" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn thunderbird"; }
     Mod+g hotkey-overlay-title="Run a File Manager: thunar" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn thunar"; }
     Mod+n hotkey-overlay-title="Run Notes App: obsidian" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn obsidian '--enable-features=UseOzonePlatform --ozone-platform=wayland'"; }
+    Mod+t hotkey-overlay-title="Run Music Teams: teams-for-linux" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn teams-for-linux"; }
     Ctrl+Grave hotkey-overlay-title="Run Guake" { spawn-sh "/home/tcrha/.config/niri/guake"; }
 
     // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
