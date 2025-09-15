@@ -506,7 +506,7 @@ end
 -- makes the window transparent when in guake mode is detected
 local mode = os.getenv("WEZTERM_GUAKE")
 if mode == "on" then
-  config.window_background_opacity = 0.9
+  -- config.window_background_opacity = 0.9
   config.font_size = config.font_size - 1
 
   config.default_prog = { "zsh" }

@@ -15,9 +15,9 @@
     // If height property would be not present, it'd be calculated dynamically
     "height": 30,
     "modules-left": [
-        "sway/workspaces",
-        "sway/mode",
-        "sway/window",
+        "niri/workspaces",
+        "niri/mode",
+        "niri/window",
         "custom/media"
     ],
     "modules-center": [
@@ -54,7 +54,7 @@
             "reboot": "reboot",
             "suspend": "systemctl suspend",
             "hibernate": "systemctl hibernate",
-            "logout": "swaymsg exit"
+            "logout": "niri msg action quit --skip-confirmation"
         }
     },
     "custom/screenshotting": {
@@ -144,7 +144,7 @@
         ],
         "tooltip": true
     },
-    "sway/workspaces": {
+    "niri/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
         "format-icons": {
@@ -242,11 +242,11 @@
             "critical": 90
         }
     },
-    "sway/mode": {
+    "niri/mode": {
         "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
         "tooltip": false
     },
-    "sway/window": {
+    "niri/window": {
         "format": "{}",
         "max-length": 30
     },

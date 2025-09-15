@@ -95,6 +95,7 @@ net-tools
 network-manager-applet
 networkmanager
 niri
+nirius
 noto-fonts-emoji
 ntfs-3g
 nwg-launchers
@@ -131,7 +132,7 @@ qt6-tools
 qwbfs
 refind
 ripgrep-all
-rofi-wayland
+rofi
 rot8-git
 rsync
 rust
@@ -148,7 +149,9 @@ starship
 stow
 stremio
 sudo
+sway
 sway-audio-idle-inhibit-git
+sway-contrib
 swaybg
 swayidle
 swaylock-effects

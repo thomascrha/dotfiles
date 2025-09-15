@@ -1,0 +1,85 @@
+#!/bin/bash
+
+DEFAULT_TERMINAL_STATE='{"visible": false, "id": null, "workspace_id": null}'
+DEFAULT_TERMINAL_STATE_FILE="/tmp/guake_terminal.json"
+DEFAULT_HEIGHT_PERCENTAGE=70
+DEFAULT_WIDTH_PERCENTAGE=100
+DEFAULT_GAP=20
+
+# function to relad the state file
+reload_state_file() {
+  TERMINAL_STATE=$(cat $DEFAULT_TERMINAL_STATE_FILE)
+  VISIBLE=$(echo $TERMINAL_STATE | jq .visible)
+  ID=$(echo $TERMINAL_STATE | jq .id)
+  WORKSPACE_ID=$(echo $TERMINAL_STATE | jq .workspace_id)
+}
+
+get_current_workspace_dimensions() {
+  # get current workspace max height and width
+  MAX_WIDTH=$(niri msg -j outputs | jq '.[] | select(.modes[] | .is_preferred == true) | .logical.width')
+  MAX_HEIGHT=$(niri msg -j outputs | jq '.[] | select(.modes[] | .is_preferred == true) | .logical.height')
+
+  # calculate the terminal height and width
+  HEIGHT=$(echo "( ($MAX_HEIGHT - (3 * $DEFAULT_GAP)) * $DEFAULT_HEIGHT_PERCENTAGE ) / 100" | bc)
+  WIDTH=$(echo "( ($MAX_WIDTH - (2 * $DEFAULT_GAP)) * $DEFAULT_WIDTH_PERCENTAGE ) / 100" | bc)
+}
+
+RUNNING=$(ps aux | grep wezterm | grep -v grep | grep dropdown-terminal > /dev/null && echo "true" || echo "false")
+if [[ $RUNNING == "false" ]]; then
+  if [[ -f $DEFAULT_TERMINAL_STATE_FILE ]]; then
+    rm $DEFAULT_TERMINAL_STATE_FILE
+  fi
+  echo $DEFAULT_TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
+  reload_state_file
+
+  niri msg action spawn-sh -- "WEZTERM_GUAKE=on /usr/bin/wezterm start --no-auto-connect --class dropdown-terminal --workspace guake"
+  sleep 0.4
+
+  # load the terminal id
+  terminal=$(niri msg -j windows | jq '.[] | select(.app_id == "dropdown-terminal")')
+  terminal_id=$(echo $terminal | jq .id)
+  TERMINAL_STATE=$(echo $TERMINAL_STATE | jq --argjson id "$terminal_id" '.id = $id')
+  echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
+  reload_state_file
+
+  niri msg action move-window-to-floating --id $ID
+fi
+
+reload_state_file
+get_current_workspace_dimensions
+CURRENT_WORKSPACE_ID=$(niri msg -j workspaces | jq '.[] | select(.is_focused == true)' | jq .idx)
+
+# if VISIBLE is false or CURRENT_WORKSPACE_ID is not equal to WORKSPACE_ID, show the terminal
+if [[ $VISIBLE == "false" || $CURRENT_WORKSPACE_ID -ne $WORKSPACE_ID ]]; then
+  # show the terminal
+  niri msg action set-window-height $HEIGHT --id $ID
+  niri msg action set-window-width $WIDTH --id $ID
+  niri msg action move-floating-window --x $DEFAULT_GAP --y $DEFAULT_GAP --id $ID
+
+  niri msg action move-window-to-workspace --window-id $ID $CURRENT_WORKSPACE_ID
+  niri msg action focus-window --id $ID
+  # update the terminal state file
+  TERMINAL_STATE=$(echo $TERMINAL_STATE | jq '.visible = true')
+  echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
+  reload_state_file
+
+else
+  # hide the terminal
+  niri msg action move-window-to-workspace --window-id $ID 10 --focus false
+  niri msg action set-window-height 0 --id $ID
+  niri msg action set-window-width 0 --id $ID
+  niri msg action move-floating-window --x 0 --y 0 --id $ID
+
+  # update the terminal state file
+  TERMINAL_STATE=$(echo $TERMINAL_STATE | jq '.visible = false')
+  echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
+  reload_state_file
+fi
+
+# update the workspace id in the state file
+TERMINAL_STATE=$(echo $TERMINAL_STATE | jq --argjson w "$CURRENT_WORKSPACE_ID" '.workspace_id = $w')
+echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
+reload_state_file
+
+
+# vim: set ft=bash ts=2 sts=2 sw=2 et:

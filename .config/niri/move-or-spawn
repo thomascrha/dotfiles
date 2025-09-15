@@ -1,0 +1,20 @@
+#!/bin/bash
+APPLICATION="$1"
+APPLICATION_OPTIONS="$2"
+
+CURRENT_WORKSPACE_ID=$(niri msg -j workspaces | jq '.[] | select(.is_focused == true)' | jq .idx)
+# get the application id if it's running make it a wildcard search
+APP_ID=$(niri msg -j windows | jq --arg app_id "$APPLICATION" '.[] | select(.app_id | test($app_id))' | jq .id)
+
+if [[ -n "$APP_ID" ]]; then
+  # if the application is already running, move it to the current workspace and focus it
+  niri msg action move-window-to-workspace --window-id $APP_ID $CURRENT_WORKSPACE_ID
+  niri msg action focus-window --id $APP_ID
+else
+  # if the application is not running, spawn it
+  CMD="$APPLICATION $APPLICATION_OPTIONS"
+  echo "Spawning: $CMD"
+  niri msg action spawn-sh -- "$CMD"
+fi
+
+# vim: set ft=bash ts=2 sts=2 sw=2 et:
