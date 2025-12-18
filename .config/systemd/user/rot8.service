@@ -1,6 +1,8 @@
 [Unit]
-Description=rot8 rotation using accelarometer
+PartOf=graphical-session.target
 After=graphical-session.target
+Requisite=graphical-session.target
+Description=rot8 rotation using accelarometer
 
 [Service]
 StandardOutput=journal

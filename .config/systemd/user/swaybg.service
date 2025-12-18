@@ -2,6 +2,7 @@
 PartOf=graphical-session.target
 After=graphical-session.target
 Requisite=graphical-session.target
+Description=Set sway background image
 
 [Service]
 ExecStart=/usr/bin/swaybg -m fill -i "%h/.config/sway/images/wallpaper.png"

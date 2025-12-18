@@ -3,6 +3,8 @@ acpi_call
 age
 aichat
 aisleriot
+alacritty
+aria2
 autoconf-archive
 autotiling
 base
@@ -18,7 +20,11 @@ brightnessctl
 btop
 btrfs-progs
 calibre
+cava
 ccache
+chromium
+chrono-date
+cliphist
 clipman
 cryptsetup
 cups
@@ -27,6 +33,7 @@ deluge-gtk
 discord
 distrobox
 dmidecode
+dms-shell-bin
 dnsmasq
 dolphin
 dolphin-emu
@@ -51,6 +58,7 @@ git
 git-delta
 gnome-multi-writer
 go
+gobject-introspection
 gparted
 greetd-tuigreet
 gthumb
@@ -81,7 +89,9 @@ lisgd-git
 luarocks
 lxqt-policykit
 mako
-mandoc
+man-db
+man-pages
+matugen
 mediawriter
 mgba-qt
 mise
@@ -96,6 +106,7 @@ network-manager-applet
 networkmanager
 niri
 nirius
+nodejs
 noto-fonts-emoji
 ntfs-3g
 nwg-launchers
@@ -111,6 +122,7 @@ pipewire-pulse
 pkgfile
 playerctl
 podman
+polkit-kde-agent
 popsicle
 power-profiles-daemon
 pre-commit
@@ -121,6 +133,7 @@ python
 python-black
 python-dbus-next
 python-pip
+python-poetry
 python-psutil
 python-pyqt5
 python-rich
@@ -149,13 +162,13 @@ starship
 stow
 stremio
 sudo
+swappy
 sway
 sway-audio-idle-inhibit-git
 sway-contrib
 swaybg
 swayidle
 swaylock-effects
-swaysettings-git
 swtpm
 swww
 syncthing
@@ -191,6 +204,7 @@ virt-manager
 virt-viewer
 walker-bin
 waybar
+wayland-protocols
 waylock
 wezterm-git
 wf-recorder
@@ -202,11 +216,13 @@ wlr-randr
 wlsunset
 wofi
 xdg-desktop-portal
+xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
 xdg-user-dirs
 xorg-xhost
 xorg-xwayland
+xwayland-satellite
 yazi
 zathura
 zathura-pdf-mupdf

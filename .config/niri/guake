@@ -4,7 +4,7 @@ DEFAULT_TERMINAL_STATE='{"visible": false, "id": null, "workspace_id": null}'
 DEFAULT_TERMINAL_STATE_FILE="/tmp/guake_terminal.json"
 DEFAULT_HEIGHT_PERCENTAGE=70
 DEFAULT_WIDTH_PERCENTAGE=100
-DEFAULT_GAP=20
+DEFAULT_GAP=10
 
 # function to relad the state file
 reload_state_file() {
@@ -33,7 +33,7 @@ if [[ $RUNNING == "false" ]]; then
   reload_state_file
 
   niri msg action spawn-sh -- "WEZTERM_GUAKE=on /usr/bin/wezterm start --no-auto-connect --class dropdown-terminal --workspace guake"
-  sleep 0.4
+  sleep 1
 
   # load the terminal id
   terminal=$(niri msg -j windows | jq '.[] | select(.app_id == "dropdown-terminal")')
@@ -51,7 +51,7 @@ CURRENT_WORKSPACE_ID=$(niri msg -j workspaces | jq '.[] | select(.is_focused == 
 
 # if VISIBLE is false or CURRENT_WORKSPACE_ID is not equal to WORKSPACE_ID, show the terminal
 if [[ $VISIBLE == "false" || $CURRENT_WORKSPACE_ID -ne $WORKSPACE_ID ]]; then
-  # show the terminal
+  # # show the terminal
   niri msg action set-window-height $HEIGHT --id $ID
   niri msg action set-window-width $WIDTH --id $ID
   niri msg action move-floating-window --x $DEFAULT_GAP --y $DEFAULT_GAP --id $ID
@@ -61,25 +61,23 @@ if [[ $VISIBLE == "false" || $CURRENT_WORKSPACE_ID -ne $WORKSPACE_ID ]]; then
   # update the terminal state file
   TERMINAL_STATE=$(echo $TERMINAL_STATE | jq '.visible = true')
   echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
-  reload_state_file
 
+  # update the workspace id in the state file
+  TERMINAL_STATE=$(echo $TERMINAL_STATE | jq --argjson w "$CURRENT_WORKSPACE_ID" '.workspace_id = $w')
+  echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
 else
   # hide the terminal
-  niri msg action move-window-to-workspace --window-id $ID 10 --focus false
-  niri msg action set-window-height 0 --id $ID
-  niri msg action set-window-width 0 --id $ID
-  niri msg action move-floating-window --x 0 --y 0 --id $ID
+  niri msg action move-window-to-workspace --window-id $ID "scratchpad" --focus false
 
   # update the terminal state file
   TERMINAL_STATE=$(echo $TERMINAL_STATE | jq '.visible = false')
   echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
-  reload_state_file
+
+  # update the workspace id in the state file to the workspace the terminal is now on
+  terminal=$(niri msg -j windows | jq '.[] | select(.app_id == "dropdown-terminal")')
+  workspace_id=$(echo $terminal | jq .workspace_id)
+  TERMINAL_STATE=$(echo $TERMINAL_STATE | jq --argjson w "$workspace_id" '.workspace_id = $w')
+  echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
 fi
-
-# update the workspace id in the state file
-TERMINAL_STATE=$(echo $TERMINAL_STATE | jq --argjson w "$CURRENT_WORKSPACE_ID" '.workspace_id = $w')
-echo $TERMINAL_STATE > $DEFAULT_TERMINAL_STATE_FILE
-reload_state_file
-
 
 # vim: set ft=bash ts=2 sts=2 sw=2 et:

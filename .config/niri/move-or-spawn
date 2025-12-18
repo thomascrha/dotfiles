@@ -6,6 +6,9 @@ CURRENT_WORKSPACE_ID=$(niri msg -j workspaces | jq '.[] | select(.is_focused == 
 # get the application id if it's running make it a wildcard search
 APP_ID=$(niri msg -j windows | jq --arg app_id "$APPLICATION" '.[] | select(.app_id | test($app_id))' | jq .id)
 
+# split APP_ID by new line and get the first one
+APP_ID=$(echo "$APP_ID" | head -n 1)
+
 if [[ -n "$APP_ID" ]]; then
   # if the application is already running, move it to the current workspace and focus it
   niri msg action move-window-to-workspace --window-id $APP_ID $CURRENT_WORKSPACE_ID

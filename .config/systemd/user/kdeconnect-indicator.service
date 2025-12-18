@@ -1,6 +1,8 @@
 [Unit]
-Description=kdeconnect-indicator docklet
+PartOf=graphical-session.target
 After=graphical-session.target
+Requisite=graphical-session.target
+Description=kdeconnect-indicator docklet
 
 [Service]
 StandardOutput=journal

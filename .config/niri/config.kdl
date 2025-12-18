@@ -6,6 +6,9 @@
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
+
+workspace "1"
+workspace "scratchpad"
 input {
     keyboard {
         xkb {
@@ -127,7 +130,7 @@ output "Dell Inc. DELL U3023E 40G15H3" {
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 16
+    gaps 8
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -145,6 +148,7 @@ layout {
         proportion 0.33333
         proportion 0.5
         proportion 0.66667
+        proportion 0.8
 
         // Fixed sets the width in logical pixels exactly.
         // fixed 1920
@@ -175,7 +179,7 @@ layout {
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 4
+        width 2
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -198,7 +202,7 @@ layout {
         // You can use any CSS linear-gradient tool on the web to set these up.
         // Changing the color space is also supported, check the wiki for more info.
         //
-        // active-gradient from="#80c8ff" to="#c7ff7f" angle=45
+        active-gradient from="#80c8ff" to="#c7ff7f" angle=45
 
         // You can also color the gradient relative to the entire view
         // of the workspace, rather than relative to just the window itself.
@@ -247,7 +251,7 @@ layout {
         // window. These will also remove client-side shadows if the window
         // draws any.
         //
-        // draw-behind-window true
+        draw-behind-window true
 
         // You can change how shadows look. The values below are in logical
         // pixels and match the CSS box-shadow properties.
@@ -285,6 +289,10 @@ layout {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "waybar"
+// for GTK3 apps
+spawn-at-startup "gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'"
+// for GTK4 apps
+spawn-at-startup "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -333,8 +341,7 @@ animations {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
-// Work around WezTerm's initial configure bug
-// by setting an empty default-column-width.
+// Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This regular expression is intentionally made as specific as possible,
     // since this is the default config, and we want no false positives.
@@ -343,10 +350,6 @@ window-rule {
     // default-column-width {
     //     proportion 0.5
     // }
-}
-
-// Open the Firefox picture-in-picture player as floating by default.
-window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
@@ -395,18 +398,31 @@ binds {
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
-
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return hotkey-overlay-title="Open a Terminal: wezterm" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn wezterm"; }
     Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "rofi -modi drun -show drun -show-icons"; }
-    Mod+b hotkey-overlay-title="Run a Browser: firefox" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn firefox"; }
-    Mod+e hotkey-overlay-title="Run a File Manager: email" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn thunderbird"; }
-    Mod+g hotkey-overlay-title="Run a File Manager: thunar" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn thunar"; }
-    Mod+n hotkey-overlay-title="Run Notes App: obsidian" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn obsidian '--enable-features=UseOzonePlatform --ozone-platform=wayland'"; }
-    Mod+t hotkey-overlay-title="Run Music Teams: teams-for-linux" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn teams-for-linux"; }
     Ctrl+Grave hotkey-overlay-title="Run Guake" { spawn-sh "/home/tcrha/.config/niri/guake"; }
 
-    // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+Return hotkey-overlay-title="Move/Open a Terminal: wezterm" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn wezterm"; }
+    Mod+Shift+Return hotkey-overlay-title="Open a Terminal: wezterm" { spawn "wezterm"; }
+
+    Mod+B hotkey-overlay-title="Move/Open a Browser: firefox" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn firefox"; }
+    Mod+Shift+B hotkey-overlay-title="Open a Browser: firefox" { spawn "firefox"; }
+
+    Mod+E hotkey-overlay-title="Move/Open a Email Client: thunderbird" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn thunderbird"; }
+    Ctrl+Shift+E hotkey-overlay-title="Open a Email Client; thunderbird" { spawn-sh "thunderbird"; }
+
+    Mod+G hotkey-overlay-title="Move/Open a File Manager: nautilus" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn nautilus"; }
+    Mod+Shift+G hotkey-overlay-title="Open a File Manager: nautilus" { spawn "nautilus"; }
+
+    Mod+N hotkey-overlay-title="Move/Open Notes App: obsidian" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn obsidian '--enable-features=UseOzonePlatform --ozone-platform=wayland'"; }
+    Mod+Shift+N hotkey-overlay-title="Open Notes App: obsidian" { spawn-sh "obsidian '--enable-features=UseOzonePlatform --ozone-platform=wayland'"; }
+
+    Mod+T hotkey-overlay-title="Move/Open Microsoft Teams: teams-for-linux" { spawn-sh "/home/tcrha/.config/niri/move-or-spawn teams-for-linux"; }
+    Mod+Shift+T hotkey-overlay-title="Open Microsoft Teams: teams-for-linux" { spawn "teams-for-linux"; }
+
+    // bindsym $mod+c exec "clipman pick -t rofi --err-on-no-selection && wtype -M ctrl -M shift v"
+    Mod+Shift+C hotkey-overlay-title="Paste from Clipboard: clipman" { spawn-sh "clipman pick -t rofi --err-on-no-selection && wtype -M ctrl -M shift v"; }
+
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -417,10 +433,23 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > /run/user/1000/pipelam.fifo"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > /run/user/1000/pipelam.fifo) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > /run/user/1000/pipelam.fifo"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    // bindsym $mod+Shift+s exec grimshot --notify copy anything
+    // bindsym $mod+Ctrl+Shift+s exec grimshot --notify save anything
+    // bindsym $mod+Ctrl+s exec grimshot save anything - | swappy -f -
+    //
+    // bindsym $mod+Shift+v exec wf-recorder -g "$(slurp)" -f ~/Videos/screencast-$(date +"%Y-%m-%d--%H-%M-%S.mp4")
+    // bindsym $mod+Ctrl+Shift+v exec killall -s SIGINT wf-recorder
+    //
+    // bindsym $mod+Ctrl+Space exec playerctl play-pause
+
+    Mod+Ctrl+V hotkey-overlay-title="Start/Stop Screen Recording: wf-recorder" { spawn-sh "pgrep -x wf-recorder > /dev/null && killall -s SIGINT wf-recorder || wf-recorder -g \"$(slurp)\" -f ~/Videos/screencast-$(date +\"%Y-%m-%d--%H-%M-%S\").mp4"; }
+
+    Mod+Ctrl+Space hotkey-overlay-title="Play/Pause Media: playerctl" { spawn-sh "playerctl play-pause"; }
 
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
+
     XF86MonBrightnessUp   allow-when-locked=true { spawn-sh "brightnessctl set +5% | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > /run/user/1000/pipelam.fifo"; } 
     XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl set 5%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > /run/user/1000/pipelam.fifo"; }
 
@@ -572,12 +601,7 @@ binds {
 
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
-    // If the window is already in a column, they will expel it out.
-    Mod+BracketLeft  { consume-or-expel-window-left; }
-    Mod+BracketRight { consume-or-expel-window-right; }
-
-    // Consume one window from the right to the bottom of the focused column.
-    Mod+Comma  { consume-window-into-column; }
+    // If the window is already in a column, they will expel it oMod+Comma  { consume-window-into-column; }
     // Expel the bottom window from the focused column to the right.
     Mod+Period { expel-window-from-column; }
 

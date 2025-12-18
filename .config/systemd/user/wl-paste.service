@@ -1,6 +1,8 @@
 [Unit]
-Description=Watch clipboard and store in clipman
+PartOf=graphical-session.target
 After=graphical-session.target
+Requisite=graphical-session.target
+Description=Watch clipboard and store in clipman
 
 [Service]
 Restart=on-failure

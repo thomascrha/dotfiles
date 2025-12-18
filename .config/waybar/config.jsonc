@@ -147,32 +147,11 @@
     "niri/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
+        "ignore-workspaces": ["scratchpad", "3"],
+        // "current-only": true,
         "format-icons": {
-            "10": "1",
-            "11": "1",
-            "20": "2",
-            "21": "2",
-            "30": "3",
-            "31": "3",
-            "40": "4",
-            "41": "4",
-            "50": "5",
-            "51": "5",
-            "60": "6",
-            "61": "6",
-            "70": "7",
-            "71": "7",
-            "80": "8",
-            "81": "8",
-            "90": "9",
-            "91": "9",
-            "100": "0",
-            "101": "0",
-            "urgent": "",
-            "active": "",
-            // "default": "0"
-        },
-        "sort-by-number": true
+            "scratchpad": ""
+        }
     },
     "backlight": {
         "device": "intel_backlight",

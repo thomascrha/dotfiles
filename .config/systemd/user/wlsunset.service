@@ -1,4 +1,7 @@
 [Unit]
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
 Description=wlsunset dim screen at sunset
 After=graphical-session.target
 
