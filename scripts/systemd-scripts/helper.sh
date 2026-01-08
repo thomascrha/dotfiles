@@ -9,7 +9,8 @@ check_services() {
         is_active=$(systemctl --user is-active "$service_name")
         is_enabled=$(systemctl --user is-enabled "$service_name")
         is_failed=$(systemctl --user is-failed "$service_name")
-        printf "%-30s Active=%-10s Enabled=%-10s Failed=%-10s\n" "$service_name:" "$is_active" "$is_enabled" "$is_failed"
+        wants_niri=$(systemctl --user list-dependencies niri.service | grep -c "$service_name")
+        printf "%-30s Active: %-10s Enabled: %-10s Failed: %-10s Wants Niri: %-10s\n" "$service_name" "$is_active" "$is_enabled" "$is_failed" "$wants_niri"
     done
 }
 
@@ -19,7 +20,6 @@ disable_services() {
         service_name=$(basename "$service" .service)
         echo "Disabling $service_name..."
         systemctl --user disable --now "$service_name"
-        status=$(systemctl --user is-active "$service_name")
     done
 }
 
@@ -28,8 +28,9 @@ enable_services() {
     for service in $(find $SYSTEMD_UNITS_PATH -maxdepth 1 -name '*.service'); do
         service_name=$(basename "$service" .service)
         echo "Enabling $service_name..."
+        # check if service file exists in systemd user directory
+        systemctl --user add-wants niri.service "$service_name"
         systemctl --user enable --now "$service_name"
-        status=$(systemctl --user is-active "$service_name")
     done
 }
 

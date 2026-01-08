@@ -7,6 +7,7 @@ alacritty
 aria2
 autoconf-archive
 autotiling
+bambustudio-bin
 base
 base-devel
 bat
@@ -28,7 +29,6 @@ cliphist
 clipman
 cryptsetup
 cups
-deluge
 deluge-gtk
 discord
 distrobox
@@ -50,12 +50,14 @@ file-roller
 firefox
 flatpak
 foot
+freecad
 fuzzel
 fwupd
 fzf
 gimp
 git
 git-delta
+gnome-disk-utility
 gnome-multi-writer
 go
 gobject-introspection
@@ -75,6 +77,7 @@ imagemagick
 imv
 inetutils
 intel-ucode
+jq
 kdeconnect
 keychain
 kitty
@@ -110,6 +113,7 @@ nodejs
 noto-fonts-emoji
 ntfs-3g
 nwg-launchers
+nwg-look
 obsidian
 openssh
 otf-font-awesome
@@ -141,6 +145,7 @@ python-tenacity
 python-validity
 qemu-full
 qemu-img
+qt5-wayland
 qt6-tools
 qwbfs
 refind
@@ -160,12 +165,9 @@ squeekboard
 sshfs
 starship
 stow
-stremio
 sudo
 swappy
-sway
 sway-audio-idle-inhibit-git
-sway-contrib
 swaybg
 swayidle
 swaylock-effects
@@ -189,6 +191,7 @@ thunar-volman
 thunderbird
 thunderbird-dark-reader
 tmux
+transmission-gtk
 tree
 ttf-roboto-mono-nerd
 ttf-ubuntu-font-family
@@ -220,6 +223,7 @@ xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
 xdg-user-dirs
+xorg-xauth
 xorg-xhost
 xorg-xwayland
 xwayland-satellite
