@@ -37,7 +37,7 @@ bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
 bindkey "$terminfo[kcud1]" down-line-or-beginning-search
 
 # SSH Agent
-eval $(keychain --eval --quiet id_ed25519)
+# eval $(keychain --eval --quiet id_ed25519)
 # ${HOME}/scripts/ssh-agent-setup.sh
 
 bindkey -s '^y' 'yazi\n'

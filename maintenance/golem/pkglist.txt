@@ -1,5 +1,6 @@
 7zip
 acpi_call
+adw-gtk-theme
 age
 aichat
 aisleriot
@@ -29,11 +30,13 @@ cliphist
 clipman
 cryptsetup
 cups
+cups-pk-helper
+ddcutil
 deluge-gtk
 discord
 distrobox
 dmidecode
-dms-shell-bin
+dms-shell-bin-debug
 dnsmasq
 dolphin
 dolphin-emu
@@ -80,18 +83,20 @@ intel-ucode
 jq
 kdeconnect
 keychain
+kimageformats
 kitty
 lazygit
 less
 libosinfo
 libreoffice-fresh
+libva-intel-driver
+libva-utils
 libvirt
 linux
 linux-firmware
 lisgd-git
 luarocks
 lxqt-policykit
-mako
 man-db
 man-pages
 matugen
@@ -109,6 +114,7 @@ network-manager-applet
 networkmanager
 niri
 nirius
+noctalia-shell-git
 nodejs
 noto-fonts-emoji
 ntfs-3g
@@ -140,6 +146,7 @@ python-pip
 python-poetry
 python-psutil
 python-pyqt5
+python-pywalfox
 python-rich
 python-tenacity
 python-validity
@@ -147,6 +154,7 @@ qemu-full
 qemu-img
 qt5-wayland
 qt6-tools
+qt6ct
 qwbfs
 refind
 ripgrep-all
@@ -181,7 +189,6 @@ teams-for-linux-wayland-hook
 teamspeak3
 teamspeak3-server
 thinkfan
-thinkfan-ui
 thunar
 thunar-archive-plugin
 thunar-media-tags-plugin
@@ -205,8 +212,8 @@ vim
 virt-install
 virt-manager
 virt-viewer
+visual-studio-code-bin
 walker-bin
-waybar
 wayland-protocols
 waylock
 wezterm-git
@@ -221,7 +228,6 @@ wofi
 xdg-desktop-portal
 xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk
-xdg-desktop-portal-wlr
 xdg-user-dirs
 xorg-xauth
 xorg-xhost
