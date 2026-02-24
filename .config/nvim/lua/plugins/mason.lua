@@ -29,7 +29,7 @@ return {
         'docker_compose_language_service', -- Docker Compose language server
         'dockerls', -- Docker language server
         'jsonls', -- JSON language server
-        'terraformls', -- Terraform language server
+        -- 'terraformls', -- Terraform language server
         'yamlls', -- YAML language server
         'clangd', -- C/C++ language server
         'pyright', -- Python language server

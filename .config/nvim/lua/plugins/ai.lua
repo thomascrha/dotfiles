@@ -166,7 +166,7 @@ return {
       debug = false,
       providers = {
         copilot = {
-          model = "claude-3.7-sonnet-thought",
+          model = "claude-sonnet-4",
           -- model = "gemini-2.5-pro",
           -- disable_tools = true,
           -- extra_request_body = {
