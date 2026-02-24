@@ -12,17 +12,17 @@ return {
       'nvim-neotest/nvim-nio',
       'jay-babu/mason-nvim-dap.nvim',
       'mfussenegger/nvim-dap-python',
-      'theHamsta/nvim-dap-virtual-text', -- Added virtual text support
+      'theHamsta/nvim-dap-virtual-text',   -- Added virtual text support
       'nvim-telescope/telescope-dap.nvim', -- Added Telescope integration
     },
     keys = function()
       local dap, dapui = require('dap'), require('dapui')
 
       local keymaps = {
-        { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
-        { '<F1>', dap.step_into, desc = 'Debug: Step Into' },
-        { '<F2>', dap.step_over, desc = 'Debug: Step Over' },
-        { '<F3>', dap.step_out, desc = 'Debug: Step Out' },
+        { '<F5>',      dap.continue,          desc = 'Debug: Start/Continue' },
+        { '<F1>',      dap.step_into,         desc = 'Debug: Step Into' },
+        { '<F2>',      dap.step_over,         desc = 'Debug: Step Over' },
+        { '<F3>',      dap.step_out,          desc = 'Debug: Step Out' },
         { '<leader>b', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
         {
           '<leader>B',
@@ -31,7 +31,7 @@ return {
           end,
           desc = 'Debug: Set Conditional Breakpoint'
         },
-        { '<F7>', dapui.toggle, desc = 'Debug: Toggle UI' },
+        { '<F7>', dapui.toggle,  desc = 'Debug: Toggle UI' },
         { '<F8>', dap.terminate, desc = 'Debug: Terminate Session' },
         {
           '<leader>dc',
@@ -52,10 +52,10 @@ return {
       require('mason-nvim-dap').setup({
         automatic_installation = true,
         ensure_installed = {
-          'debugpy',           -- Python
-          'codelldb',          -- Rust, C++
-          'js-debug-adapter',  -- JavaScript, TypeScript
-          'node-debug2',       -- Node.js
+          'debugpy',          -- Python
+          'codelldb',         -- Rust, C++
+          'js-debug-adapter', -- JavaScript, TypeScript
+          'node-debug2',      -- Node.js
         },
         handlers = {
           function(config)
@@ -91,8 +91,8 @@ return {
         layouts = {
           {
             elements = {
-              { id = 'scopes', size = 0.4 },
-              { id = 'stacks', size = 0.3 },
+              { id = 'scopes',  size = 0.4 },
+              { id = 'stacks',  size = 0.3 },
               { id = 'watches', size = 0.3 },
             },
             size = 0.3,
@@ -100,7 +100,7 @@ return {
           },
           {
             elements = {
-              { id = 'repl', size = 0.5 },
+              { id = 'repl',    size = 0.5 },
               { id = 'console', size = 0.5 },
             },
             size = 0.25,
@@ -137,7 +137,8 @@ return {
 
       -- Configure DAP signs
       vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
-      vim.fn.sign_define('DapBreakpointCondition', { text = '◆', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
+      vim.fn.sign_define('DapBreakpointCondition',
+        { text = '◆', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
       vim.fn.sign_define('DapLogPoint', { text = '◆', texthl = 'DapLogPoint', linehl = '', numhl = '' })
       vim.fn.sign_define('DapStopped', { text = '→', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
@@ -159,10 +160,10 @@ return {
 
       -- Load launch.json if it exists
       require('dap.ext.vscode').load_launchjs(nil, {
-        python = {'py'},
-        node = {'js', 'ts'},
-        rust = {'rs'},
-        cpp = {'cpp', 'c'},
+        python = { 'py' },
+        node = { 'js', 'ts' },
+        rust = { 'rs' },
+        cpp = { 'cpp', 'c' },
       })
     end,
   }

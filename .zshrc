@@ -225,6 +225,11 @@ fi
 
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 
+# export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
