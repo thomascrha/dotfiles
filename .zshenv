@@ -17,7 +17,7 @@ MANWIDTH=999
 XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/flatpak/exports/share/
 XDG_DATA_HOME=$HOME/.local/share
 
-source $HOME/.zshenv.secrets
+# source $HOME/.zshenv.secrets
 
 if [[ -f $HOME/.cargo/env ]]; then
     . "$HOME/.cargo/env"
