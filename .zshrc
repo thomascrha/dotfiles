@@ -36,8 +36,6 @@ zle -N down-line-or-beginning-search
 bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
 bindkey "$terminfo[kcud1]" down-line-or-beginning-search
 
-# SSH Agent
-# eval $(keychain --eval --quiet id_ed25519)
 # ${HOME}/scripts/ssh-agent-setup.sh
 
 bindkey -s '^y' 'yazi\n'
@@ -216,12 +214,11 @@ source $HOME/wezterm.zsh
 #########################################################################################
 if [[ $(grep microsoft /proc/version) ]]; then
     export BROWSER=wslview
+    # SSH Agent
+    eval $(keychain --eval --quiet id_ed25519)
 fi
 
-if [[ -f "$HOME/.fzf.zsh" ]]; then
-    source "$HOME/.fzf.zsh"
-    source <(fzf --zsh)
-fi
+source <(fzf --zsh)
 
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 
