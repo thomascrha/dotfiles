@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -23,6 +22,7 @@ type Project struct {
 
 var projects = []Project{
 	{Path: "/home/tcrha/dotfiles", Type: Single},
+	{Path: "/home/tcrha/Projects", Type: Nested},
 	{Path: "/home/tcrha/qbe", Type: Nested},
 }
 
@@ -47,7 +47,6 @@ func main() {
 		} else {
 			entries, err := os.ReadDir(project.Path)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error reading directory %s: %v\n", project.Path, err)
 				continue
 			}
 			for _, entry := range entries {
@@ -64,7 +63,6 @@ func main() {
 	}
 
 	if len(folders) == 0 {
-		fmt.Fprintln(os.Stderr, "No folders found")
 		os.Exit(1)
 	}
 
@@ -92,7 +90,6 @@ func main() {
 
 	selected, err := runFzf(names)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error running fzf: %v\n", err)
 		os.Exit(1)
 	}
 
