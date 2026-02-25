@@ -39,6 +39,7 @@ bindkey "$terminfo[kcud1]" down-line-or-beginning-search
 # ${HOME}/scripts/ssh-agent-setup.sh
 
 bindkey -s '^y' 'yazi\n'
+bindkey -s '^f' 'tmux-sessionizer\n'
 
 ###########################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
@@ -230,3 +231,5 @@ export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
