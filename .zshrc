@@ -44,7 +44,7 @@ bindkey -s '^f' 'tmux-sessionizer\n'
 ###########################################
 #Pokemon########https://github.com/aflaag/pokemon-icat###################################
 #########################################################################################
-pokemon-icat -g 1
+# pokemon-icat -g 1
 
 #########################################################################################
 #POWERLEVEL10K###########################################################################
@@ -224,12 +224,15 @@ source <(fzf --zsh)
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 
 # export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-export NODE_TLS_REJECT_UNAUTHORIZED=0
-export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+# export NODE_TLS_REJECT_UNAUTHORIZED=0
+# export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
+
+# fnm
+FNM_PATH="/home/tcrha/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi

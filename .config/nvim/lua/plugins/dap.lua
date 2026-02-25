@@ -157,14 +157,6 @@ return {
       end
 
       require('dap-python').setup(get_python_path())
-
-      -- Load launch.json if it exists
-      require('dap.ext.vscode').load_launchjs(nil, {
-        python = { 'py' },
-        node = { 'js', 'ts' },
-        rust = { 'rs' },
-        cpp = { 'cpp', 'c' },
-      })
     end,
   }
 }
