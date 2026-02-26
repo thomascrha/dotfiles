@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
-	"fmt"
 )
 
 type ProjectType string

@@ -13,6 +13,8 @@ return {
       "pyright",
       "lua_ls",
       "gopls",
+      "rust_analyzer",
+      "ocaml_lsp",
     })
   end,
 }
