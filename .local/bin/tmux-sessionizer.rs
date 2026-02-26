@@ -194,7 +194,7 @@ fn main() {
     if !in_tmux && !tmux_running {
         // Start new tmux session and attach with nvim
         Command::new("tmux")
-            .args(["new-session", "-s", &selected_name, "-c", selected_path, "nvim"])
+            .args(["new-session", "-s", &selected_name, "-c", selected_path])
             .status()
             .ok();
         std::process::exit(0);
@@ -204,7 +204,7 @@ fn main() {
     if !tmux_session_exists(&selected_name) {
         // Create detached session with nvim
         Command::new("tmux")
-            .args(["new-session", "-ds", &selected_name, "-c", selected_path, "nvim"])
+            .args(["new-session", "-ds", &selected_name, "-c", selected_path])
             .status()
             .ok();
     }

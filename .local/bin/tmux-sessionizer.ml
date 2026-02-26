@@ -56,29 +56,16 @@ let tmux_session_exists name =
 
 let run_fzf items =
   try
-    let (fd_in, fd_out) = Unix.pipe () in
-    let pid = Unix.create_process "fzf"
-      [| "fzf"; "--layout=reverse"; "--tmux"; "center"; "--ansi" |]
-      fd_in Unix.stdout Unix.stderr in
-    Unix.close fd_in;
-    let oc = Unix.out_channel_of_descr fd_out in
-    List.iter (fun item -> fprintf oc "%s\n" item) items;
-    close_out oc;
-    let (_, status) = Unix.waitpid [] pid in
-    match status with
-    | WEXITED 0 ->
-      let ic = Unix.open_process_in "fzf --layout=reverse --tmux center --ansi" in
-      let temp_file = "/tmp/fzf_input_ocaml" in
-      let temp_oc = open_out temp_file in
-      List.iter (fun item -> fprintf temp_oc "%s\n" item) items;
-      close_out temp_oc;
-      let cmd = sprintf "cat %s | fzf --layout=reverse --tmux center --ansi" temp_file in
-      let lines = run_command cmd in
-      Unix.unlink temp_file;
-      (match lines with
-       | [] -> None
-       | line :: _ -> Some (String.trim line))
-    | _ -> None
+    let temp_file = "/tmp/fzf_input_ocaml" in
+    let temp_oc = open_out temp_file in
+    List.iter (fun item -> fprintf temp_oc "%s\n" item) items;
+    close_out temp_oc;
+    let cmd = sprintf "cat %s | fzf --layout=reverse --tmux center --ansi" temp_file in
+    let lines = run_command cmd in
+    Unix.unlink temp_file;
+    (match lines with
+     | [] -> None
+     | line :: _ -> Some (String.trim line))
   with _ -> None
 
 let basename path =
@@ -173,16 +160,14 @@ let () =
     let tmux_running = is_tmux_running () in
 
     if not in_tmux && not tmux_running then begin
-      (* Start new tmux session and attach with nvim *)
-      let cmd = sprintf "tmux new-session -s %s -c '%s' nvim" selected_name folder_info.path in
+      let cmd = sprintf "tmux new-session -s %s -c '%s'" selected_name folder_info.path in
       ignore (Unix.system cmd);
       exit 0
     end;
 
     (* Check if session exists *)
     if not (tmux_session_exists selected_name) then begin
-      (* Create detached session with nvim *)
-      let cmd = sprintf "tmux new-session -ds %s -c '%s' nvim" selected_name folder_info.path in
+      let cmd = sprintf "tmux new-session -ds %s -c '%s'" selected_name folder_info.path in
       ignore (Unix.system cmd)
     end;
 
