@@ -280,7 +280,7 @@ bindsym $mod+Ctrl+Space exec playerctl play-pause
 #########################################################################################
 ### screen, and sends it to the scratchpad. Then a keybinding is set to show the scratchpad.
 set $ddterm-id dropdown-terminal
-set $ddterm WEZTERM_GUAKE=on $terminal start --class $ddterm-id
+# set $ddterm WEZTERM_GUAKE=on $terminal start --class $ddterm-id
 set $ddterm-resize resize set 100ppt 70ppt, move position 0 0
 
 # resize/move new dropdown terminal windows

@@ -17,7 +17,9 @@ environment {
     QT_QPA_PLATFORMTHEME "qt6ct"
 }
 switch-events {
-    lid-close { spawn "qs -c noctalia-shell ipc call sessionMenu lockAndSuspend"; }
+    lid-close { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "lockAndSuspend"; }
+    // lid-close { spawn "notify-send" "The laptop lid is closed!"; }
+    // lid-open { spawn "notify-send" "The laptop lid is open!"; }
 }
 input {
     keyboard {
