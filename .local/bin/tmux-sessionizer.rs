@@ -96,6 +96,8 @@ fn basename(path: &str) -> &str {
 }
 
 fn main() {
+    println!("tmux-sessionizer rust");
+
     let active_sessions = get_active_sessions();
 
     let mut folders: HashMap<String, FolderInfo> = HashMap::new();

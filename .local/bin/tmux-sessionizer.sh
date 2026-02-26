@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "tmux-sessionizer bash"
+
 declare -A projects
 
 projects["$HOME/qbe"]=nested

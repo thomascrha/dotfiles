@@ -4,6 +4,9 @@ build-go:
 build-rust:
 	rustc -o ./tmux-sessionizer-rust.bin ./tmux-sessionizer.rs
 
+build-ocaml:
+	ocamlopt -o ./tmux-sessionizer-ocaml.bin unix.cmxa ./tmux-sessionizer.ml
+
 bash:
 	rm -f ./tmux-sessionizer
 	ln -s ./tmux-sessionizer.sh ./tmux-sessionizer
@@ -19,3 +22,7 @@ python:
 rust: build-rust
 	rm -f ./tmux-sessionizer
 	ln -s ./tmux-sessionizer-rust.bin ./tmux-sessionizer
+
+ocaml: build-ocaml
+	rm -f ./tmux-sessionizer
+	ln -s ./tmux-sessionizer-ocaml.bin ./tmux-sessionizer

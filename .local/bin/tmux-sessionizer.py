@@ -80,6 +80,7 @@ def run_fzf(items: list[str]) -> str | None:
 
 
 if __name__ == "__main__":
+    print("tmux-sessionizer python")
     active_sessions = get_active_sessions()
 
     # Build folders map

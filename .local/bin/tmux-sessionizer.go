@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"fmt"
 )
 
 type ProjectType string
@@ -32,6 +33,7 @@ type FolderInfo struct {
 }
 
 func main() {
+	fmt.Println("tmux-sessionizer go")
 	activeSessions := getActiveTmuxSessions()
 
 	folders := make(map[string]FolderInfo)
