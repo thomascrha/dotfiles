@@ -238,3 +238,6 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 . "$HOME/.cargo/env"
+
+# opencode
+export PATH=/home/tcrha/.opencode/bin:$PATH

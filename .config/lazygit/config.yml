@@ -2,7 +2,7 @@ customCommands:
   - key: <c-a>
     description: Pick AI commit
     command: |
-      aichat "Please suggest 10 commit messages, given the following diff:
+      opencode run "Please suggest 10 commit messages, given the following diff:
 
         \`\`\`diff
         $(git diff --cached)
