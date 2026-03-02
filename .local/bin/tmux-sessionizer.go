@@ -34,7 +34,19 @@ type FolderInfo struct {
 
 func main() {
 	fmt.Println("tmux-sessionizer go")
+
+	// Get list of active tmux sessions
 	activeSessions := getActiveTmuxSessions()
+
+	// Get current session name to exclude it from the list
+	currentSession := ""
+	if os.Getenv("TMUX") != "" {
+		cmd := exec.Command("tmux", "display-message", "-p", "#{session_name}")
+		output, err := cmd.Output()
+		if err == nil {
+			currentSession = strings.TrimSpace(string(output))
+		}
+	}
 
 	folders := make(map[string]FolderInfo)
 
@@ -42,9 +54,12 @@ func main() {
 		if project.Type == Single {
 			name := filepath.Base(project.Path)
 			sessionName := strings.ReplaceAll(name, ".", "_")
-			folders[name] = FolderInfo{
-				Path:   project.Path,
-				IsOpen: activeSessions[sessionName],
+			// Skip if this is the current session
+			if sessionName != currentSession {
+				folders[name] = FolderInfo{
+					Path:   project.Path,
+					IsOpen: activeSessions[sessionName],
+				}
 			}
 		} else {
 			entries, err := os.ReadDir(project.Path)
@@ -55,14 +70,18 @@ func main() {
 				if entry.IsDir() {
 					fullPath := filepath.Join(project.Path, entry.Name())
 					sessionName := strings.ReplaceAll(entry.Name(), ".", "_")
-					folders[entry.Name()] = FolderInfo{
-						Path:   fullPath,
-						IsOpen: activeSessions[sessionName],
+					// Skip if this is the current session
+					if sessionName != currentSession {
+						folders[entry.Name()] = FolderInfo{
+							Path:   fullPath,
+							IsOpen: activeSessions[sessionName],
+						}
 					}
 				}
 			}
 		}
 	}
+				
 
 	if len(folders) == 0 {
 		os.Exit(1)

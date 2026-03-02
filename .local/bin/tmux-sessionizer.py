@@ -83,6 +83,20 @@ if __name__ == "__main__":
     print("tmux-sessionizer python")
     active_sessions = get_active_sessions()
 
+    # Get current session name if we're in tmux
+    current_session = ""
+    if os.environ.get("TMUX"):
+        try:
+            result = subprocess.run(
+                ["tmux", "display-message", "-p", "#{session_name}"],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0:
+                current_session = result.stdout.strip()
+        except FileNotFoundError:
+            pass
+
     # Build folders map
     folders: dict[str, FolderInfo] = {}
 
@@ -90,19 +104,23 @@ if __name__ == "__main__":
         if project.type == ProjectType.SINGLE:
             name = os.path.basename(project.path)
             session_name = name.replace(".", "_")
-            folders[name] = FolderInfo(
-                path=project.path,
-                is_open=session_name in active_sessions,
-            )
+            # Skip if this is the current session
+            if session_name != current_session:
+                folders[name] = FolderInfo(
+                    path=project.path,
+                    is_open=session_name in active_sessions,
+                )
         else:
             try:
                 for entry in os.scandir(project.path):
                     if entry.is_dir():
                         session_name = entry.name.replace(".", "_")
-                        folders[entry.name] = FolderInfo(
-                            path=Path(entry.path),
-                            is_open=session_name in active_sessions,
-                        )
+                        # Skip if this is the current session
+                        if session_name != current_session:
+                            folders[entry.name] = FolderInfo(
+                                path=Path(entry.path),
+                                is_open=session_name in active_sessions,
+                            )
             except FileNotFoundError:
                 continue
 

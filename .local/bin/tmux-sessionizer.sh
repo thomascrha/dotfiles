@@ -2,6 +2,12 @@
 
 echo "tmux-sessionizer bash"
 
+# Get current session if we're in tmux
+current_session=""
+if [[ -n $TMUX ]]; then
+    current_session=$(tmux display-message -p "#{session_name}" 2>/dev/null)
+fi
+
 declare -A projects
 
 projects["$HOME/qbe"]=nested
@@ -37,6 +43,10 @@ closed_names=()
 
 for name in "${!folders[@]}"; do
     session_name=$(echo "$name" | tr . _)
+    # Skip current session
+    if [[ "$session_name" == "$current_session" ]]; then
+        continue
+    fi
     if [[ -n ${active_sessions[$session_name]} ]]; then
         open_names+=("$name")
     else
