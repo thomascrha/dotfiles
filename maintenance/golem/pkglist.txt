@@ -60,11 +60,13 @@ fzf
 gimp
 git
 git-delta
+gnome-calendar
 gnome-disk-utility
 gnome-multi-writer
 go
 gobject-introspection
 gparted
+gpu-screen-recorder
 greetd-tuigreet
 gthumb
 gtk4

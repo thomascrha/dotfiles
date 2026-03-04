@@ -1,6 +1,5 @@
 return {
   setup = function()
-    vim.keymap.set('n', '<leader>F', vim.lsp.buf.format, { desc = '[F]ormat current buffer' })
 
     -- Clear highlights on search when pressing <Esc> in normal mode
     vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
