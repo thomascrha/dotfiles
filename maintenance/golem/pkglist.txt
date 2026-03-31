@@ -8,6 +8,7 @@ alacritty
 aria2
 autoconf-archive
 autotiling
+awww
 bambustudio-bin
 base
 base-devel
@@ -182,7 +183,6 @@ swaybg
 swayidle
 swaylock-effects
 swtpm
-swww
 syncthing
 system-config-printer
 systemd-ukify
@@ -239,4 +239,5 @@ yazi
 zathura
 zathura-pdf-mupdf
 zig
+zoxide
 zsh
