@@ -1,5 +1,8 @@
 return {
   setup = function()
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.format, { desc = '[F]ormat current buffer' })
+    -- Comand to remove all spaces on empty lines i.e. :%s/^\s*$//g
+    vim.keymap.set('n', '<leader>R', ':%s/\\s\\+$//e<CR>', { desc = '[R]emove trailing whitespace' })
 
     -- Clear highlights on search when pressing <Esc> in normal mode
     vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")

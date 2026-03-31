@@ -179,24 +179,15 @@ alias fuck='sudo !-1'
 alias memfree="su -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\" root"
 
 
-if [[ DEBUG_LOGGER -eq 1 ]]; then
-    echo "Starting zshrc9"
-fi
-
 # Set up go env
 if [[ -f /usr/local/go/bin/go ]]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
 
 
-if [[ DEBUG_LOGGER -eq 1 ]]; then
-    echo "Starting zshrc 10"
-fi
-
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
-alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
 
 #########################################################################################
 # Wezterm ###############################################################################
@@ -219,7 +210,10 @@ if [[ $(grep microsoft /proc/version) ]]; then
     eval $(keychain --eval --quiet id_ed25519)
 fi
 
-source <(fzf --zsh)
+# check if fzf is installed
+if [ -x "$(command -v fzf)" ]; then
+    source <(fzf --zsh)
+fi
 
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 
@@ -227,8 +221,10 @@ export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 # export NODE_TLS_REJECT_UNAUTHORIZED=0
 # export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
-eval "$(uv generate-shell-completion zsh)"
-eval "$(uvx --generate-shell-completion zsh)"
+if [ -x "$(command -v uv)" ]; then
+    eval "$(uv generate-shell-completion zsh)"
+    eval "$(uvx --generate-shell-completion zsh)"
+fi
 
 # fnm
 FNM_PATH="/home/tcrha/.local/share/fnm"
@@ -240,4 +236,13 @@ fi
 . "$HOME/.cargo/env"
 
 # opencode
-export PATH=/home/tcrha/.opencode/bin:$PATH
+# check if .opencode exists
+if [ -d "/home/tcrha/.opencode" ]; then
+    export PATH=/home/tcrha/.opencode/bin:$PATH
+fi
+
+# check if zoxide is installed
+if [ -x "$(command -v zoxide)" ]; then
+    eval "$(zoxide init zsh)"
+    alias cd='z'
+fi
