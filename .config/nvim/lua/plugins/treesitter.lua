@@ -1,68 +1,58 @@
 -- Highlight, edit, and navigate code
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    branch = 'master',
-    build = ":TSUpdate",
-    main = "nvim-treesitter.configs", -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    opts = {
-      ensure_installed = {
-        "bash",
-        "c",
-        "diff",
-        "html",
-        "lua",
-        "luadoc",
-        "markdown",
-        "markdown_inline",
-        "query",
-        "vim",
-        "vimdoc",
-        "yaml",
-        "json",
-        "javascript",
-        "typescript",
-        "tsx",
-        "css",
-        "scss",
-        "rust",
-        "python",
-        "go",
-        "java",
-        "ruby",
-        "php",
-        "sql",
-        "dockerfile",
-        "git_config",
-        "git_rebase",
-        "gitcommit",
-        "gitignore",
-        "toml",
-        "regex",
-        "comment",
-        "jsonc"
-      },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { "ruby" },
-      },
-      indent = { enable = true, disable = { "ruby" } },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<c-space>",
-          node_incremental = "<c-space>",
-          scope_incremental = "<c-s>",
-          node_decremental = "<c-backspace>",
+    "romus204/tree-sitter-manager.nvim",
+    dependencies = {}, -- tree-sitter CLI must be installed system-wide
+    config = function()
+      require("tree-sitter-manager").setup({
+        ensure_installed = {
+          "bash",
+          "c",
+          "diff",
+          "html",
+          "lua",
+          "luadoc",
+          "markdown",
+          "markdown_inline",
+          "query",
+          "vim",
+          "vimdoc",
+          "yaml",
+          "json",
+          "javascript",
+          "typescript",
+          "tsx",
+          "css",
+          "scss",
+          "rust",
+          "python",
+          "go",
+          "java",
+          "ruby",
+          "php",
+          "sql",
+          "dockerfile",
+          "git_config",
+          "git_rebase",
+          "gitcommit",
+          "gitignore",
+          "toml",
+          "regex",
+          "comment"
+          -- "jsonc"
         },
-      },
-    },
+        -- Optional: custom paths
+        -- parser_dir = vim.fn.stdpath("data") .. "/site/parser",
+        -- query_dir = vim.fn.stdpath("data") .. "/site/queries",
+      })
+    end
   },
+  -- {
+  --   'nvim-treesitter/nvim-treesitter',
+  --   dependencies = { 'nvim-lua/plenary.nvim' },
+  --   lazy = false,
+  --   build = ':TSUpdate',
+  -- }
+
 }
 -- vim: set ft=lua ts=2 sts=2 sw=2 et:

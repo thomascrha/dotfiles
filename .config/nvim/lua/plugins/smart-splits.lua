@@ -27,8 +27,8 @@ return {
       vim.keymap.set('n', '<leader><leader><Right>', require('smart-splits').swap_buf_right)
 
       -- split window using ctrl-< - > hand
-      vim.keymap.set('n', '<C-->', '<C-w>s')
-      vim.keymap.set('n', '<C-\\>', '<C-w>v')
+      -- vim.keymap.set('n', '<C-->', '<C-w>s')
+      -- vim.keymap.set('n', '<C-\\>', '<C-w>v')
     end
 
   }

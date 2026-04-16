@@ -233,7 +233,9 @@ if [ -d "$FNM_PATH" ]; then
   eval "`fnm env`"
 fi
 
-. "$HOME/.cargo/env"
+if [ -x "$(command -v rustup)" ]; then
+    . "$HOME/.cargo/env"
+fi
 
 # opencode
 # check if .opencode exists
