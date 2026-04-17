@@ -73,7 +73,6 @@ gthumb
 gtk4
 guestfs-tools
 gvfs
-gvfs-google
 gvfs-mtp
 gvfs-nfs
 gvfs-smb
@@ -162,7 +161,6 @@ qwbfs
 refind
 ripgrep-all
 rofi
-rot8-git
 rsync
 rust
 sbctl
