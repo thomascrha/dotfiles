@@ -110,7 +110,7 @@ mpv
 multimc-bin
 mupdf
 nasm
-neovim-nightly-bin
+neovim
 net-tools
 network-manager-applet
 networkmanager
@@ -120,6 +120,7 @@ noctalia-shell-git
 nodejs
 noto-fonts-emoji
 ntfs-3g
+nwg-displays
 nwg-launchers
 nwg-look
 obsidian
@@ -200,6 +201,7 @@ thunderbird-dark-reader
 tmux
 transmission-gtk
 tree
+tree-sitter-cli
 ttf-roboto-mono-nerd
 ttf-ubuntu-font-family
 tumbler
