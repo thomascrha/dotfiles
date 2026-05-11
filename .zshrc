@@ -151,6 +151,7 @@ alias e="exit"
 alias c='clear'
 alias reload='clear && exec zsh'
 alias editrc='nvim ~/.zshrc'
+alias p='python3'
 
 # docker
 if [ -x "$(command -v docker)" ]; then
