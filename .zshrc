@@ -126,6 +126,11 @@ conf () {
     fi
 }
 
+acr_login() {
+    az account set --subscription "ao-data-dnamlappsnpd-au-prd-sub053"
+    az acr login -n "dnaaeanpdacr00" -g "acr-aea-npd-rg01"
+}
+
 
 if [[ DEBUG_LOGGER -eq 1 ]]; then
     echo "Starting zshrc"
@@ -146,6 +151,7 @@ alias e="exit"
 alias c='clear'
 alias reload='clear && exec zsh'
 alias editrc='nvim ~/.zshrc'
+alias p='python3'
 
 # docker
 if [ -x "$(command -v docker)" ]; then
@@ -227,10 +233,10 @@ if [ -x "$(command -v uv)" ]; then
 fi
 
 # fnm
-FNM_PATH="/home/tcrha/.local/share/fnm"
+FNM_PATH="/home/tcrha/.fnm"
 if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
-  eval "`fnm env`"
+  eval "$(fnm env --shell zsh)"
 fi
 
 if [ -x "$(command -v rustup)" ]; then
@@ -247,4 +253,11 @@ fi
 if [ -x "$(command -v zoxide)" ]; then
     eval "$(zoxide init zsh)"
     alias cd='z'
+fi
+
+# fnm
+FNM_PATH="/home/tcrha/.fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "$(fnm env --shell zsh)"
 fi

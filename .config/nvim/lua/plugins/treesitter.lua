@@ -61,8 +61,8 @@ return {
         "gitignore",
         "toml",
         "regex",
-        "comment"
-        -- "jsonc"
+        "comment",
+        "hcl"
       }
 
       local already_installed = require("nvim-treesitter").get_installed()
