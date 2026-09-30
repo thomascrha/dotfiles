@@ -114,9 +114,10 @@ neovim
 net-tools
 network-manager-applet
 networkmanager
+networkmanager-openvpn
 niri
 nirius
-noctalia-shell-git
+noctalia
 nodejs
 noto-fonts-emoji
 ntfs-3g
@@ -141,6 +142,7 @@ power-profiles-daemon
 pre-commit
 print-manager
 prismlauncher
+proton-vpn-gtk-app
 pwvucontrol
 python
 python-black
@@ -158,6 +160,7 @@ qemu-img
 qt5-wayland
 qt6-tools
 qt6ct
+quickshell
 qwbfs
 refind
 ripgrep-all
@@ -189,7 +192,6 @@ teams-for-linux
 teams-for-linux-wayland-hook
 teamspeak3
 teamspeak3-server
-thinkfan
 thunar
 thunar-archive-plugin
 thunar-media-tags-plugin
@@ -205,7 +207,6 @@ tree-sitter-cli
 ttf-roboto-mono-nerd
 ttf-ubuntu-font-family
 tumbler
-tuned
 unzip
 usbutils
 util-linux
@@ -221,6 +222,7 @@ waylock
 wezterm-git
 wf-recorder
 wget
+wireguard-tools
 wl-clip-persist
 wl-clipboard
 wl-color-picker

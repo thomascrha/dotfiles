@@ -13,60 +13,64 @@ layer-rule {
 }
 environment {
     QT_QPA_PLATFORMTHEME "qt6ct"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    QT_QPA_PLATFORM "wayland"
+    // QT_QPA_PLATFORMTHEME "gtk3"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
 }
 switch-events {
     lid-close {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "lockAndSuspend"
+        spawn "noctalia" "msg" "session" "lock-and-suspend"
     }
- // lid-close { spawn "notify-send" "The laptop lid is closed!"; }
-    // lid-open { spawn "notify-send" "The laptop lid is open!"; }
 }
 debug {
     // Allows notification actions and window activation from Noctalia.
     honor-xdg-activation-with-invalid-serial
 }
 recent-windows {
-    // off
-    debounce-ms 750
-    open-delay-ms 150
-    highlight {
-        active-color "#999999ff"
-        urgent-color "#ff9999ff"
-        padding 30
-        corner-radius 0
-    }
-    previews {
-        max-height 480
-        max-scale 0.5
-    }
-    binds {
-        Alt+Tab {
-            next-window
-        }
-        Alt+Shift+Tab {
-            previous-window
-        }
-        Alt+grave {
-            next-window filter="app-id"
-        }
-        Alt+Shift+grave {
-            previous-window filter="app-id"
-        }
-        Mod+Tab {
-            next-window
-        }
-        Mod+Shift+Tab {
-            previous-window
-        }
-        Mod+grave {
-            next-window filter="app-id"
-        }
-        Mod+Shift+grave {
-            previous-window filter="app-id"
-        }
-    }
+    off
+ // debounce-ms 750
+    // open-delay-ms 150
+    // highlight {
+    //     active-color "#999999ff"
+    //     urgent-color "#ff9999ff"
+    //     padding 30
+    //     corner-radius 0
+    // }
+    // previews {
+    //     max-height 480
+    //     max-scale 0.5
+    // }
+    // binds {
+    //     Alt+Tab {
+    //         next-window
+    //     }
+    //     Alt+Shift+Tab {
+    //         previous-window
+    //     }
+    //     Alt+grave {
+    //         next-window filter="app-id"
+    //     }
+    //     Alt+Shift+grave {
+    //         previous-window filter="app-id"
+    //     }
+    //     Mod+Tab {
+    //         next-window
+    //     }
+    //     Mod+Shift+Tab {
+    //         previous-window
+    //     }
+    //     Mod+grave {
+    //         next-window filter="app-id"
+    //     }
+    //     Mod+Shift+grave {
+    //         previous-window filter="app-id"
+    //     }
+    // }
 }
-spawn-at-startup "qs" "-c" "noctalia-shell" "--no-duplicate"
+// spawn-at-startup "qs" "-c" "noctalia-shell" "--no-duplicate"
 input {
     workspace-auto-back-and-forth
     keyboard {
@@ -109,7 +113,7 @@ input {
         middle-emulation
     }
     mouse {
-        // off
+ // off
         // natural-scroll        tap
         // dwt
         // dwtp
@@ -131,6 +135,7 @@ input {
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "no-scroll"
+
     }
     trackpoint {
  // off
@@ -312,7 +317,7 @@ layout {
     struts {
         left 32
         right 32
-        // top 64
+ // top 64
         // bottom 64
     }
 }
@@ -378,6 +383,17 @@ window-rule {
 
     }
 }
+// Floating Noctalia settings window.
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width {
+        fixed 1080
+    }
+    default-window-height {
+        fixed 920
+    }
+}
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This regular expression is intentionally made as specific as possible,
@@ -399,7 +415,6 @@ window-rule {
     // Clips window contents to the rounded corner boundaries.
     clip-to-geometry true
 }
-
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
@@ -442,42 +457,81 @@ binds {
     // Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "rofi -modi drun -show drun -show-icons"; }
     // Core Noctalia binds
     Mod+Space {
-        spawn-sh "qs -c noctalia-shell ipc call launcher toggle"
+        spawn-sh "noctalia msg panel-toggle launcher"
     }
     Mod+S {
-        spawn-sh "qs -c noctalia-shell ipc call controlCenter toggle"
+        spawn-sh "noctalia msg panel-toggle control-center"
     }
-    // Audio & Brightness
-    XF86AudioRaiseVolume {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"
+    // Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
+    Alt+Tab {
+        spawn-sh "noctalia msg window-switcher hold"
     }
-    XF86AudioLowerVolume {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "decrease"
+    // Mod+S {
+    //     spawn-sh "qs -c noctalia-shell ipc call controlCenter toggle"
+    // }
+    // ─── Media Controls ───
+    XF86AudioRaiseVolume allow-when-locked=true {
+        spawn-sh "noctalia msg volume-up"
     }
-    XF86AudioMute {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "muteOutput"
+    XF86AudioLowerVolume allow-when-locked=true {
+        spawn-sh "noctalia msg volume-down"
     }
-    // Default: XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    XF86MonBrightnessUp {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "increase"
+    XF86AudioMute allow-when-locked=true {
+        spawn-sh "noctalia msg volume-mute"
     }
-    XF86MonBrightnessDown {
-        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "decrease"
-    }
-    // Default media key mappings using playerctl.
-    // This will work with any MPRIS-enabled media player.
-    XF86AudioPlay allow-when-locked=true {
-        spawn-sh "playerctl play-pause"
-    }
-    XF86AudioStop allow-when-locked=true {
-        spawn-sh "playerctl stop"
-    }
-    XF86AudioPrev allow-when-locked=true {
-        spawn-sh "playerctl previous"
+    XF86AudioMicMute allow-when-locked=true {
+        spawn-sh "noctalia msg mic-mute"
     }
     XF86AudioNext allow-when-locked=true {
-        spawn-sh "playerctl next"
+        spawn-sh "noctalia msg media next"
     }
+    XF86AudioPrev allow-when-locked=true {
+        spawn-sh "noctalia msg media previous"
+    }
+    XF86AudioPlay allow-when-locked=true {
+        spawn-sh "noctalia msg media play"
+    }
+    XF86AudioPause allow-when-locked=true {
+        spawn-sh "noctalia msg media stop"
+    }
+    // ─── Brightness Controls ───
+    XF86MonBrightnessUp allow-when-locked=true {
+        spawn-sh "noctalia msg brightness-up"
+    }
+    XF86MonBrightnessDown allow-when-locked=true {
+        spawn-sh "noctalia msg brightness-down"
+    }
+    // Audio & Brightness
+    // XF86AudioRaiseVolume {
+    //     spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"
+    // }
+    // XF86AudioLowerVolume {
+    //     spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "decrease"
+    // }
+    // XF86AudioMute {
+    //     spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "muteOutput"
+    // }
+    // // Default: XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    // XF86MonBrightnessUp {
+    //     spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "increase"
+    // }
+    // XF86MonBrightnessDown {
+    //     spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "decrease"
+    // }
+    // Default media key mappings using playerctl.
+    // This will work with any MPRIS-enabled media player.
+    // XF86AudioPlay allow-when-locked=true {
+    //     spawn-sh "playerctl play-pause"
+    // }
+    // XF86AudioStop allow-when-locked=true {
+    //     spawn-sh "playerctl stop"
+    // }
+    // XF86AudioPrev allow-when-locked=true {
+    //     spawn-sh "playerctl previous"
+    // }
+    // XF86AudioNext allow-when-locked=true {
+    //     spawn-sh "playerctl next"
+    // }
     Ctrl+Grave hotkey-overlay-title="Run Guake" {
         spawn-sh "/home/tcrha/.config/niri/guake"
     }
@@ -854,7 +908,9 @@ binds {
     //     switch-preset-column-width
     // }
     // Cycling through the presets in reverse order is also possible.
-    Mod+R { switch-preset-column-width-back; }
+    Mod+R {
+        switch-preset-column-width-back
+    }
     Mod+Shift+R {
         switch-preset-window-height-back
     }
@@ -894,7 +950,9 @@ binds {
     // * adjust width as a percentage of screen width: "-10%" or "+10%"
     // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
     // set-column-width "100" will make the column occupy 200 physical screen pixels.
-    Mod+Slash { set-column-width "50%"; }
+    Mod+Slash {
+        set-column-width "50%"
+    }
     Mod+Minus {
         set-column-width "-10%"
     }
@@ -969,5 +1027,7 @@ binds {
     // include "dms/alttab.kdl"
     // include "dms/binds.kdl"
 }
-include "./noctalia.kdl"
-
+spawn-at-startup "noctalia"
+// spawn-at-startup "qs" "-c" "noctalia-shell"
+// include "./noctalia.kdl"
+include "noctalia.kdl"

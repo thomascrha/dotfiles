@@ -12,7 +12,6 @@ local config = wezterm.config_builder()
 -- config.default_gui_startup_args = {'start', '--always-new-process'}
 
 config.font_size = 13
-config.color_scheme = "OneHalfDark"
 
 config.enable_tab_bar = true
 config.enable_scroll_bar = false
@@ -65,6 +64,10 @@ local paths = {
   },
   {
     path = "/home/tcrha/Projects",
+    single = false,
+  },
+  {
+    path = "/home/tcrha/Projects/probe",
     single = false,
   },
   {
@@ -542,4 +545,5 @@ smart_splits.apply_to_config(config, {
   log_level = 'info',
 })
 
+config.color_scheme = "Noctalia"
 return config

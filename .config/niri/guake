@@ -35,7 +35,7 @@ if [[ $RUNNING == "false" ]]; then
   reload_state_file
 
   niri msg action spawn-sh -- "WEZTERM_GUAKE=on /usr/bin/wezterm start --no-auto-connect --class dropdown-terminal --workspace guake"
-  sleep 1
+  sleep 2
 
   # load the terminal id
   terminal=$(niri msg -j windows | jq '.[] | select(.app_id == "dropdown-terminal")')
