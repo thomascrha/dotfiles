@@ -219,8 +219,10 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      "stevearc/dressing.nvim", -- for input provider dressing
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      "stevearc/dressing.nvim",    -- for input provider dressing
+      "zbirenbaum/copilot.lua",    -- for providers='copilot'
+      "ColinKennedy/mega.logging", -- Frequently bundled together
+      "ColinKennedy/mega.cmdparse", -- Fixes your specific error
       -- {
       --   -- support for image pasting
       --   "HakonHarnes/img-clip.nvim",
