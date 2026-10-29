@@ -1,5 +1,9 @@
 return {
   setup = function()
+    -- Normal, Visual, and Select modes
+    vim.keymap.set({ 'n', 'v' }, '<C-PageDown>', ':tabnext<CR>')
+    vim.keymap.set({ 'n', 'v' }, '<C-PageUp>', ':tabprevious<CR>')
+
     vim.keymap.set('n', '<leader>F', vim.lsp.buf.format, { desc = '[F]ormat current buffer' })
     -- Comand to remove all spaces on empty lines i.e. :%s/^\s*$//g
     vim.keymap.set('n', '<leader>R', ':%s/\\s\\+$//e<CR>', { desc = '[R]emove trailing whitespace' })
@@ -23,7 +27,7 @@ return {
     vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
     -- Toggle relative line numbers
-    vim.keymap.set("n", "<leader>tn", function()
+    vim.keymap.set("n", "<leader>L", function()
       if vim.wo.relativenumber then
         vim.wo.relativenumber = false
         vim.wo.number = true

@@ -19,7 +19,7 @@ return {
       vim.keymap.set('n', '<C-Down>', require('smart-splits').move_cursor_down)
       vim.keymap.set('n', '<C-Up>', require('smart-splits').move_cursor_up)
       vim.keymap.set('n', '<C-Right>', require('smart-splits').move_cursor_right)
-      vim.keymap.set('n', '<C-\\>', require('smart-splits').move_cursor_previous)
+      -- vim.keymap.set('n', '<C-\\>', require('smart-splits').move_cursor_previous)
       -- swapping buffers between windows
       vim.keymap.set('n', '<leader><leader><Left>', require('smart-splits').swap_buf_left)
       vim.keymap.set('n', '<leader><leader><Down>', require('smart-splits').swap_buf_down)

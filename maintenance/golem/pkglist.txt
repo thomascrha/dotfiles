@@ -77,6 +77,7 @@ gvfs-mtp
 gvfs-nfs
 gvfs-smb
 hunspell-en_au
+hyphen-en
 iio-sensor-proxy
 imagemagick
 imv
@@ -109,6 +110,7 @@ mkosi
 mpv
 multimc-bin
 mupdf
+mythes-en
 nasm
 neovim
 net-tools
@@ -125,12 +127,14 @@ nwg-displays
 nwg-launchers
 nwg-look
 obsidian
+okular
 openssh
 otf-font-awesome
 paru
 paru-debug
 pavucontrol
 pdf-compress
+pdftk
 perl-image-exiftool
 pipewire-pulse
 pkgfile
