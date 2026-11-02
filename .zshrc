@@ -214,6 +214,7 @@ if [[ $(grep microsoft /proc/version) ]]; then
     export BROWSER=wslview
     # SSH Agent
     eval $(keychain --eval --quiet id_ed25519)
+    eval $(keychain --eval --quiet id_rsa)
 fi
 
 # check if fzf is installed

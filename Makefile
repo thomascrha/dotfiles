@@ -8,12 +8,18 @@ help:
 
 stow: ## Stow dotfiles
 	stow --no-folding -t ${HOME} -v -d ${PWD} -S .
-	@if [ ! -z "$(CLEAR)" ]; then \
+	@if [ -n "$(CLEAR)" ]; then \
 		echo "clearing"; \
 		sudo find ${HOME} -xtype l -delete; \
-		# sudo fd --follow --type symlink -H . ${HOME} -X rm -rf; \
 	fi
-	# ./decrypt.sh
+	@if [ -n "$(TMUX)" ]; then \
+		target="$(TMUX)"; \
+		if [ "$$target" != "all" ] && [ "$$target" != "python" ] && \
+		   [ "$$target" != "bash" ] && [ "$$target" != "go" ]; then \
+			target="all"; \
+		fi; \
+		$(MAKE) -C ./.config/tmux $$target; \
+	fi
 
 unstow: ## Unstow dotfiles
 	stow -t ${HOME} -d ${PWD} -D .

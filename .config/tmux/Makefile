@@ -1,13 +1,22 @@
-build-go:
-	go build -o ./tmux-sessionizer-go.bin ./tmux-sessionizer.go
+all: go
+.PHONY: all
 
-bash:
-	ln -s ./tmux-sessionizer.sh ../../.local/bin/tmux-sessionizer
-
-go: build-go
+clean:
 	rm -rf ../../.local/bin/tmux-sessionizer
-	ln -s $(shell pwd)/tmux-sessionizer-go.bin $(shell pwd)/../../.local/bin/tmux-sessionizer
+.PHONY: clean
 
-python:
-	ln -s tmux-sessionizer.py ../../.local/bin/tmux-sessionizer
+go: clean
+	go build -o ./tmux-sessionizer-go.bin ./tmux-sessionizer.go
+	cp ./tmux-sessionizer-go.bin ../../.local/bin/tmux-sessionizer
+	rm -rf ./tmux-sessionizer-go.bin
+.PHONY: go
+
+bash: clean
+	cp ./tmux-sessionizer.sh ../../.local/bin/tmux-sessionizer
+.PHONY: bash
+
+
+python: clean
+	cp tmux-sessionizer.py ../../.local/bin/tmux-sessionizer
+.PHONY: python
 
